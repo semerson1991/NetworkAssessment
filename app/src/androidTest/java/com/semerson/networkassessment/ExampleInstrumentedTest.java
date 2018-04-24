@@ -1,4 +1,4 @@
-package com.example.semerson.networkassessment;
+package com.semerson.networkassessment;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.semerson.networkassessment", appContext.getPackageName());
+        assertEquals("com.semerson.networkassessment", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.semerson.networkassessment;
+package com.semerson.networkassessment;
 
 import org.junit.Test;
 
