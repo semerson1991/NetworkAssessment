@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.semerson.networkassessment.NetworkAssessment"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,6 +19,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.UserAreaActivity" />
+        <activity android:name=".activities.RegisterActivity" />
+        <activity
+            android:name=".activities.Results"
+            android:label="@string/title_activity_results"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.user.awareness.UserAwareness"
+            android:label="@string/title_activity_user_awareness"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.NetworkScanner"></activity>
     </application>
 
 </manifest>
