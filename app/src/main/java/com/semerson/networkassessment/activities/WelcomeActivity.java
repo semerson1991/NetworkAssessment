@@ -7,14 +7,14 @@ import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
 
-public class UserAreaActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_area);
 
-        final EditText networkName = (EditText) findViewById(R.id.txtNetworkName);
+        final EditText networkName = (EditText) findViewById(R.id.txtUsername);
 
         final TextView networkNameSelected = (TextView) findViewById(R.id.tvNetworkNameDisplay);
         networkNameSelected.setText(networkName.getText());

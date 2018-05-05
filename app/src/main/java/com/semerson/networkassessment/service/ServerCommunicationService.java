@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.app.ProgressDialog;
 import android.util.Log;
 
+import com.semerson.networkassessment.Utils.ProcessHttpResponse;
 import com.semerson.networkassessment.Utils.RequestBuilder;
 
 import java.io.IOException;
@@ -17,15 +18,21 @@ import okhttp3.Response;
 public class ServerCommunicationService extends AsyncTask<String, Integer, String>{
 
     private static final String TAG = "CommunicationService";
-    public static final String BASE_URL = "http://localhost:8000";
+    public static final String BASE_URL = "http://192.168.0.11:8000";
     public static final String URL_RUN_SCAN = BASE_URL+"/perform-scan";
-    public static final String URL_REGISTER = BASE_URL+"/register";
-    public static final String URL_LOGIN = BASE_URL+"/login";
+    public static final String URL_REGISTER = BASE_URL+"/register-user/";
+    public static final String URL_REGISTER_NETWORK = BASE_URL+"/register-network-config/";
+    public static final String URL_LOGIN = BASE_URL+"/login-user/";
 
     private Context context;
     private RequestBody requestBody;
     private ProgressDialog progressDialog;
+    private ProcessHttpResponse processHttpResponse;
+
     public ServerCommunicationService(Context theContext) {
+        if (theContext instanceof ProcessHttpResponse){
+            processHttpResponse = (ProcessHttpResponse) theContext;
+        }
         context = theContext;
         if (theContext instanceof RequestBuilder){
             requestBody = (RequestBody) ((RequestBuilder) theContext).buildRequestBody();
@@ -49,6 +56,7 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
             Request request = new Request.Builder()
                     .url(url[0])
                     .post(requestBody)
+                    .addHeader("Content-Type", "application/javascript")
                     .build();
             Response response = null;
 
@@ -69,9 +77,13 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
     }
 
     @Override
-    protected void onPostExecute(String s) { //called when 'doinbackground' is over .. this will get the String (Downloaded Data) from doInBackground
-        super.onPostExecute(s);
+    protected void onPostExecute(String result) { //called when 'doinbackground' is over .. this will get the String (Downloaded Data) from doInBackground
+        super.onPostExecute(result);
         progressDialog.dismiss();
+        if (processHttpResponse != null){
+            processHttpResponse.processResponse(result);
+        }
+
     }
 
     public void performRequest(final String url) {

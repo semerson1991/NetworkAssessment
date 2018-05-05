@@ -21,7 +21,7 @@ public class NetworkScanner extends AppCompatActivity {
         btnRunScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(NetworkScanner.this, RegisterActivity.class); //Change to the corrent activity
+                Intent registerIntent = new Intent(NetworkScanner.this, RegisterUserActivity.class); //Change to the corrent activity
                 NetworkScanner.this.startActivity(registerIntent);
 
 

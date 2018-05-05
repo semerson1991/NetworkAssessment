@@ -3,19 +3,17 @@ package com.semerson.networkassessment.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.Utils.ProcessHttpResponse;
-import com.semerson.networkassessment.Utils.RequestBuilder;
 import com.semerson.networkassessment.service.ServerCommunicationService;
+import com.semerson.networkassessment.Utils.RequestBuilder;
 import com.semerson.networkassessment.storage.ApplicationStorage;
 
 import org.json.JSONException;
@@ -24,38 +22,39 @@ import org.json.JSONObject;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class LoginActivity extends AppCompatActivity  implements RequestBuilder, ProcessHttpResponse {
+public class RegisterUserActivity extends AppCompatActivity implements RequestBuilder, ProcessHttpResponse {
 
-    private EditText username;
-    private EditText password;
-
+    EditText username;
+    EditText password;
+            
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         username = (EditText) findViewById(R.id.txtUsername);
         password = (EditText) findViewById(R.id.txtPassword);
 
-        final Button btnLogin = (Button) findViewById(R.id.btnLogin);
+        final Button btnRegister = (Button) findViewById(R.id.btnRegister);
 
-        final TextView tvRegister = (TextView) findViewById(R.id.tvRegisterHere);
-
-        tvRegister.setOnClickListener(new View.OnClickListener() {
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterUserActivity.class);
-                LoginActivity.this.startActivity(registerIntent);
+                final ServerCommunicationService requester = new ServerCommunicationService(RegisterUserActivity.this);
+                requester.execute(ServerCommunicationService.URL_REGISTER);
             }
         });
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ServerCommunicationService requester = new ServerCommunicationService(LoginActivity.this);
-                requester.execute(ServerCommunicationService.URL_LOGIN);
+
+
+        /*
+        enable2FA.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                ((CheckedTextView) v).toggle();
             }
         });
+        */
     }
 
     @Override
@@ -72,7 +71,7 @@ public class LoginActivity extends AppCompatActivity  implements RequestBuilder,
             passwordInput = "passwordInput";
         }
 
-        if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) {
+        if (!usernameInput.isEmpty() && !passwordInput.isEmpty()){
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("email", usernameInput)
@@ -80,7 +79,7 @@ public class LoginActivity extends AppCompatActivity  implements RequestBuilder,
                     .build();
             return requestBody;
         }
-        return null; //TODO If these are empty, display a message to the user and stop the service executor thread.
+        return null; //TODO If these are empty, display a message to the user and stop the service executor thread. Throw EXCEPTION!
     }
 
     @Override
@@ -88,22 +87,19 @@ public class LoginActivity extends AppCompatActivity  implements RequestBuilder,
         try {
             JSONObject jsonResponse = new JSONObject(response);
             boolean success = jsonResponse.getBoolean("success");
-            if (success) {
-                SharedPreferences preferences = getSharedPreferences(ApplicationStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(ApplicationStorage.LOGIN_NAME, username.getText().toString());
-                Intent intent = new Intent(LoginActivity.this, NetworkScanner.class);
+            if (success){
+                Intent intent = new Intent(RegisterUserActivity.this, LoginActivity.class);
                 startActivity(intent);
-                editor.commit();
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this); //TODO Limit login attempts
-                builder.setMessage("Login Failed")
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterUserActivity.this);
+                builder.setMessage("Register Failed")
                         .setNegativeButton("retry", null)
                         .create()
                         .show();
             }
-        } catch (JSONException e1) {
-            e1.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
     }
 }
