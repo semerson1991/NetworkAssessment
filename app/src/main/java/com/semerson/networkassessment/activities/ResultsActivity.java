@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.semerson.networkassessment.R;
 
-public class Results extends AppCompatActivity {
+public class ResultsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

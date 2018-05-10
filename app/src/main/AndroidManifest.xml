@@ -24,7 +24,7 @@
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RegisterUserActivity" />
         <activity
-            android:name=".activities.Results"
+            android:name=".activities.ResultsActivity"
             android:label="@string/title_activity_results"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

@@ -11,4 +11,5 @@ public class ApplicationStorage {
     public static final String NETWORK_NAME = "networkName";
     public static final String NETWORK_TYPE = "networkType";
     public static final String SESSION = "sessions";
+    public static final String SCAN_RESULTS = "scan-results";
 }

@@ -16,8 +16,9 @@ import okhttp3.Response;
 public class ServerCommunicationService extends AsyncTask<String, Integer, String>{
 
     private static final String TAG = "CommunicationService";
-    public static final String BASE_URL = "http://192.168.0.11:8000";
-    public static final String URL_RUN_SCAN = BASE_URL+"/perform-scan";
+
+    public static final String BASE_URL = "http://192.168.0.54:8000";
+    public static final String URL_RUN_SCAN = BASE_URL+"/run-scan/";
     public static final String URL_REGISTER = BASE_URL+"/register-user/";
     //public static final String URL_REGISTER_NETWORK = BASE_URL+"/register-network-config/";
     public static final String URL_LOGIN = BASE_URL+"/login-user/";
@@ -51,9 +52,11 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
             Response response = null;
 
             try {
+                Log.i(TAG, "Sending request to " + url[0]);
                 response = client.newCall(request).execute();
                 return response.body().string();
             } catch (IOException e) {
+                Log.e(TAG, "Error connecting to server: "+e.getMessage());
                 String error = e.getCause().getMessage();
                 Log.e(TAG, "Failed to retrieve data "+error);
 
@@ -70,6 +73,8 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
     protected void onPostExecute(String result) { //called when 'doinbackground' is over .. this will get the String (Downloaded Data) from doInBackground
         super.onPostExecute(result);
         if (processHttpResponse != null){
+            Log.v(TAG, "Calling callback method");
+            Log.v(TAG, "result = "+ result.toString());
             processHttpResponse.processResponse(result);
         }
     }
