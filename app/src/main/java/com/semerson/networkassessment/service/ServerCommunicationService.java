@@ -1,10 +1,11 @@
 package com.semerson.networkassessment.service;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.semerson.networkassessment.Utils.ProcessHttpResponse;
-import com.semerson.networkassessment.Utils.RequestBuilder;
+import com.semerson.networkassessment.utils.ProcessHttpResponse;
+import com.semerson.networkassessment.utils.RequestBuilder;
 
 import java.io.IOException;
 
@@ -13,24 +14,24 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ServerCommunicationService extends AsyncTask<String, Integer, String>{
+public class ServerCommunicationService extends AsyncTask<String, Integer, String> {
 
     private static final String TAG = "CommunicationService";
 
-    public static final String BASE_URL = "http://192.168.0.54:8000";
-    public static final String URL_RUN_SCAN = BASE_URL+"/run-scan/";
-    public static final String URL_REGISTER = BASE_URL+"/register-user/";
+    public static final String BASE_URL = "http://192.168.0.61:8000";
+    public static final String URL_RUN_SCAN = BASE_URL + "/run-scan/";
+    public static final String URL_REGISTER = BASE_URL + "/register-user/";
     //public static final String URL_REGISTER_NETWORK = BASE_URL+"/register-network-config/";
-    public static final String URL_LOGIN = BASE_URL+"/login-user/";
+    public static final String URL_LOGIN = BASE_URL + "/login-user/";
 
     private RequestBody requestBody;
     private ProcessHttpResponse processHttpResponse;
 
     public ServerCommunicationService(Context theContext) {
-        if (theContext instanceof ProcessHttpResponse){
+        if (theContext instanceof ProcessHttpResponse) {
             processHttpResponse = (ProcessHttpResponse) theContext;
         }
-        if (theContext instanceof RequestBuilder){
+        if (theContext instanceof RequestBuilder) {
             requestBody = ((RequestBuilder) theContext).buildRequestBody();
         }
     }
@@ -56,9 +57,9 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
                 response = client.newCall(request).execute();
                 return response.body().string();
             } catch (IOException e) {
-                Log.e(TAG, "Error connecting to server: "+e.getMessage());
+                Log.e(TAG, "Error connecting to server: " + e.getMessage());
                 String error = e.getCause().getMessage();
-                Log.e(TAG, "Failed to retrieve data "+error);
+                Log.e(TAG, "Failed to retrieve data " + error);
 
             } finally {
                 if (response != null) {
@@ -72,9 +73,9 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
     @Override
     protected void onPostExecute(String result) { //called when 'doinbackground' is over .. this will get the String (Downloaded Data) from doInBackground
         super.onPostExecute(result);
-        if (processHttpResponse != null){
+        if (processHttpResponse != null) {
             Log.v(TAG, "Calling callback method");
-            Log.v(TAG, "result = "+ result.toString());
+            Log.v(TAG, "result = " + result.toString());
             processHttpResponse.processResponse(result);
         }
     }

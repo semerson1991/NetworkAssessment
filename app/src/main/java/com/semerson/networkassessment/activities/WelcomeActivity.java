@@ -31,7 +31,6 @@ public class WelcomeActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -42,7 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
 
-                        switch (menuItem.getItemId()){
+                        switch (menuItem.getItemId()) {
                             case R.id.nav_home:
                                 break;
                             case R.id.nav_vulnerability_assessment:
@@ -61,13 +60,11 @@ public class WelcomeActivity extends AppCompatActivity {
                                 Intent activity_account = new Intent(WelcomeActivity.this, AccountActivity.class);
                                 WelcomeActivity.this.startActivity(activity_account);
                                 break;
-                                default:
+                            default:
                         }
                         return true;
                     }
                 });
-
-
 
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
@@ -83,8 +80,8 @@ public class WelcomeActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       // final TextView networkNameSelected = (TextView) findViewById(R.id.tvNetworkNameDisplay);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // final TextView networkNameSelected = (TextView) findViewById(R.id.tvNetworkNameDisplay);
         //networkNameSelected.setText(networkName.getText());
 
     }

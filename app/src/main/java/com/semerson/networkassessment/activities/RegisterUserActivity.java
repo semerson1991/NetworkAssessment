@@ -1,8 +1,6 @@
 package com.semerson.networkassessment.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.Utils.ProcessHttpResponse;
+import com.semerson.networkassessment.utils.ProcessHttpResponse;
 import com.semerson.networkassessment.service.ServerCommunicationService;
-import com.semerson.networkassessment.Utils.RequestBuilder;
-import com.semerson.networkassessment.storage.ApplicationStorage;
+import com.semerson.networkassessment.utils.RequestBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +23,7 @@ public class RegisterUserActivity extends AppCompatActivity implements RequestBu
 
     EditText username;
     EditText password;
-            
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +57,7 @@ public class RegisterUserActivity extends AppCompatActivity implements RequestBu
     @Override
     public RequestBody buildRequestBody() {
         String usernameInput, passwordInput;
-        if (!username.getText().toString().isEmpty()){
+        if (!username.getText().toString().isEmpty()) {
             usernameInput = username.getText().toString();
         } else {
             usernameInput = "registeredUser";
@@ -71,7 +68,7 @@ public class RegisterUserActivity extends AppCompatActivity implements RequestBu
             passwordInput = "passwordInput";
         }
 
-        if (!usernameInput.isEmpty() && !passwordInput.isEmpty()){
+        if (!usernameInput.isEmpty() && !passwordInput.isEmpty()) {
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("email", usernameInput)
@@ -87,7 +84,7 @@ public class RegisterUserActivity extends AppCompatActivity implements RequestBu
         try {
             JSONObject jsonResponse = new JSONObject(response);
             boolean success = jsonResponse.getBoolean("success");
-            if (success){
+            if (success) {
                 Intent intent = new Intent(RegisterUserActivity.this, LoginActivity.class);
                 startActivity(intent);
             } else {

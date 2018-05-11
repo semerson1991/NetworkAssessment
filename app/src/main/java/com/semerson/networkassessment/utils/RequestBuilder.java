@@ -1,4 +1,4 @@
-package com.semerson.networkassessment.Utils;
+package com.semerson.networkassessment.utils;
 
 import okhttp3.RequestBody;
 

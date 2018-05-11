@@ -3,8 +3,6 @@ package com.semerson.networkassessment.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.renderscript.ScriptGroup;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,21 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.Utils.ProcessHttpResponse;
-import com.semerson.networkassessment.Utils.RequestBuilder;
+import com.semerson.networkassessment.utils.ProcessHttpResponse;
+import com.semerson.networkassessment.utils.RequestBuilder;
 import com.semerson.networkassessment.service.ServerCommunicationService;
 import com.semerson.networkassessment.storage.ApplicationStorage;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
