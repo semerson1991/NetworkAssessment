@@ -1,16 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="30px"
+    android:layout_height="match_parent" >
+</LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></RelativeLayout>
+</ScrollView>
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical"
     tools:context=".activities.ResultsActivity">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/PieChartID"
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Vulnerability Assessment"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <com.github.mikephil.charting.charts.PieChartCreator
+        android:id="@+id/PieOS"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
+
+    <com.github.mikephil.charting.charts.PieChartCreator
+        android:id="@+id/PieFamily"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
+
+    <com.github.mikephil.charting.charts.PieChartCreator
+        android:id="@+id/PieSkillLevel"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
+
+    <com.github.mikephil.charting.charts.PieChartCreator
+        android:id="@+id/PieVulnLevel"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
+
+    <com.github.mikephil.charting.charts.PieChartCreator
+        android:id="@+id/piChartOS"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.github.mikephil.charting.charts.PieChart>
+        android:layout_height="250dp"
+        android:paddingBottom="2px"
+        android:layout_gravity="left"></com.github.mikephil.charting.charts.PieChartCreator>
 
+    <com.github.mikephil.charting.charts.PieChartCreator
+        android:id="@+id/piChartVulnerabilityFamily"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:paddingBottom="20px"
+        android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
 
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
+</ScrollView>
+-->

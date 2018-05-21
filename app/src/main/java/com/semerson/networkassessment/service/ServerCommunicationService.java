@@ -18,11 +18,13 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
 
     private static final String TAG = "CommunicationService";
 
-    public static final String BASE_URL = "http://192.168.0.61:8000";
-    public static final String URL_RUN_SCAN = BASE_URL + "/run-scan/";
+    public static final String BASE_URL = "http://192.168.0.24:8000";
     public static final String URL_REGISTER = BASE_URL + "/register-user/";
     //public static final String URL_REGISTER_NETWORK = BASE_URL+"/register-network-config/";
     public static final String URL_LOGIN = BASE_URL + "/login-user/";
+    public static final String URL_RUN_SCAN = BASE_URL + "/run-scan/";
+    public static final String URL_CHECK_SCAN_RESULTS = BASE_URL + "/check-scan-status/";
+    public static final String URL_GET_SCAN_RESULTS = BASE_URL + "/get-results/";
 
     private RequestBody requestBody;
     private ProcessHttpResponse processHttpResponse;

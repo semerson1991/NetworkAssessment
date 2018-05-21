@@ -1,124 +1,227 @@
 package com.semerson.networkassessment.activities;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.semerson.networkassessment.Chart.ChartDescription;
+import com.semerson.networkassessment.Chart.LegendHeadings;
+import com.semerson.networkassessment.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.single.chart.PieChartDetailsActivity;
+import com.semerson.networkassessment.results.Host;
 import com.semerson.networkassessment.results.ScanResults;
+import com.semerson.networkassessment.results.OpenVasResult;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ResultsActivity extends AppCompatActivity {
+public class ResultsActivity extends AppCompatActivity implements View.OnClickListener {
+    private List<Host> hosts;
+    private List<OpenVasResult> openVasResultList;
+    private ScanResults scanResults;
+
 
     private final static String TAG = "ResultActivity";
-    PieChart pieChart;
 
-    private float[] yData = {66.0f, 34.0f};
-    private String[] xData = {"Windows", "Linux"};
+    private TextView osText;
+    private TextView vulnText;
+    private TextView threatLevelText;
+    private TextView skillLevelText;
+
+    private LinearLayout mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            ScanResults scanResults = bundle.getParcelable("scan-results");
+            scanResults = bundle.getParcelable("scan-results");
+            hosts = scanResults.getHosts();
+            openVasResultList = scanResults.getOpenVasResults();
         }
 
+        //setChartConfig(pieSkillLevel, "Attack Complexity");
+        //setChartConfig(pieVulnLevel, "Operating Systems");
 
+        PieChartCreator pieChartCreator = new PieChartCreator();
 
-        pieChart = (PieChart) findViewById(R.id.PieChartID);
+        PieChart chartOS = pieChartCreator.createChart(this, 1000, 1000);
+        pieChartCreator.setChartConfig(ChartDescription.OS, LegendHeadings.OS, chartOS, scanResults.getOperatingSystems() );
+        mainLayout.addView(chartOS);
+        osText = createChartMoreDetails(R.id.osText);
+        mainLayout.addView(osText);
 
-        Description hostPiDesc = new Description();
-        hostPiDesc.setText("Operatin Systems detected");
-        pieChart.setDescription(hostPiDesc);
-        pieChart.setHoleRadius(10f);
-        pieChart.setCenterText("Operating Systems");
-        // pieChart.setDrawEntryLabels(true);
+        PieChart vulnFamily = pieChartCreator.createChart(this, 1000, 1000);
+        pieChartCreator.setChartConfig(ChartDescription.VULN_CATEGORY, LegendHeadings.VULN_CATEGORY, vulnFamily, scanResults.getVulnFamily() );
+        mainLayout.addView(vulnFamily);
+        vulnText = createChartMoreDetails(R.id.vulnCategoryText);
+        mainLayout.addView(vulnText);
 
-        addDataSet(pieChart);
+        PieChart threatLevel = pieChartCreator.createChart(this, 1000, 1000);
+        pieChartCreator.setChartConfig(ChartDescription.THREAT_LEVEL, LegendHeadings.THREAT_LEVEL, threatLevel, scanResults.getThreatLevel());
+        mainLayout.addView(threatLevel);
+        threatLevelText = createChartMoreDetails(R.id.threatLevelText);
+        mainLayout.addView(threatLevelText);
 
-        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                Log.d(TAG, "onValueSelected: Value select from chart.");
-                Log.d(TAG, "onValueSelected: " + e.toString());
-                Log.d(TAG, "onValueSelected: " + h.toString());
+        PieChart skillLevel = pieChartCreator.createChart(this, 1000, 1000);
+        pieChartCreator.setChartConfig(ChartDescription.ATTACK_COMPLEXITY_LEVEL, LegendHeadings.ATTACK_COMPLEXITY_LEVEL, skillLevel, scanResults.getAttackComplexityLevel());
+        mainLayout.addView(skillLevel);
+        skillLevelText = createChartMoreDetails(R.id.attackComplexity);
+        mainLayout.addView(skillLevelText);
 
-                int pos1 = e.toString().indexOf("(sum): ");
-                String sales = e.toString().substring(pos1 + 7);
+        /* DONT DELETE - THIS IS AN EXAMPLE OF A HYPERLINK TO WEBSITE!!!
+        TextView textView = new TextView(this);
+        textView.setClickable(true);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        String text = "<a href='http://www.google.com'> More detail </a>";
+        textView.setText(Html.fromHtml(text));
+        mainLayout.addView(textView);
+        */
 
-                for(int i = 0; i < yData.length; i++){
-                    if(yData[i] == Float.parseFloat(sales)){
-                        pos1 = i;
-                        break;
-                    }
-                }
-                //String employee = xData[pos1 + 1];
-                //Toast.makeText(MainActivity.this, "Employee " + employee + "\n" + "Sales: $" + sales + "K", Toast.LENGTH_LONG).show();
-            }
+        /*
+        PieChart vulnFamily = pieChartCreator.createChart(this, 1000, 1000);
+        pieChartCreator.setChartConfig(ChartDescription.VULN_CATEGORY, LegendHeadings.VULN_CATEGORY, vulnFamily, scanResults.getVulnFamily() );
+        mainLayout.addView(vulnFamily);
 
-            @Override
-            public void onNothingSelected() {
+        pieChartCreator.appendChartTableHeader(this, vulnFamily, mainLayout, LegendHeadings.VULN_CATEGORY,
+                LegendHeadings.TOTAL_OCCURRENCES, LegendHeadings.OCCURRENCES_AS_PERCENT );
 
-            }
-        });
-
+        Drawable legendIcon = getResources().getDrawable(R.drawable.customboarder_top_bottom_isvisible);
+        pieChartCreator.appendChartTableDataRows(this, vulnFamily, legendIcon, mainLayout);
+        */
     }
 
-    private void addDataSet(PieChart chart) {
-        Log.d(TAG, "Adding piechart data");
-        ArrayList<PieEntry> yEntry = new ArrayList<>();
-        ArrayList<String> xEntry = new ArrayList<>();
+    @Override
+    public void onClick(View v) {
+        Intent singleChartDisplay = new Intent(ResultsActivity.this, PieChartDetailsActivity.class);
+        switch (v.getId()){
+            case R.id.osText:
+                singleChartDisplay.putExtra("scan-results", scanResults);
+                singleChartDisplay.putExtra("chart", PieChartCreator.OS);
+                startActivity(singleChartDisplay);
+                break;
+            case R.id.vulnCategoryText:
+                singleChartDisplay.putExtra("scan-results", scanResults);
+                singleChartDisplay.putExtra("chart", PieChartCreator.VULN_CATEGORY);
+                startActivity(singleChartDisplay);
+                break;
+                default:
+            case R.id.threatLevelText:
+                singleChartDisplay.putExtra("scan-results", scanResults);
+                singleChartDisplay.putExtra("chart", PieChartCreator.THREAT_LEVEL);
+                startActivity(singleChartDisplay);
+                break;
+            case R.id.attackComplexity:
+                singleChartDisplay.putExtra("scan-results", scanResults);
+                singleChartDisplay.putExtra("chart", PieChartCreator.ATTACK_COMPLEXITY);
+                startActivity(singleChartDisplay);
+                break;
 
-        for (int i = 0; i < yData.length; i++){
-            yEntry.add(new PieEntry(yData[i], i));
         }
-        for(int i = 0; i < xData.length; i++){
-            xEntry.add(xData[i]);
-        }
-
-        //create the data set
-        PieDataSet pieDataSet = new PieDataSet(yEntry, "Operating Systems");
-        pieDataSet.setSliceSpace(2);
-        pieDataSet.setValueTextSize(12);
-
-        //add colors to dataset
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.GRAY);
-        colors.add(Color.BLUE);
-        colors.add(Color.RED);
-        colors.add(Color.GREEN);
-        colors.add(Color.CYAN);
-        colors.add(Color.YELLOW);
-        colors.add(Color.MAGENTA);
-
-        pieDataSet.setColors(colors);
-
-        //add legend to chart
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
-
-        //create pie data object
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
     }
+
+    private TextView createChartMoreDetails(@IdRes int id) {
+        TextView textView = new TextView(this);
+        textView.setClickable(true);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        textView.setOnClickListener(this);
+        textView.setId(id);
+
+        String text = "<a> More detail </a>";
+        textView.setText(Html.fromHtml(text));
+        return textView;
+    }
+     /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.pie, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.actionToggleValues: {
+                for (IDataSet<?> set : pieChartOs.getData().getDataSets())
+                    set.setDrawValues(!set.isDrawValuesEnabled());
+
+                pieChartOs.invalidate();
+                break;
+            }
+            case R.id.actionToggleIcons: {
+                for (IDataSet<?> set : pieChartOs.getData().getDataSets())
+                    set.setDrawIcons(!set.isDrawIconsEnabled());
+
+                pieChartOs.invalidate();
+                break;
+            }
+            case R.id.actionToggleHole: {
+                if (pieChartOs.isDrawHoleEnabled())
+                    pieChartOs.setDrawHoleEnabled(false);
+                else
+                    pieChartOs.setDrawHoleEnabled(true);
+                pieChartOs.invalidate();
+                break;
+            }
+            case R.id.actionDrawCenter: {
+                if (pieChartOs.isDrawCenterTextEnabled())
+                    pieChartOs.setDrawCenterText(false);
+                else
+                    pieChartOs.setDrawCenterText(true);
+                pieChartOs.invalidate();
+                break;
+            }
+            case R.id.actionToggleXVals: {
+
+                pieChartOs.setDrawEntryLabels(!mChart.isDrawEntryLabelsEnabled());
+                pieChartOs.invalidate();
+                break;
+            }
+            case R.id.actionSave: {
+                // mChart.saveToGallery("title"+System.currentTimeMillis());
+                pieChartOs.saveToPath("title" + System.currentTimeMillis(), "");
+                break;
+            }
+            case R.id.actionTogglePercent:
+                pieChartOs.setUsePercentValues(!mChart.isUsePercentValuesEnabled());
+                pieChartOs.invalidate();
+                break;
+            case R.id.animateX: {
+                pieChartOs.animateX(1400);
+                break;
+            }
+            case R.id.animateY: {
+                pieChartOs.animateY(1400);
+                break;
+            }
+            case R.id.animateXY: {
+                pieChartOs.animateXY(1400, 1400);
+                break;
+            }
+            case R.id.actionToggleSpin: {
+                pieChartOs.spin(1000, pieChartOs.getRotationAngle(), pieChartOs.getRotationAngle() + 360, Easing.EasingOption.EaseInCubic);
+                break;
+            }
+        }
+        return true;
+    }
+    */
 
 }

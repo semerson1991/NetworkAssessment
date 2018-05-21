@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="osText" type="id"/>
+    <item name="vulnCategoryText" type="id"/>
+    <item name="threatLevelText" type="id"/>
+    <item name="attackComplexity" type="id"/>
+</resources>

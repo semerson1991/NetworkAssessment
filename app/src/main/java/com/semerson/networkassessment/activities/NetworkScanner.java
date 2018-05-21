@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.results.OpenVasResult;
 import com.semerson.networkassessment.utils.ProcessHttpResponse;
 import com.semerson.networkassessment.utils.RequestBuilder;
 import com.semerson.networkassessment.service.ServerCommunicationService;
@@ -16,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.chrono.JapaneseDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +45,8 @@ public class NetworkScanner extends AppCompatActivity implements RequestBuilder,
             @Override
             public void onClick(View v) {
                 final ServerCommunicationService requester = new ServerCommunicationService(NetworkScanner.this);
-                requester.execute(ServerCommunicationService.URL_RUN_SCAN);
+                //requester.execute(ServerCommunicationService.URL_RUN_SCAN);
+                requester.execute(ServerCommunicationService.URL_GET_SCAN_RESULTS);
             }
         });
 
@@ -61,23 +64,32 @@ public class NetworkScanner extends AppCompatActivity implements RequestBuilder,
     @Override
     public void processResponse(String response) {
         Log.i(TAG, "adding retrieved scan results");
-        List<Host> parsedHosts = new ArrayList<>();
         ScanResults scanResults = new ScanResults();
         try {
-
+//TODO Error checking - need to ensure it is a 200 response with Json data
             JSONObject jsonResponse = new JSONObject(response);
             String id;
             String name;
             JSONArray services;
 
-            JSONArray hosts = jsonResponse.getJSONArray("hosts");
+            //Nmap Results
+            JSONObject nmapResult = jsonResponse.getJSONObject("nmap_result");
+            JSONArray hosts = nmapResult.getJSONArray("hosts");
 
             for (int i = 0; i < hosts.length(); i++) {
                 JSONObject host = hosts.getJSONObject(i);
                 scanResults.appendHost(host);
-//                Host parsedHost = scanResults.appendHost(host);
-                // parsedHosts.add(parsedHost);
             }
+
+            //OpenVas Results
+            JSONArray openvasResult = jsonResponse.getJSONArray("openvas_result");
+            for (int i = 0; i < openvasResult.length(); i++) {
+                JSONObject ovasResult = openvasResult.getJSONObject(i);
+                scanResults.appendOpenVasResults(ovasResult);
+                OpenVasResult ov = scanResults.getOpenVasResults().get(scanResults.getOpenVasResults().size() -1 );
+                Log.d(TAG, ov.getVulnFamily());
+            }
+
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
