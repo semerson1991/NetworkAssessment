@@ -27,5 +27,4 @@ public class UserAwareness extends AppCompatActivity {
             }
         });
     }
-
 }

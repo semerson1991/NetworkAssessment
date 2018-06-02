@@ -4,4 +4,9 @@
     <item name="vulnCategoryText" type="id"/>
     <item name="threatLevelText" type="id"/>
     <item name="attackComplexity" type="id"/>
+    <item name="confidentialityImpact" type="id"/>
+    <item name="integrityImpact" type="id"/>
+    <item name="availabilityImpact" type="id"/>
+    <item name="radio_operating_systems" type="id">Operating Systems</item>
+
 </resources>

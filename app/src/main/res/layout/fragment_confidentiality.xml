@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.Results.MainNavigationFragments.impact.ConfidentialityFragment">
+
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="60dp"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/txtImpactTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Impact Scope"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:orientation="vertical">
+
+                <RadioButton android:id="@+id/radio_confidentiality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/confidentialityImpact"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton android:id="@+id/radio_integrity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/integrityImpact"
+                    android:onClick="onRadioButtonClicked"/>
+                <RadioButton android:id="@+id/radio_availability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/availabilityImpact"
+                    android:onClick="onRadioButtonClicked"/>
+            </RadioGroup>
+
+
+
+        </LinearLayout>
+</FrameLayout>

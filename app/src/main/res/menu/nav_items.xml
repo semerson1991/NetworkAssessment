@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottomNavResults"
+        android:icon="@drawable/ic_pie_chart_black_24px"
+        android:title="@string/nav_results"
+        app:showAsAction="always|withText" />
+
+    <item
+        android:id="@+id/bottomNavImpactScope"
+        android:icon="@drawable/ic_baseline_bug_report_24px"
+        android:title="Impact"
+        app:showAsAction="always|withText" />
+
+    <item
+        android:id="@+id/bottomNavMitigation"
+        android:icon="@drawable/ic_baseline_security_24px"
+        android:title="@string/nav_mitigations"
+        app:showAsAction="always|withText" />
+
+    <item
+        android:id="@+id/bottomNavVulns"
+        android:icon="@drawable/ic_school_black_24px"
+        android:title="@string/nav_Security_Awarenes"
+        app:showAsAction="always|withText" />
+</menu>

@@ -15,7 +15,7 @@ import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.utils.ProcessHttpResponse;
 import com.semerson.networkassessment.utils.RequestBuilder;
 import com.semerson.networkassessment.service.ServerCommunicationService;
-import com.semerson.networkassessment.storage.ApplicationStorage;
+import com.semerson.networkassessment.storage.AppStorage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,9 +88,9 @@ public class LoginActivity extends AppCompatActivity  implements RequestBuilder,
             JSONObject jsonResponse = new JSONObject(response);
             boolean success = jsonResponse.getBoolean("success");
             if (success) {
-                SharedPreferences preferences = getSharedPreferences(ApplicationStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
+                SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(ApplicationStorage.LOGIN_NAME, username.getText().toString());
+                editor.putString(AppStorage.LOGIN_NAME, username.getText().toString());
                 Intent intent = new Intent(LoginActivity.this, NetworkScanner.class);
                 startActivity(intent);
                 editor.commit();

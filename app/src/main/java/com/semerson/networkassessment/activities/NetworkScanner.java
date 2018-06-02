@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.results.OpenVasResult;
+import com.semerson.networkassessment.activities.Results.ResultsActivity;
 import com.semerson.networkassessment.utils.ProcessHttpResponse;
 import com.semerson.networkassessment.utils.RequestBuilder;
 import com.semerson.networkassessment.service.ServerCommunicationService;
@@ -17,14 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.chrono.JapaneseDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-import com.semerson.networkassessment.results.Host;
 import com.semerson.networkassessment.results.ScanResults;
 
 
@@ -78,16 +73,16 @@ public class NetworkScanner extends AppCompatActivity implements RequestBuilder,
 
             for (int i = 0; i < hosts.length(); i++) {
                 JSONObject host = hosts.getJSONObject(i);
+
                 scanResults.appendHost(host);
             }
 
             //OpenVas Results
             JSONArray openvasResult = jsonResponse.getJSONArray("openvas_result");
-            for (int i = 0; i < openvasResult.length(); i++) {
-                JSONObject ovasResult = openvasResult.getJSONObject(i);
+            JSONArray openvasResults = openvasResult.getJSONArray(0);
+            for (int i = 0; i < openvasResults.length(); i++) {
+                JSONObject ovasResult = openvasResults.getJSONObject(i);
                 scanResults.appendOpenVasResults(ovasResult);
-                OpenVasResult ov = scanResults.getOpenVasResults().get(scanResults.getOpenVasResults().size() -1 );
-                Log.d(TAG, ov.getVulnFamily());
             }
 
         } catch (JSONException e1) {

@@ -3,15 +3,15 @@ package com.semerson.networkassessment.Chart;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.Gravity;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.Entry;
@@ -21,9 +21,12 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.ResultsActivity;
+import com.semerson.networkassessment.activities.Results.ColorSet;
+import com.semerson.networkassessment.results.ResultScoreMetrics;
+import com.semerson.networkassessment.utils.table.Table;
+import com.semerson.networkassessment.utils.table.TableCreator;
+import com.semerson.networkassessment.utils.table.TableRow;
+import com.semerson.networkassessment.utils.table.TableRowData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,42 +34,27 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-public class PieChartCreator implements ChartCreator,OnChartValueSelectedListener {
+public class PieChartCreator implements ChartCreator, OnChartValueSelectedListener {
 
     public static final String OS = "Operating System";
     public static final String VULN_CATEGORY = "Vulnerability Category";
     public static final String THREAT_LEVEL = "Vulnerability Level";
     public static final String ATTACK_COMPLEXITY = "Attack Complexity";
 
+    public static final int LOW_TO_CRITICAL = 0x0001;
+    public static final int DEFAULT_MIXED = 0x0010;
 
-    ArrayList<Integer> colors;
+    public static final String CRITICAL = "Critical";
+    public static final String HIGH = "High";
+    public static final String MEDIUM = "Medium";
+    public static final String LOW = "Low";
+    public static final String NONE = "None";
 
-    public PieChartCreator(){
-        setColors();
-    }
+    public ArrayList<Integer> colors = new ArrayList<>();
+    public TableCreator tableCreator;
 
-    public PieChartCreator(int minWidth, int minHeight){
-        setColors();
-    }
-
-    private void setColors(){
-        // add colors
-        colors = new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
+    public PieChartCreator() {
+        tableCreator = new TableCreator();
     }
 
     @Override
@@ -79,13 +67,16 @@ public class PieChartCreator implements ChartCreator,OnChartValueSelectedListene
     }
 
     @Override
-    public PieChart setChartConfig(String description, String legendLabel, Chart chart, Map<String, Float> dataset) {
-        if (chart instanceof PieChart){
+    public PieChart setChartConfig(String description, boolean enableLegend, String legendLabel, Chart chart, Map<String, Float> dataset, int colorset) {
+
+        Legend legend = chart.getLegend();
+        legend.setWordWrapEnabled(true);
+        legend.setEnabled(enableLegend);
+
+        ArrayList<Integer> colors = new ArrayList<>();
+        if (chart instanceof PieChart) {
             PieChart piechart = (PieChart) chart;
             piechart.getDescription().setEnabled(false);
-            //Description hostPiDesc = new Description();
-            //hostPiDesc.setText(description);
-            //piechart.setDescription(hostPiDesc);
 
             piechart.setExtraOffsets(5, 10, 10, 5);
             piechart.setDragDecelerationFrictionCoef(0.0f);
@@ -102,17 +93,14 @@ public class PieChartCreator implements ChartCreator,OnChartValueSelectedListene
             piechart.setOnChartValueSelectedListener(this);
 
             piechart.setDrawEntryLabels(false);
-            addDataSet(chart, dataset, legendLabel);
-
-            Legend legend = chart.getLegend();
-            legend.setWordWrapEnabled(true);
+            addDataSet(chart, dataset, legendLabel, colorset, colors);
 
             return piechart;
         }
         return null;
     }
 
-    private void addDataSet(Chart chart, Map<String, Float> dataset, String label){
+    private void addDataSet(Chart chart, Map<String, Float> dataset, String label, int colorset, List<Integer> colors) {
         ArrayList<PieEntry> entries = new ArrayList<>();
 
         for (String key : dataset.keySet()) {
@@ -123,6 +111,7 @@ public class PieChartCreator implements ChartCreator,OnChartValueSelectedListene
         chartDataSet.setSliceSpace(1f);
         chartDataSet.setSelectionShift(5f);
         chartDataSet.setValueTextSize(12);
+        colors = setColorSet(dataset, colorset, colors);
         chartDataSet.setColors(colors);
 
         PieData data = new PieData(chartDataSet);
@@ -142,54 +131,15 @@ public class PieChartCreator implements ChartCreator,OnChartValueSelectedListene
 
     }
 
-    public void appendChartTableHeader(Context context, PieChart chart, LinearLayout view, Drawable leftTitleBoarder, Drawable middleTitleBoarder, Drawable rightTitleBoarder,
-                                       String leftTitle, String middleTitle, String rightTitle){
-        Legend legend = chart.getLegend();
-        legend.setWordWrapEnabled(true);
-        legend.setEnabled(false);
-        LinearLayout row = addLegendTitle(context, leftTitleBoarder, middleTitleBoarder, rightTitleBoarder, leftTitle, middleTitle, rightTitle);
-        view.addView(row);
-    }
-
-    private LinearLayout addLegendTitle(Context context, Drawable leftTitleBoarder, Drawable middleTitleBoarder, Drawable rightTitleBoarder,
-                                        String leftTitle, String middleTitle, String rightTitle) {
-        LinearLayout legendAreaTitle = new LinearLayout(context);
-        legendAreaTitle.setOrientation(LinearLayout.HORIZONTAL);
-        legendAreaTitle.setGravity(Gravity.CENTER);
-
-        LinearLayout.LayoutParams titleLeftLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        titleLeftLayout.weight = 1F;
-        LinearLayout leftTitleLayout = createLinearLayout(context, titleLeftLayout, LinearLayout.HORIZONTAL, Gravity.CENTER);
-        leftTitleLayout.addView(createTextView(context, leftTitle, Gravity.CENTER));
-
-        LinearLayout.LayoutParams titleMiddleLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        titleMiddleLayout.weight = 1F;
-        LinearLayout middleTitleLayout = createLinearLayout(context, titleMiddleLayout, LinearLayout.HORIZONTAL, Gravity.CENTER);
-        middleTitleLayout.addView(createTextView(context, middleTitle, Gravity.CENTER));
-
-        LinearLayout.LayoutParams titleRightLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        titleRightLayout.weight = 1F;
-        LinearLayout rightTitleLayout = createLinearLayout(context, titleRightLayout, LinearLayout.HORIZONTAL, Gravity.CENTER);
-        rightTitleLayout.addView(createTextView(context, rightTitle, Gravity.CENTER));
-
-       // leftTitleLayout.setBackground(leftTitleBoarder);
-        //middleTitleLayout.setBackground(middleTitleBoarder);
-        //rightTitleLayout.setBackground(rightTitleBoarder);
-
-        legendAreaTitle.addView(leftTitleLayout);
-        legendAreaTitle.addView(middleTitleLayout);
-        legendAreaTitle.addView(rightTitleLayout);
-
-        return legendAreaTitle;
-    }
-
-    private void setBackground(Drawable boarder, LinearLayout layout, LinearLayout... linearLayout) {
-        for (int i = 0; i < linearLayout.length; i++){
-            linearLayout[i].setBackground(boarder);
-        }
-    }
-
-    public void appendChartTableDataRows(Context context, PieChart chart, Drawable customBoarder, LinearLayout view){
+    /**
+     * This method is mainly used for the "More Details" option where the charts need to be displayed with the occurrences as high to low.
+     *
+     * @param context
+     * @param chart
+     * @param customBoarder
+     * @param view
+     */
+    public void appendChartTableDataRowsSorted(Context context, PieChart chart, Drawable customBoarder, LinearLayout view) {
         Legend legend = chart.getLegend();
         legend.setWordWrapEnabled(true);
         legend.setEnabled(false);
@@ -207,24 +157,29 @@ public class PieChartCreator implements ChartCreator,OnChartValueSelectedListene
             legendTableSections.add(section);
         }
 
-        class Compare implements Comparator<LegendTableSection> {
-            public int compare(LegendTableSection p1, LegendTableSection p2) {
-                return Float.compare(p1.totalvalue, p2.totalvalue);
-            }
-        };
-
-        Collections.sort(legendTableSections, new Comparator<LegendTableSection>(){
+        Collections.sort(legendTableSections, new Comparator<LegendTableSection>() {
             public int compare(LegendTableSection obj1, LegendTableSection obj2) {
                 // ## Ascending order
                 return Float.compare(obj2.totalvalue, obj1.totalvalue);
             }
         });
 
-        for (LegendTableSection legendTableSection : legendTableSections){
+        for (LegendTableSection legendTableSection : legendTableSections) {
             view.addView(legendTableSection.legendSection);
         }
     }
 
+    /**
+     * This method can be made more flexible without so much boilerplate code. It adds two objects in the first table column.
+     *
+     * @param data
+     * @param context
+     * @param entry
+     * @param customBoarder
+     * @param index
+     * @param totalSum
+     * @return
+     */
     private LegendTableSection createTableDataRow(IDataSet data, Context context, LegendEntry entry, Drawable customBoarder, int index, Float totalSum) {
         LegendTableSection section;
         Float entryTotalVal = data.getEntryForIndex(index).getY(); //Total val of slice data (Not the percentage)
@@ -239,7 +194,7 @@ public class PieChartCreator implements ChartCreator,OnChartValueSelectedListene
         LinearLayout leftLayout = new LinearLayout(context);
         leftLayout.setOrientation(LinearLayout.HORIZONTAL);
         leftLayout.setGravity(Gravity.LEFT);
-        leftLayout.setPadding(10,0,0,10);
+        leftLayout.setPadding(10, 0, 0, 10);
         leftLayout.setLayoutParams(paramsLeftLayout);
 
         LinearLayout.LayoutParams paramsLegendLayout = new LinearLayout.LayoutParams(
@@ -288,48 +243,111 @@ public class PieChartCreator implements ChartCreator,OnChartValueSelectedListene
         return section;
     }
 
-    private float calcPercent(Float total, Float num){
+    private float calcPercent(Float total, Float num) {
         Float percent = num / total;
         percent = percent * 100;
         return percent;
     }
 
-    public String getFormattedPercentage(Float totalnum, Float num){
+    public String getFormattedPercentage(Float totalnum, Float num) {
         return String.format("%.0f%%", calcPercent(totalnum, num));
     }
 
-    private List<LegendTableSection> createTableLegendRows(){
+    private List<LegendTableSection> createTableLegendRows() {
 
         return null;
     }
 
-    private TextView createTextView(Context context, String text, int gravity) {
-        TextView textviewText = new TextView(context);
-        textviewText.setText(text);
-        textviewText.setGravity(gravity);
-        textviewText.setPadding(10, 0,10, 0);
-        textviewText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        return textviewText;
+    public List<Integer> setColorSet(Map<String, Float> map, int colorset, List<Integer> colors) {
+        switch (colorset) {
+            case LOW_TO_CRITICAL:
+                for (String key : map.keySet()) {
+                    Log.d("color method key", key);
+                    switch (key) {
+                        case CRITICAL:
+                            colors.add(ColorSet.LOW_TO_CRITICAL.getDarkRed());
+                            break;
+                        case HIGH:
+                            colors.add(ColorSet.LOW_TO_CRITICAL.getRed());
+                            break;
+                        case MEDIUM:
+                            colors.add(ColorSet.LOW_TO_CRITICAL.getOrange());
+                            break;
+                        case LOW:
+                            colors.add(ColorSet.LOW_TO_CRITICAL.getYellow());
+                            break;
+                        case NONE:
+                            colors.add(ColorSet.LOW_TO_CRITICAL.getNone());
+                            break;
+                    }
+                }
+                break;
+            case DEFAULT_MIXED:
+                colors = ColorSet.DEFAULT.getColours();
+                break;
+            default:
+                colors = ColorSet.DEFAULT.getColours();
+        }
+
+        return colors;
     }
 
-    private LinearLayout createLinearLayout(Context context, ViewGroup.LayoutParams layoutParams, int gravity, int orientation){
-        LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(orientation);
-        linearLayout.setGravity(gravity);
-        linearLayout.setLayoutParams(layoutParams);
-        return linearLayout;
+    /**
+     * Create a table with the vales from the piechart. Tbe Occurrences as a total, and percent are input into the table.
+     *
+     * @param chart
+     * @param listener
+     * @return
+     */
+    public Table prepareTableLegendForPieChart(PieChart chart, View.OnClickListener listener) {
+        Table table = new Table();
+        LegendEntry[] legendEntries = chart.getLegend().getEntries();
+        Float totalSum = chart.getData().getYValueSum();
+
+        IDataSet data = chart.getData().getDataSet();
+
+        for (int i = 0; i < legendEntries.length - 1; i++) {
+            LegendEntry entry = legendEntries[i];
+
+            Float totalOccurrences = data.getEntryForIndex(i).getY();
+
+            TableRow tableRow = new TableRow(new TableRowData(entry.label, Gravity.LEFT, listener, entry.formColor),
+                    new TableRowData(String.valueOf(data.getEntryForIndex(i).getY()), Gravity.CENTER, listener),
+                    new TableRowData(TableCreator.getFormattedPercentage(totalSum, totalOccurrences), Gravity.CENTER, listener));
+            tableRow.setRowValue(totalOccurrences);
+            table.prepareTableRow(tableRow);
+        }
+        return table;
+    }
+
+    public Table prepareTableLegendOccurrences(Map<String, ResultScoreMetrics> resultScoreMetrics, View.OnClickListener listener) {
+        Table table = new Table();
+        for (String host : resultScoreMetrics.keySet()) {
+            ResultScoreMetrics scoreMetrics = resultScoreMetrics.get(host);
+
+            TableRow tableRow = new TableRow(
+                    new TableRowData(host, Gravity.CENTER, listener),
+                    new TableRowData(String.valueOf(scoreMetrics.getHighCount()), Gravity.CENTER, listener),
+                    new TableRowData(String.valueOf(scoreMetrics.getMedCount()), Gravity.CENTER),
+                    new TableRowData(String.valueOf(scoreMetrics.getLowCount()), Gravity.CENTER),
+                    new TableRowData(String.valueOf(scoreMetrics.getTotal()), Gravity.CENTER));
+
+            tableRow.setRowValue((float) scoreMetrics.getTotal());
+            table.appendTableRow(tableRow);
+        }
+        return table;
     }
 
     public class LegendTableSection {
         private LinearLayout legendSection;
         private Float totalvalue;
 
-        public LegendTableSection(LinearLayout theLegendSection, Float theTotalvalue){
+        public LegendTableSection(LinearLayout theLegendSection, Float theTotalvalue) {
             totalvalue = theTotalvalue;
             legendSection = theLegendSection;
         }
 
-        public Float getTotalvalue(){
+        public Float getTotalvalue() {
             return totalvalue;
         }
 
@@ -337,4 +355,5 @@ public class PieChartCreator implements ChartCreator,OnChartValueSelectedListene
             return legendSection;
         }
     }
+
 }

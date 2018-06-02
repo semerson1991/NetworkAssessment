@@ -6,4 +6,28 @@
     <string name="title_activity_user_awareness">UserAwareness</string>
     <string name="open">Open</string>
     <string name="close">Open</string>
+    <string name="nav_results">Results</string>
+    <string name="nav_vuln">Vulnerabilities</string>
+    <string name="nav_impact_scope">Impact Scope</string>
+    <string name="nav_mitigations">Mitigations</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="OperatingSystems">Operating Systems</string>
+    <string name="Vulnerabilities">Vulnerabilities</string>
+    <string name="ThreatLevels">Threat Levels</string>
+    <string name="AttackComplexity">Attack Complexity</string>
+    <string name="AdvancedView">Advanced View</string>
+    <string name="confidentialityImpact">Confidentiality</string>
+    <string name="integrityImpact">Integrity</string>
+    <string name="availabilityImpact">Availability</string>
+    <string name="VulnerabilityCategories">Vulnerability Categories</string>
+    <string name="VulnerableHosts">Vulnerabe Hosts</string>
+    <string name="AllVulnerabilities">All Vulnerabilities</string>
+    <string name="title_activity_vulnerability_filter_mitigation_type">
+        VulnerabilityFilterMitigationType
+    </string>
+    <string name="AllMitigations">All Mitigations</string>
+    <string name="MitigationCategory">Mitigation Categories</string>
+    <string name="nav_Security_Awarenes">Security Awareness</string>
 </resources>

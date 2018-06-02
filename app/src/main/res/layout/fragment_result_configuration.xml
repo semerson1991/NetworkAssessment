@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:paddingTop="30dp"
+    android:paddingLeft="15dp"
+    android:layout_height="fill_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Charts displayed"
+        android:textSize="18sp" />
+
+    <CheckBox android:id="@+id/configOperatingSystems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/OperatingSystems"
+        />
+    <CheckBox android:id="@+id/configVulnerabilities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Vulnerabilities"
+        />
+    <CheckBox android:id="@+id/configThreatLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ThreatLevels"
+        />
+    <CheckBox android:id="@+id/configAttackComplexity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/AttackComplexity"
+        />
+
+    <CheckBox android:id="@+id/advancedView"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/AdvancedView"
+        />
+
+    <Button
+        android:id="@+id/btnSaveConfig"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:text="Save"
+        />
+</LinearLayout>
