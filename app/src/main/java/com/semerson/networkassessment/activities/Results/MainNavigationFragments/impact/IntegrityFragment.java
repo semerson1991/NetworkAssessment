@@ -16,17 +16,17 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.semerson.networkassessment.Chart.ChartDescription;
-import com.semerson.networkassessment.Chart.LegendHeadings;
-import com.semerson.networkassessment.Chart.PieChartCreator;
+import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
+import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
+import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.impact.singleview.HostVulnFilterIntegrity;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.HostVulnerabilityDetailsFragment;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity;
-import com.semerson.networkassessment.results.Host;
-import com.semerson.networkassessment.results.ResultController;
-import com.semerson.networkassessment.results.ResultScoreMetrics;
-import com.semerson.networkassessment.results.ScanResults;
+import com.semerson.networkassessment.storage.results.Host;
+import com.semerson.networkassessment.storage.results.ResultController;
+import com.semerson.networkassessment.storage.results.ResultScoreMetrics;
+import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.UiObjectCreator;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
@@ -94,9 +94,9 @@ public class IntegrityFragment extends Fragment implements View.OnClickListener 
             ResultScoreMetrics integrityScoreCount = integrityImpactScore.get(host);
 
             table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER,this),
-                    new TableRowData(String.valueOf(integrityScoreCount.getHighCount()), Gravity.CENTER, this),
-                    new TableRowData(String.valueOf(integrityScoreCount.getLowCount()), Gravity.CENTER, this),
-                    new TableRowData(String.valueOf(integrityScoreCount.getTotal()), Gravity.CENTER, this)));
+                    new TableRowData(String.valueOf(integrityScoreCount.getHighCount()), Gravity.CENTER),
+                    new TableRowData(String.valueOf(integrityScoreCount.getLowCount()), Gravity.CENTER),
+                    new TableRowData(String.valueOf(integrityScoreCount.getTotal()), Gravity.CENTER)));
         }
         table.setSortedHighToLow(true);
         tableCreator.createTableViews(context, mainLayout, customBoarder, table);
@@ -138,8 +138,8 @@ public class IntegrityFragment extends Fragment implements View.OnClickListener 
             List<Host> hosts = scanResults.getHosts();
             for (Host theHost : hosts) {
                 if (theHost.getHostname(false).equals(textValue)) {
-                    android.app.Fragment fragment = HostVulnerabilityDetailsFragment.newInstance(scanResults, theHost.getHostname(false));
-                    fragmentHost.setFragment(fragment, false);
+                    Fragment fragment = HostVulnFilterIntegrity.newInstance(scanResults, theHost.getHostname(false));
+                    fragmentHost.setFragment(fragment, true);
                     break;
                 }
             }

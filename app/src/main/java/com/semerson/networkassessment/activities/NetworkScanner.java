@@ -1,12 +1,14 @@
 package com.semerson.networkassessment.activities;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.Results.ResultsActivity;
 import com.semerson.networkassessment.utils.ProcessHttpResponse;
@@ -20,7 +22,11 @@ import org.json.JSONObject;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-import com.semerson.networkassessment.results.ScanResults;
+import com.semerson.networkassessment.storage.results.ScanResults;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 public class NetworkScanner extends AppCompatActivity implements RequestBuilder, ProcessHttpResponse {
@@ -39,9 +45,30 @@ public class NetworkScanner extends AppCompatActivity implements RequestBuilder,
         btnRunScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ServerCommunicationService requester = new ServerCommunicationService(NetworkScanner.this);
-                //requester.execute(ServerCommunicationService.URL_RUN_SCAN);
-                requester.execute(ServerCommunicationService.URL_GET_SCAN_RESULTS);
+                boolean test = true;
+                if (test){
+                    AssetManager assetManager = getAssets();
+                    InputStream input;
+                    try {
+                        input = assetManager.open("sampleJson.txt");
+                        int size = input.available();
+                        byte[] buffer = new byte[size];
+                        input.read(buffer);
+                        input.close();
+
+                        // byte buffer into a string
+                        String text = new String(buffer);
+                        processResponse(text);
+
+                    }  catch (Exception e) {
+
+                    }
+;
+                } else {
+                    final ServerCommunicationService requester = new ServerCommunicationService(NetworkScanner.this);
+                    //requester.execute(ServerCommunicationService.URL_RUN_SCAN);
+                    requester.execute(ServerCommunicationService.URL_GET_SCAN_RESULTS);
+                }
             }
         });
 

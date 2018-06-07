@@ -13,16 +13,16 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.semerson.networkassessment.Chart.ChartDescription;
-import com.semerson.networkassessment.Chart.LegendHeadings;
-import com.semerson.networkassessment.Chart.PieChartCreator;
+import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
+import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
+import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.HostVulnerabilityDetailsFragment;
-import com.semerson.networkassessment.results.Host;
-import com.semerson.networkassessment.results.ResultController;
-import com.semerson.networkassessment.results.ResultScoreMetrics;
-import com.semerson.networkassessment.results.ScanResults;
+import com.semerson.networkassessment.storage.results.Host;
+import com.semerson.networkassessment.storage.results.ResultController;
+import com.semerson.networkassessment.storage.results.ResultScoreMetrics;
+import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
 import com.semerson.networkassessment.utils.table.TableHeadings;
@@ -75,7 +75,7 @@ public class VulnerableHosts extends Fragment implements View.OnClickListener {
 
         TableCreator tableCreator = new TableCreator();
         tableCreator.appendTableHeader(context, mainLayout, TableHeadings.HOST, TableHeadings.HIGH,
-                TableHeadings.MEDIUM, TableHeadings.LOW, TableHeadings.TOTAL);
+                TableHeadings.MEDIUM, TableHeadings.LOW);
 
         Map<String, ResultScoreMetrics> threatLevels = resultController.getVulnThreatLevelCount();
 

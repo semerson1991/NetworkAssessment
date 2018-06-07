@@ -15,16 +15,16 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.semerson.networkassessment.Chart.ChartDescription;
-import com.semerson.networkassessment.Chart.LegendHeadings;
-import com.semerson.networkassessment.Chart.PieChartCreator;
+import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
+import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
+import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityDetailsFragment;
-import com.semerson.networkassessment.results.ResultController;
-import com.semerson.networkassessment.results.ResultLevels;
-import com.semerson.networkassessment.results.ScanResults;
-import com.semerson.networkassessment.results.VulnerabilityResult;
+import com.semerson.networkassessment.storage.results.ResultController;
+import com.semerson.networkassessment.storage.results.ResultLevels;
+import com.semerson.networkassessment.storage.results.ScanResults;
+import com.semerson.networkassessment.storage.results.VulnerabilityResult;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
 import com.semerson.networkassessment.utils.table.TableRow;
@@ -51,6 +51,7 @@ public class AllVulnerabilities extends Fragment implements View.OnClickListener
     private RadioButton radioVulnerableHosts;
     private RadioButton radioAllVulnerabilities;
 
+    boolean advancedMode;
     public AllVulnerabilities() {
         // Required empty public constructor
     }
@@ -62,6 +63,7 @@ public class AllVulnerabilities extends Fragment implements View.OnClickListener
         rootview = getActivity().getWindow().getDecorView().getRootView();
         scanResults = (ScanResults) getArguments().getParcelable("scan-results");
         resultController = new ResultController(scanResults.getHosts());
+
         return inflater.inflate(R.layout.fragment_results, container, false);
     }
 

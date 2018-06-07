@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+            <string name="phishing_description_heading">
+        "Description"
+    </string>
+
+    <string name="phishing_description">
+        "A typical phishing attack usually entails scammers sending fake emails to a high number "
+        "of people with the aim of tricking users into giving their personal information (usually bank details). "
+        "The email may contains malicious attachments that can result in the computer being infected with malware, "
+        "or links that redirect the user to dangerous websites. \n\n"
+        "Phishing emails are becoming harder to spot. The usual signs of spotting phishing emails is by looking at "
+        "the sender email address, spelling mistakes, suspicious requests of personal information, and links that "
+        "direct the user to non-authentic websites. The resources provided will help you in understanding the dangers "
+        "and signs of a phishing attack.\n\n"
+
+    </string>
+
+    <string name="phishing_resources">
+        "Helpful Resources"
+    </string>
+
+    <string name="phishing_url1_desc">
+        "Phishing video – Everyday 8 million people open a fraudulent phishing email. This short video will "
+        "show you an example of a fraudulent email, with tips on how to avoid falling victim.  \n"
+    </string>
+
+    <string name="phishing_url1">
+        "https://www.awarego.com/videos/spear-phishing/ \n"
+    </string>
+
+    <string name="phishing_url2_desc">
+        "Spear phishing – Spear phishing is like Phishing but is targeted towards a specific individual. "
+        "The attacker may have studied someone to obtain certain information to target them. This video "
+        "will show you an example of this and methods to prevent falling victim.  \n"
+    </string>
+
+    <string name="phishing_url2">
+        "https://www.awarego.com/videos/phishing/ \n"
+    </string>
+
+    <string name="phishing_url3_desc">
+        "A general overview of phishing attacks and methods of preventing them from occurring  \n"
+    </string>
+
+    <string name="phishing_url3">
+        "https://www.sans.org/security-awareness-training/ouch-newsletter/2015/phishing \n"
+    </string>
+
+    <string name="phishing_url4_desc">
+        "Avoiding phishing attacks: This guidance is beneficial for businesses and general computer "
+        "users to read to understand various aspects of phishing attacks. This includes general information, "
+        "tips for minimising the damage of a successful phishing attack, and signs for spotting an attack.  \n"
+    </string>
+
+    <string name="phishing_url4">
+        "https://www.ncsc.gov.uk/guidance/avoiding-phishing-attacks \n"
+    </string>
+</resources>

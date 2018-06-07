@@ -30,4 +30,10 @@
     <string name="AllMitigations">All Mitigations</string>
     <string name="MitigationCategory">Mitigation Categories</string>
     <string name="nav_Security_Awarenes">Security Awareness</string>
+    <string name="Security_Awareness">Security Awareness</string>
+    <string name="Security_Quiz">Security Quiz</string>
+    <string name="Password_Guidance">Passwords</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_web_app_awareness">WebAppAwareness</string>
+    <string name="title_activity_phishing_awareness">PhishingAwareness</string>
 </resources>

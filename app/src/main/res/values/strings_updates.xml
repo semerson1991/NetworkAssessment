@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+            <string name="updates_description_heading">
+        "Description"
+    </string>
+
+    <string name="updates_description">
+        "A common mistake that is easy to prevent and can result in serious consequences, "
+        "is installing the latest updates for software. This applied to all device such as smartphones, "
+        "tablets, laptops, computers, and other house hold devices that are network connected. "
+        "These should be kept up to date at all times. The updates will often be for Operating Systems "
+        "(E.g. Android or Windows) and software. Applying the updates is quick, easy, and free. \n\n"
+    </string>
+
+    <string name="updates_patching_title">
+        "Also known as ‘patching'"
+    </string>
+
+    <string name="updates_patching">
+       "Manufacturers and developers regularly releases updates which not only add additional "
+        "features and functionality, but improve the overall security for the devices. "
+        "This may include the fixing of known vulnerabilities that could potentially be exploited by an attacker. \n\n"
+        "Applying these updates is one of the most important things to do to improves the devices overall security. "
+        "If you wish to stay secure, most software will include an automatic update option which is beneficial to be "
+        "enabled wherever possible. This will ensure that updates are installed in a timely manner when they are released. \n\n"
+        "However, all IT has a lifespan. When the software becomes obsolete and the manufacturer is no longer providing updates, "
+        "it is highly recommended to replace this software. An example of this is old operating systems such as Windows XP. \n"\n
+
+    </string>
+
+    <string name="updates_resources">
+        "Helpful Resources"
+    </string>
+
+    <string name="updates_url1_desc">
+        "The importance of software updates and patches \n"
+    </string>
+
+    <string name="updates_url1">
+        "https://us.norton.com/internetsecurity-how-to-the-importance-of-general-software-updates-and-patches.html \n"
+    </string>
+
+    <string name="updates_url2_desc">
+        "Guidance on obsolete platform security guidance  \n"
+    </string>
+
+    <string name="updates_url2">
+        "https://www.ncsc.gov.uk/guidance/obsolete-platforms-security-guidance \n"
+    </string>
+</resources>

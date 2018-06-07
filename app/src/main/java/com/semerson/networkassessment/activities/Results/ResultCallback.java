@@ -1,6 +1,6 @@
 package com.semerson.networkassessment.activities.Results;
 
-import com.semerson.networkassessment.results.VulnerabilityResult;
+import com.semerson.networkassessment.storage.results.VulnerabilityResult;
 
 public interface ResultCallback {
     /**

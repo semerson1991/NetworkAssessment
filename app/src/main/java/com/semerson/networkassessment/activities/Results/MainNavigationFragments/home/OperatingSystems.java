@@ -15,16 +15,16 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.semerson.networkassessment.Chart.ChartDescription;
-import com.semerson.networkassessment.Chart.LegendHeadings;
-import com.semerson.networkassessment.Chart.PieChartCreator;
+import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
+import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
+import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.HostVulnerabilityDetailsFragment;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity;
-import com.semerson.networkassessment.results.Host;
-import com.semerson.networkassessment.results.ResultController;
-import com.semerson.networkassessment.results.ScanResults;
+import com.semerson.networkassessment.storage.results.Host;
+import com.semerson.networkassessment.storage.results.ResultController;
+import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
 
@@ -59,7 +59,9 @@ public class OperatingSystems extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         rootview = getActivity().getWindow().getDecorView().getRootView();
         scanResults = (ScanResults) getArguments().getParcelable("scan-results");
-        resultController = new ResultController(scanResults.getHosts());
+        if (scanResults != null){
+            resultController = new ResultController(scanResults.getHosts());
+        }
         return inflater.inflate(R.layout.fragment_results, container, false);
     }
 
@@ -143,7 +145,7 @@ public class OperatingSystems extends Fragment implements View.OnClickListener {
             for (Host theHost : hosts) {
                 if (theHost.getHostname(false).equals(textValue)) {
                     android.app.Fragment fragment = HostVulnerabilityDetailsFragment.newInstance(scanResults, theHost.getHostname(false));
-                    fragmentHost.setFragment(fragment, false);
+                    fragmentHost.setFragment(fragment, true);
                     break;
                 }
             }

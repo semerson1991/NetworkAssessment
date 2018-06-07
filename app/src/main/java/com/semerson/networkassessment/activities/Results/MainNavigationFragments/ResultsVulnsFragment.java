@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
-import com.semerson.networkassessment.results.ResultController;
-import com.semerson.networkassessment.results.ScanResults;
+import com.semerson.networkassessment.storage.results.ResultController;
+import com.semerson.networkassessment.storage.results.ScanResults;
 
 /**
  * A simple {@link Fragment} subclass.

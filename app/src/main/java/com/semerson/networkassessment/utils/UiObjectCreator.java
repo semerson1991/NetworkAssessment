@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.IdRes;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,6 +24,23 @@ public class UiObjectCreator {
         textView.setClickable(true);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setOnClickListener(listener);
+        textView.setId(id);
+
+        String text = txtViewTxt;
+        textView.setText(Html.fromHtml(txtViewTxt));
+        return textView;
+    }
+
+    public static TextView createTextView(Context context, CharSequence text, int style) {
+        TextView textView = new TextView(new ContextThemeWrapper(context, style ));
+        textView.setText(text);
+        return textView;
+    }
+
+    public static TextView createTextView(@IdRes int id, String txtViewTxt, Context context) {
+        TextView textView = new TextView(context);
+        textView.setClickable(true);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
         textView.setId(id);
 
         String text = txtViewTxt;

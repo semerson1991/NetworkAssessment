@@ -14,4 +14,7 @@ public class TableHeadings {
     public static final String RISK_SCORE = "Risk Score";
     public static final String MITIGATION_NAME = "Mitigation";
     public static final String MITIGATION_CATEGORY = "Mitigation Type";
+    public static final String CONFIDENTIALITY_IMPACT = "Confidentiality Impact";
+    public static final String INTEGRITY_IMPACT = "Integrity Impact";
+    public static final String AVAILABILITY_IMPACT = "Availability Impact";
 }

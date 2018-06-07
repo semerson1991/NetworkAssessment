@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="firewall_decription_heading">
+        "Description"
+    </string>
+
+    <string name="firewall_decription">
+        "Firewall should always be used if you are connected to the internet. "
+        "Firewalls provides a layer of security between your network and other networks. "
+        "In short, a firewall analysis incoming traffic, to determine whether it should be allowed onto your network.\n\n"
+        "The two types of firewalls are host based and network based. Host based is a personal firewall that is installed"
+        "on a device such as a laptop. This Firewall will be dedicated to protecting the laptop from attackers. "
+        "Network based firewall protected the whole network from attackers. For instance, a router will often contain a firewall "
+        "that prevents traffic from entering the network in the first place. Both firewalls should be used to achieve a higher level "
+        "of security. See the link provided for more details."
+    </string>
+
+    <string name="firewall_resources">
+        "Helpful Resources"
+    </string>
+
+    <string name="firewall_url1_desc">
+        "The website provided explains what a firewall is and why it is important.\n"
+    </string>
+
+    <string name="firewall_url1">
+        "https://www.microsoft.com/en-us/safety/pc-security/firewalls-whatis.aspx \n"
+    </string>
+</resources>

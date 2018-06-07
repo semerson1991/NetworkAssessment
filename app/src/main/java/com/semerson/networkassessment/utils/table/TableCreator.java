@@ -142,15 +142,4 @@ public class TableCreator {
         legend_layout.setBackgroundColor(tableRowData.getColor());
         return legend_layout;
     }
-
-    public static String getFormattedPercentage(Float totalnum, Float num) {
-        return String.format("%.0f%%", calcPercent(totalnum, num));
-    }
-
-    private static float calcPercent(Float total, Float num) {
-        Float percent = num / total;
-        percent = percent * 100;
-        return percent;
-    }
-
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unsecure_settings_description_title">"Description"</string>
+    <string name="unsecure_settings_description">
+        "The default configuration for new software and devices is often set."
+        "This would usually result in having ‘everything on’ in order for them to be as multi-functional as possible,"
+        "and easily usable. However, a major disadvantage to this is that depending on the options set, the device can"
+        "be prone to cyber attackers resulting in consequences such as unauthorised access to data.\n"</string>
+
+    <string name="unsecure_settings_check_settings_title">
+        "Check the settings"
+    </string>
+
+    <string name="unsecure_settings_check_settings">
+        "It is important to always check the settings for new devices and software when possible. "
+        "The changes that should be made are the ones that are likely to raise the level of security. "
+        "For example, disabling or removing any functions, accounts, or services that are not required "
+        "can largely boost the security. Please see the provided link for more information on secure configuration.\n"
+    </string>
+
+    <string name="unsecure_settings_use_passwords_title">
+        "Use Passwords"
+    </string>
+
+    <string name="unsecure_settings_use_passwords">
+        "Methods to prevent unauthorised access should always be used. "
+        "Passwords, when implemented correctly are a great way of securing access to a device. "
+        "Default passwords should always be changed. These are the passwords that attackers will "
+        "often try first. An example of this is the username ‘admin’ with the password ‘password123’. "
+        "PINs and touch-ID such as fingerprint authentication can also be used. Please see the provided link for more guidance on passwords. \n"
+    </string>
+
+
+    <string name="unsecure_settings_extra_security_title">
+        "Extra Security"
+    </string>
+
+    <string name="unsecure_settings_extra_security">
+        "Accounts with high priority such as banking accounts, administration accounts that have high privileges, should use two factor authentication. "
+        "This consists of two methods of authentication such as a password, with a code that is sent to the smartphone. \n"
+    </string>
+
+    <string name="unsecure_settings_resources">
+        "Helpful Resources"
+    </string>
+
+    <string name="unsecure_settings_url1_description">
+        "Guidance on securely configuring devices. This will greatly improve the security of your systems \n"
+    </string>
+
+    <string name="unsecure_settings_url1">
+        "https://www.ncsc.gov.uk/guidance/10-steps-secure-configuration \n"
+    </string>
+
+    <string name="unsecure_settings_url2_description">
+        "Guidance for using secure passwords \n"
+    </string>
+
+    <string name="unsecure_settings_url2">
+        "https://www.ncsc.gov.uk/guidance/password-guidance-simplifying-your-approach \n"
+    </string>
+
+</resources>

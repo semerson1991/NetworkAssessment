@@ -3,7 +3,6 @@ package com.semerson.networkassessment.activities.Results;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,9 +16,7 @@ import android.widget.RelativeLayout;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
-import com.semerson.networkassessment.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.ResultsVulnsFragment;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.AllVulnerabilities;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.AttackComplexity;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.OperatingSystems;
@@ -31,11 +28,11 @@ import com.semerson.networkassessment.activities.Results.MainNavigationFragments
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.impact.IntegrityFragment;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.mitigation.ResultsAllMitigationsFragment;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.mitigation.ResultsMitigationCategoriesFragment;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.security.awareness.UserSecurityAwareness;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity;
-import com.semerson.networkassessment.results.Host;
-import com.semerson.networkassessment.results.ResultController;
-import com.semerson.networkassessment.results.ScanResults;
+import com.semerson.networkassessment.storage.results.Host;
+import com.semerson.networkassessment.storage.results.ResultController;
+import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.BottomNavigationViewHelper;
 
 import java.util.List;
@@ -58,8 +55,7 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
     private VulnerableHosts vulnerableHostsFragment;
     private AllVulnerabilities allVulnerabilitiesFragment;
 
-    private ResultsVulnsFragment vulnsFragment;
-
+    private UserSecurityAwareness userAwarenessFragmentFragment;
 
     //Fragment for the Impacts page
     private AvailabilityFragment availabilityFragment;
@@ -103,17 +99,6 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
         vulnerableHostsFragment = VulnerableHosts.newInstance(scanResults);
         allVulnerabilitiesFragment = AllVulnerabilities.newInstance(scanResults);
 
-
-
-        //radioOperatingSystems = operatingSystemsFragment.getView().findViewById(R.id.radio_operating_system);
-        //radioThreatLevels = threatLevelsFragment.getView().findViewById(R.id.radio_threat_levels);
-        //radioVulerabilityCategory = vulnerabilityCategoriesFragment.getView().findViewById(R.id.radio_vulnerability_categories);
-
-
-
-
-       // vulnsFragment = ResultsVulnsFragment.newInstance(scanResults);
-
         availabilityFragment = AvailabilityFragment.newInstance(scanResults);
         integrityFragment = IntegrityFragment.newInstance(scanResults);
         confidentialityFragment = ConfidentialityFragment.newInstance(scanResults);
@@ -121,18 +106,19 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
         mitigationCategoriesFragment = ResultsMitigationCategoriesFragment.newInstance(scanResults);
         mitigationFragment = ResultsAllMitigationsFragment.newInstance(scanResults);
 
+        userAwarenessFragmentFragment = UserSecurityAwareness.newInstance(scanResults);
+
         if (savedInstanceState == null) {
             setFragment(operatingSystemsFragment, true);
         }
 
 
-
-      // Fragment fragment = YoutubeFragment.newInstance();
-       // setFragment(fragment);
+        // Fragment fragment = YoutubeFragment.newInstance();
+        // setFragment(fragment);
 
         //  YoutubeFragment youtubeFragment = (YoutubeFragment) fragment;
 
-       // mainLayout.addView(bottomNavigationView);
+        // mainLayout.addView(bottomNavigationView);
         /* DONT DELETE - THIS IS AN EXAMPLE OF A HYPERLINK TO WEBSITE!!!
         TextView textView = new TextView(this);
         textView.setClickable(true);
@@ -142,54 +128,21 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
         mainLayout.addView(textView);
         */
 
-        /*
-        PieChart vulnFamily = pieChartCreator.createChart(this, 1000, 1000);
-        pieChartCreator.setChartConfig(ChartDescription.VULN_CATEGORY, LegendHeadings.VULN_CATEGORY, vulnFamily, scanResults.getVulnFamily() );
-        mainLayout.addView(vulnFamily);
 
-        pieChartCreator.appendTableHeader(this, vulnFamily, mainLayout, LegendHeadings.VULN_CATEGORY,
-                LegendHeadings.TOTAL_OCCURRENCES, LegendHeadings.OCCURRENCES_AS_PERCENT );
-
-        Drawable legendIcon = getResources().getDrawable(R.drawable.customboarder_top_bottom_isvisible);
-        pieChartCreator.appendChartTableDataRowsSorted(this, vulnFamily, legendIcon, mainLayout);
-        */
     }
 
     @Override
     public void onClick(View v) {
-        Intent singleChartDisplay = new Intent(ResultsActivity.this, PieChartDetailsActivity.class);
-        switch (v.getId()){
-            case R.id.osText:
-                singleChartDisplay.putExtra("scan-results", scanResults);
-                singleChartDisplay.putExtra("chart", PieChartCreator.OS);
-                startActivity(singleChartDisplay);
-                break;
-            case R.id.vulnCategoryText:
-                singleChartDisplay.putExtra("scan-results", scanResults);
-                singleChartDisplay.putExtra("chart", PieChartCreator.VULN_CATEGORY);
-                startActivity(singleChartDisplay);
-                break;
-                default:
-            case R.id.threatLevelText:
-                singleChartDisplay.putExtra("scan-results", scanResults);
-                singleChartDisplay.putExtra("chart", PieChartCreator.THREAT_LEVEL);
-                startActivity(singleChartDisplay);
-                break;
-            case R.id.attackComplexity:
-                singleChartDisplay.putExtra("scan-results", scanResults);
-                singleChartDisplay.putExtra("chart", PieChartCreator.ATTACK_COMPLEXITY);
-                startActivity(singleChartDisplay);
-                break;
-        }
+
     }
 
     @Override
     public Fragment getFragment(int fragmentID) {
-        switch (fragmentID){
+        switch (fragmentID) {
             case FragmentName.RESULTS_HOME:
                 return operatingSystemsFragment;
             case FragmentName.RESULTS_VULNS:
-                return vulnsFragment;
+                return userAwarenessFragmentFragment;
             case FragmentName.RESULTS_IMPACT:
                 return confidentialityFragment;
             case FragmentName.RESULTS_MITIGATION:
@@ -199,17 +152,17 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void setFragment(Fragment fragment, boolean addToBackStack){
+    public void setFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainFrame, fragment);
-        if (addToBackStack){
+        if (addToBackStack) {
             fragmentTransaction.addToBackStack(null);
         }
         fragmentTransaction.commit();
     }
 
     //TODO MOVE YOUTUBE TO AWARENESS SECTION - RESULTS WILL LINK TO CERTAIN SECTIONS.
-    public void setYoutubeFragment(final String url){
+    public void setYoutubeFragment(final String url) {
         bottomLayout.setVisibility(View.VISIBLE);
         YouTubePlayerFragment youtubeFragment = (YouTubePlayerFragment)
                 getFragmentManager().findFragmentById(R.id.youtubeFragment);
@@ -219,9 +172,10 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
                     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                         YouTubePlayer youTubePlayer, boolean b) {
                         // do any work here to cue video, play video, etc.
-                       // youTubePlayer.cueVideo("5xVh-7ywKpE");
+                        // youTubePlayer.cueVideo("5xVh-7ywKpE");
                         youTubePlayer.cueVideo(url);
                     }
+
                     @Override
                     public void onInitializationFailure(YouTubePlayer.Provider provider,
                                                         YouTubeInitializationResult youTubeInitializationResult) {
@@ -232,12 +186,12 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.bottomNavResults:
                 setFragment(operatingSystemsFragment, false);
                 return true;
-            case R.id.bottomNavVulns:
-                setFragment(vulnsFragment, false);
+            case R.id.bottomSecurityAwareness:
+                setFragment(userAwarenessFragmentFragment, false);
                 return true;
             case R.id.bottomNavImpactScope:
                 setFragment(confidentialityFragment, false);
@@ -245,8 +199,8 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.bottomNavMitigation:
                 setFragment(mitigationFragment, false);
                 return true;
-                default:
-                    return false;
+            default:
+                return false;
         }
     }
 
@@ -278,16 +232,16 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
                     break;
                 }
             case R.id.radio_operating_system:
-              //  toggleHomeRadioButtons(false);
+                //  toggleHomeRadioButtons(false);
                 setFragment(operatingSystemsFragment, false);
                 break;
             case R.id.radio_threat_levels:
-              //  radioButton.
+                //  radioButton.
                 setFragment(threatLevelsFragment, false);
                 break;
 
             case R.id.radio_vulnerability_categories:
-              //  toggleHomeRadioButtons(false);
+                //  toggleHomeRadioButtons(false);
                 setFragment(vulnerabilityCategoriesFragment, false);
                 break;
             case R.id.radio_attack_complexity:
@@ -311,17 +265,11 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getFragmentManager();
-        final Fragment fragment = fragmentManager.findFragmentById(R.id.mainFrame);
-        if (fragment != null) {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStackImmediate();
         } else {
             super.onBackPressed();
-        }
-    }
 
-    private void toggleHomeRadioButtons(boolean isActive){
-        radioOperatingSystems.setChecked(isActive);
-        radioThreatLevels.setChecked(isActive);
-        radioVulerabilityCategory.setChecked(isActive);
+        }
     }
 }

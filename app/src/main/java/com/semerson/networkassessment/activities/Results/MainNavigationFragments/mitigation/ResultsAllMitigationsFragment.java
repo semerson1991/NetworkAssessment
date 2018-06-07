@@ -15,22 +15,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.semerson.networkassessment.Chart.ChartDescription;
-import com.semerson.networkassessment.Chart.LegendHeadings;
-import com.semerson.networkassessment.Chart.PieChartCreator;
+import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
+import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
+import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityFilterMitigationType;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityDetailsFragment;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
-import com.semerson.networkassessment.results.ResultController;
-import com.semerson.networkassessment.results.ScanResults;
-import com.semerson.networkassessment.results.VulnerabilityResult;
+import com.semerson.networkassessment.storage.results.ResultController;
+import com.semerson.networkassessment.storage.results.ScanResults;
+import com.semerson.networkassessment.storage.results.VulnerabilityResult;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
 import com.semerson.networkassessment.utils.table.TableHeadings;
 import com.semerson.networkassessment.utils.table.TableRow;
 import com.semerson.networkassessment.utils.table.TableRowData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -138,7 +137,8 @@ public class ResultsAllMitigationsFragment extends Fragment implements View.OnCl
     public void onClick(View v) {
         if (v instanceof TextView) {
             String textValue = ((TextView) v).getText().toString();
-            android.app.Fragment fragment = VulnerabilityFilterMitigationType.newInstance(scanResults, textValue);
+            VulnerabilityResult vulnerability = scanResults.getVulnerabilityInfo(textValue);
+            Fragment fragment = VulnerabilityDetailsFragment.newInstance(scanResults, vulnerability);
             fragmentHost.setFragment(fragment, true);
         }
     }

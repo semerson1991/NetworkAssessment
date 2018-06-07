@@ -22,7 +22,7 @@
         app:showAsAction="always|withText" />
 
     <item
-        android:id="@+id/bottomNavVulns"
+        android:id="@+id/bottomSecurityAwareness"
         android:icon="@drawable/ic_school_black_24px"
         android:title="@string/nav_Security_Awarenes"
         app:showAsAction="always|withText" />

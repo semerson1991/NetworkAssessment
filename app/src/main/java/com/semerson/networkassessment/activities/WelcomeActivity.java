@@ -1,7 +1,8 @@
 package com.semerson.networkassessment.activities;
 
-import android.accounts.Account;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,21 +13,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.Results.ResultsActivity;
+import com.semerson.networkassessment.activities.settings.SettingsActivity;
 import com.semerson.networkassessment.activities.user.awareness.UserAwareness;
+import com.semerson.networkassessment.storage.AppStorage;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
+    public static boolean ADVANCED_MODE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_area);
 
+        TextView tv = (TextView) findViewById(R.id.mainLayout);
+        tv.setText("- Line Graph of Previous Scans "+"\n " + "- Tip of The Day" + "\n" + "- Date of Last Vulnerability Scan");
+
         final EditText networkName = (EditText) findViewById(R.id.txtUsername);
+
+        SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
+        ADVANCED_MODE = preferences.getBoolean(AppStorage.ADVANCED_MODE, false);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -47,6 +60,10 @@ public class WelcomeActivity extends AppCompatActivity {
                             case R.id.nav_vulnerability_assessment:
                                 Intent activity_vulnScanner = new Intent(WelcomeActivity.this, NetworkScanner.class);
                                 WelcomeActivity.this.startActivity(activity_vulnScanner);
+                                break;
+                            case R.id.nav_assessment_results:
+                                Intent resultActivity = new Intent(WelcomeActivity.this, ResultsActivity.class);
+                                startActivity(resultActivity);
                                 break;
                             case R.id.nav_sec_awareness:
                                 Intent activity_secAwareness = new Intent(WelcomeActivity.this, UserAwareness.class);

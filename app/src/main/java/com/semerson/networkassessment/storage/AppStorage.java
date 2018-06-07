@@ -17,9 +17,6 @@ public class AppStorage {
 
     public static final String ADVANCED_MODE = "advanced_mode";
     public static final String RESULTS_HOME_CUSTOM_CHARTS = "results_home_custom_charts";
-    public static final String PIECHART_OS = "pieChart_OS";
-    public static final String PIECHART_VULN = "pieChart_Vulns";
-    public static final String PIECHART_THREAT = "pieChart_Threat";
-    public static final String PIECHART_COMPLEX = "pieChart_Complex";
+
 
 }

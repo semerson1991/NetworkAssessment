@@ -8,5 +8,6 @@
     <item name="integrityImpact" type="id"/>
     <item name="availabilityImpact" type="id"/>
     <item name="radio_operating_systems" type="id">Operating Systems</item>
+    <item name="txtAwarenessStatistics" type="id">ResultAwarenessStatistics</item>
 
 </resources>

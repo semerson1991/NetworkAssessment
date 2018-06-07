@@ -15,15 +15,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.semerson.networkassessment.Chart.ChartDescription;
-import com.semerson.networkassessment.Chart.LegendHeadings;
-import com.semerson.networkassessment.Chart.PieChartCreator;
+import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
+import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
+import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityFilterComplexity;
-import com.semerson.networkassessment.results.ResultController;
-import com.semerson.networkassessment.results.ScanResults;
+import com.semerson.networkassessment.storage.results.ResultController;
+import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
 
@@ -141,7 +141,7 @@ public class AttackComplexity extends Fragment implements View.OnClickListener {
         if (v instanceof TextView) {
             String threatLevel = ((TextView) v).getText().toString();
             Fragment fragment = VulnerabilityFilterComplexity.newInstance(scanResults, threatLevel);
-            fragmentHost.setFragment(fragment, false);
+            fragmentHost.setFragment(fragment, true);
         }
     }
 }

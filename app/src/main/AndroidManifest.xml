@@ -34,14 +34,18 @@
             android:label="@string/title_activity_user_awareness"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.NetworkScanner" />
-        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.settings.SettingsActivity" />
         <activity android:name=".activities.AccountActivity" />
         <activity android:name=".activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity" />
         <activity android:name=".service.YoutubeActivity" />
         <activity
             android:name=".activities.Results.MainNavigationFragments.home.singleview.VulnerabilityFilterMitigationType"
             android:label="@string/title_activity_vulnerability_filter_mitigation_type"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.settings.Settings"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

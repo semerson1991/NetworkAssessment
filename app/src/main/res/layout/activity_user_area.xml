@@ -26,14 +26,14 @@
         </android.support.v7.widget.Toolbar>
 
 
-<!--        <TextView
+       <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Main Layout"
-            android:id="@+id/textView"
+            android:id="@+id/mainLayout"
             android:layout_gravity="center_vertical"
             android:textAlignment="center"
-            android:textSize="24dp" />-->
+            android:textSize="24dp" />
     </FrameLayout>
 
 
