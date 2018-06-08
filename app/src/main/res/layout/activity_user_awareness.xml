@@ -14,21 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/bottomNavigation"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp">
-
             <FrameLayout
                 android:id="@+id/mainFrame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/bottomNavigation"
                 android:layout_centerHorizontal="true"></FrameLayout>
-        </ScrollView>
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigation"

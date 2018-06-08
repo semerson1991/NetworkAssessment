@@ -15,7 +15,7 @@
         "It is important to always check the settings for new devices and software when possible. "
         "The changes that should be made are the ones that are likely to raise the level of security. "
         "For example, disabling or removing any functions, accounts, or services that are not required "
-        "can largely boost the security. Please see the provided link for more information on secure configuration.\n"
+        "can largely boost the security. Please see the provided resources for more information on secure configuration.\n"
     </string>
 
     <string name="unsecure_settings_use_passwords_title">
@@ -27,7 +27,7 @@
         "Passwords, when implemented correctly are a great way of securing access to a device. "
         "Default passwords should always be changed. These are the passwords that attackers will "
         "often try first. An example of this is the username ‘admin’ with the password ‘password123’. "
-        "PINs and touch-ID such as fingerprint authentication can also be used. Please see the provided link for more guidance on passwords. \n"
+        "PINs and touch-ID such as fingerprint authentication can also be used. Please see the provided resources for more guidance on passwords. \n"
     </string>
 
 

@@ -16,13 +16,15 @@ import com.semerson.networkassessment.activities.fragment.controller.FragmentHos
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.storage.results.VulnerabilityResult;
+import com.semerson.networkassessment.utils.UiObjectCreator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserSecurityAwareness extends Fragment implements View.OnClickListener{
+public class UserSecurityAwareness extends Fragment implements View.OnClickListener {
 
 
     private static final String TITLE = "Recommended Areas of Improvement";
@@ -30,6 +32,14 @@ public class UserSecurityAwareness extends Fragment implements View.OnClickListe
     private ScanResults scanResults;
     private ResultController resultController;
     private LinearLayout mainLayout;
+
+    private LinearLayout layoutFirewall;
+    private LinearLayout layoutMalware;
+    private LinearLayout layoutPassword;
+    private LinearLayout layoutPhishing;
+    private LinearLayout layoutUnsecureConfig;
+    private LinearLayout layoutUpdates;
+    private LinearLayout layoutWeb;
 
     private FragmentHost fragmentHost;
 
@@ -49,40 +59,86 @@ public class UserSecurityAwareness extends Fragment implements View.OnClickListe
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mainLayout = view.findViewById(R.id.mainLayout);
-        TextView vulnCategoryStatistics = view.findViewById(R.id.txtStatistics);
         TextView textViewTitle = view.findViewById(R.id.secure_awareness_title);
         textViewTitle.setText(TITLE);
 
+        layoutFirewall = view.findViewById(R.id.nav_firewall);
+        layoutMalware = view.findViewById(R.id.nav_malware);
+        layoutPassword = view.findViewById(R.id.nav_passwords);
+        layoutPhishing = view.findViewById(R.id.nav_phishing);
+        layoutUnsecureConfig = view.findViewById(R.id.nav_unsecure_configuration);
+        layoutUpdates = view.findViewById(R.id.nav_updates);
+        layoutWeb = view.findViewById(R.id.nav_web);
+
+        int mainbodyText = R.style.custom_mainbody_text;
+        int mainBodyTitle = R.style.custom_mainbody_heading_centered;
+        int mainBodyTitleMedium = R.style.custom_mainbody_heading_medium;
+        int pageTitle = R.style.custom_page_title;
+
+        hideAwarenessImages();
+
         List<VulnerabilityResult> allVulnerabilties = resultController.getAllVulnerabilities();
-        Integer totalVulnerabilities = allVulnerabilties.size();
-
-        String newline = System.getProperty("line.separator");
-        String newParagraph = System.getProperty("line.separator") + " " + System.getProperty("line.separator");
-
 
         List<ResultController.VulnerabilityCategoryOccrences> topVulnerabilityCategories = resultController.getTopVulnerabilityCategories(3);
 
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.total_vulns_title, String.valueOf(allVulnerabilties.size())), mainBodyTitleMedium));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.top_categories_title), mainBodyTitleMedium));
 
-        StringBuilder resultCategoriesStatistics = new StringBuilder();
-        resultCategoriesStatistics.append("Total vulnerabilities detected: "+ totalVulnerabilities.toString() + newParagraph);
-        resultCategoriesStatistics.append("Top categories: " + newline);
-        for (ResultController.VulnerabilityCategoryOccrences vulnerabilityCategoryOccrences : topVulnerabilityCategories){
-            resultCategoriesStatistics.append(vulnerabilityCategoryOccrences.getVulnerabilityFamily() + ": "+resultController.getCategoryOccurrenceAsPercent(vulnerabilityCategoryOccrences.getVulnerabilityFamily()) + " of vulnerabilties." +  newline);
+        List<String> vulnerabilityCategories = new ArrayList<>();
+        for (ResultController.VulnerabilityCategoryOccrences vulnerabilityCategoryOccrences : topVulnerabilityCategories) {
+            String vulnerabilityFamily = vulnerabilityCategoryOccrences.getVulnerabilityFamily();
+            mainLayout.addView(UiObjectCreator.createTextView(
+                    context,
+                    getString(R.string.top_vulnerability_category, vulnerabilityCategoryOccrences.getVulnerabilityFamily(),
+                            resultController.getCategoryOccurrenceAsPercent(vulnerabilityFamily)),
+                    mainbodyText));
+            vulnerabilityCategories.add(vulnerabilityFamily);
         }
 
-        resultCategoriesStatistics.append(newParagraph + newParagraph);
-        resultCategoriesStatistics.append("It is highly recommended to check the following security awarenes sections: "+ newParagraph);
-        resultCategoriesStatistics.append("<section> "+ newParagraph);
-        resultCategoriesStatistics.append("<section> "+ newParagraph);
-        resultCategoriesStatistics.append("<section> "+ newParagraph);
 
-        resultCategoriesStatistics.append(newParagraph);
-        resultCategoriesStatistics.append("Please complete the following quiz: "+ newParagraph);
-        resultCategoriesStatistics.append("<quiz> "+ newParagraph);
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.recommended_categories), mainBodyTitleMedium));
+        for (String vulnerabilityCategory : vulnerabilityCategories) {
+            displayAwarenessImage(vulnerabilityCategory);
+        }
 
-        vulnCategoryStatistics.setText(resultCategoriesStatistics.toString());
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.results_recommended_quiz), mainBodyTitleMedium));
     }
 
+    private void displayAwarenessImage(String vulnCategory) {
+        final String webApp = "Web application abuses";
+        final String weakAuth = "Weak Authentication";
+        final String obsoletePlateform = "Obsolete platform";
+        final String unsecureSetting = "Unsecure Setting";
+        final String serviceDetection = "Service detection";
+        final String informationExposure = "Information Exposure";
+
+        switch (vulnCategory) {
+            case webApp:
+                layoutWeb.setVisibility(View.VISIBLE);
+                break;
+            case weakAuth:
+                layoutPassword.setVisibility(View.VISIBLE);
+                break;
+            case obsoletePlateform:
+                layoutUpdates.setVisibility(View.VISIBLE);
+                break;
+            case unsecureSetting:
+            case serviceDetection:
+            case informationExposure:
+                layoutUnsecureConfig.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    private void hideAwarenessImages() {
+        layoutFirewall.setVisibility(View.GONE);
+        layoutMalware.setVisibility(View.GONE);
+        layoutPassword.setVisibility(View.GONE);
+        layoutPhishing.setVisibility(View.GONE);
+        layoutUnsecureConfig.setVisibility(View.GONE);
+        layoutUpdates.setVisibility(View.GONE);
+        layoutWeb.setVisibility(View.GONE);
+    }
 
     public static UserSecurityAwareness newInstance(ScanResults scanResults) {
         UserSecurityAwareness fragment = new UserSecurityAwareness();

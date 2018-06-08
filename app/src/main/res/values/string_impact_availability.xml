@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="availabilityDescription">"Measures the impact on the availability of successfully exploited"
+    "vulnerabilities. Availability refers to the accessibility of information resources.\n\n"
+    "None: There is no impact to the availability of the system\n\n"
+    "Low: There is a reduction to performance or interruptions in resource availability. E.g. Reducing the internet connection speed.\n\n"
+    "High: There is total shutdown of the affected resource. The attacker can make the resource completely unavailable to use."</string>
+
+    <string name="IntegrityDescription">"Measures the impact on the integrity of successfully exploited"
+    "vulnerabilities. Integrity refers to the trustworthiness and guaranteed accuracy of information.\n\n"
+    "None: There is no impact to the integrity of the system\n\n"
+    "Low: Modification over some system files is possible but the attacker is limited on what can be modified. For example, "
+        "the attacker may modify some files but have no control over what files can be modified, and therefore can only modify files "
+        "that are within the scope\n\n"
+    "High: There is total compromise of system integrity. There is complete loss of system protection, and the attacker is able to modify "
+    "any file on the system" </string>
+
+    <string name="ConfidentialityDescription">"Measures the impact on the confidentiality"
+    "of a successfully exploited vulnerability. Confidentiality refers to the limiting of "
+    "information access and disclosure to only authorised users, as well as preventing "
+    "unauthorised access.\n\n"
+    "None: There is no impact to the confidentiality of the system.\n\n"
+    "Low: There is considerable information disclosure. Access to some system files is "
+    p"possible, but the attacker does not have control over what is obtained. An example"
+    "of this is being able to view certain information within a database\n\n"
+    "High: There is total information disclosure, resulting in all system files being "
+    "revealed. The attacker is able to read all the systems data."</string>
+</resources>

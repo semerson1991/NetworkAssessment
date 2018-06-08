@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.utils.UiObjectCreator;
@@ -18,15 +19,15 @@ import com.semerson.networkassessment.utils.UiObjectCreator;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UnsecureSettingsAwareness extends Fragment {
+public class UnsecureConfigurationAwareness extends Fragment {
 
-    public static final String TITLE = "Unsecure Settings";
+    public static final String TITLE = "Unsecure Configuration";
 
     private Context context;
     private FragmentHost fragmentHost;
     private LinearLayout mainLayout;
 
-    public UnsecureSettingsAwareness() {
+    public UnsecureConfigurationAwareness() {
         // Required empty public constructor
     }
 
@@ -75,11 +76,14 @@ public class UnsecureSettingsAwareness extends Fragment {
 
         mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.unsecure_settings_url2_description), mainBodyTitleMedium));
         mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.unsecure_settings_url2), mainbodyText));
+
+        PhotoView photoView = (PhotoView) view.findViewById(R.id.photo_view);
+        photoView.setVisibility(View.GONE);
     }
 
 
-    public static UnsecureSettingsAwareness newInstance() {
-        UnsecureSettingsAwareness fragment = new UnsecureSettingsAwareness();
+    public static UnsecureConfigurationAwareness newInstance() {
+        UnsecureConfigurationAwareness fragment = new UnsecureConfigurationAwareness();
         Bundle bundle = new Bundle();
         //bundle.putParcelable("scan-results", scanResults);
         fragment.setArguments(bundle);

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.utils.UiObjectCreator;
@@ -67,6 +68,9 @@ public class UpdatesAwareness extends Fragment {
 
         mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.updates_url2_desc), mainBodyTitleMedium));
         mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.updates_url2), mainbodyText));
+
+        PhotoView photoView = (PhotoView) view.findViewById(R.id.photo_view);
+        photoView.setVisibility(View.GONE);
     }
 
 

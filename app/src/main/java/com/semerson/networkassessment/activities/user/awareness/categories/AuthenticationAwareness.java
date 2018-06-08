@@ -16,6 +16,8 @@ import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.utils.UiObjectCreator;
 
+import org.w3c.dom.Text;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -51,6 +53,7 @@ public class AuthenticationAwareness extends Fragment {
 
         TextView textViewTitle = view.findViewById(R.id.secure_awareness_title);
         textViewTitle.setText(TITLE);
+
 
         //Description
         mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.passwords_description_title), mainBodyTitle));

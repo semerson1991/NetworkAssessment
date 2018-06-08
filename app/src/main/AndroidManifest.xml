@@ -10,6 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
 
         <!-- Launching Activity -->
@@ -37,7 +39,6 @@
         <activity android:name=".activities.settings.SettingsActivity" />
         <activity android:name=".activities.AccountActivity" />
         <activity android:name=".activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity" />
-        <activity android:name=".service.YoutubeActivity" />
         <activity
             android:name=".activities.Results.MainNavigationFragments.home.singleview.VulnerabilityFilterMitigationType"
             android:label="@string/title_activity_vulnerability_filter_mitigation_type"

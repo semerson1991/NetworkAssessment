@@ -117,7 +117,7 @@ public class TableCreator {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(gravity);
-        layout.setPadding(20, 0, 20, 10);
+        layout.setPadding(10, 0, 10, 10);
         layout.setLayoutParams(layoutParams);
 
         return layout;

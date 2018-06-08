@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NetworkAssessment</string>
+    <string name="app_name">Network Assessment</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_network_scan">NetworkScan</string>
     <string name="title_activity_results">Results</string>
@@ -36,4 +36,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_web_app_awareness">WebAppAwareness</string>
     <string name="title_activity_phishing_awareness">PhishingAwareness</string>
+    <string name="password">password</string>
+    <string name="awarenessKey">awarenessPage</string>
+
 </resources>

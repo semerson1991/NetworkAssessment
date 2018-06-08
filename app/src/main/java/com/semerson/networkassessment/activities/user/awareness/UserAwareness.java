@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.Results.FragmentName;
@@ -19,6 +20,14 @@ import com.semerson.networkassessment.activities.Results.MainNavigationFragments
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.ThreatLevels;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.VulnerabilityCategories;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.activities.user.awareness.categories.AuthenticationAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.FirewallAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.MalwareAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.PhishingAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.UnsecureConfigurationAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.UpdatesAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.WebAppAwareness;
+import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.utils.BottomNavigationViewHelper;
 
 public class UserAwareness extends AppCompatActivity implements View.OnClickListener, FragmentHost, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +43,7 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -41,9 +51,22 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
         securityAwarenessHomeFragment = SecurityAwarenessHomeFragment.newInstance();
         securityAwarenessQuizFragment = SecurityAwarenessQuizFragment.newInstance();
 
-        if (savedInstanceState == null) {
-            setFragment(securityAwarenessHomeFragment, true);
+        Bundle bundle = getIntent().getExtras();
+        Fragment fragment = null;
+        if (bundle != null) {
+            Integer awarenessPageId = bundle.getInt(getString(R.string.awarenessKey), -1);
+            fragment = findFragment(awarenessPageId);
+            if (fragment != null) {
+                setFragment(fragment, false);
+            }
         }
+        if (fragment == null) {
+            if (savedInstanceState == null) {
+                setFragment(securityAwarenessHomeFragment, true);
+            }
+        }
+
+
     }
 
     @Override
@@ -68,6 +91,12 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    public void setFragment(Fragment fragment, boolean addToBackStack, int fragmentIdToReplace) {
+
+    }
+
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.bottomNavAwarenessHome:
@@ -85,7 +114,7 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
     public void onBackPressed() {
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
-            fragmentManager.popBackStackImmediate();
+            fragmentManager.popBackStack();
         } else {
             super.onBackPressed();
 
@@ -94,7 +123,41 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        Fragment fragment = null;
+        if (v instanceof LinearLayout) {
+            fragment = findFragment(v.getId());
+        }
+        if (fragment != null) {
+            setFragment(fragment, true);
+        }
+    }
 
+    private Fragment findFragment(int fragmentName) {
+        Fragment fragment = null;
+        switch (fragmentName) {
+            case (R.id.nav_passwords):
+                fragment = AuthenticationAwareness.newInstance();
+                break;
+            case (R.id.nav_firewall):
+                fragment = FirewallAwareness.newInstance();
+                break;
+            case (R.id.nav_malware):
+                fragment = MalwareAwareness.newInstance();
+                break;
+            case (R.id.nav_phishing):
+                fragment = PhishingAwareness.newInstance();
+                break;
+            case (R.id.nav_unsecure_configuration):
+                fragment = UnsecureConfigurationAwareness.newInstance();
+                break;
+            case (R.id.nav_updates):
+                fragment = UpdatesAwareness.newInstance();
+                break;
+            case (R.id.nav_web):
+                fragment = WebAppAwareness.newInstance();
+                break;
+        }
+        return fragment;
     }
 
     @Override

@@ -33,6 +33,8 @@ import com.semerson.networkassessment.utils.table.TableHeadings;
 import com.semerson.networkassessment.utils.table.TableRow;
 import com.semerson.networkassessment.utils.table.TableRowData;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +52,7 @@ public class AvailabilityFragment extends Fragment implements View.OnClickListen
     private View rootview;
     private ResultController resultController;
     private TextView availabilityChartText;
-
+    private  TextView textView;
     private RadioButton radioAvailability;
 
     public AvailabilityFragment() {
@@ -80,6 +82,10 @@ public class AvailabilityFragment extends Fragment implements View.OnClickListen
         mainLayout.addView(availabilityChartText);
         radioAvailability = (RadioButton) view.findViewById(R.id.radio_availability);
         radioAvailability.setChecked(true);
+
+        textView = view.findViewById(R.id.txtDescription);
+        textView.setText(R.string.availabilityDescription);
+        textView.setVisibility(View.GONE);
 
         TableCreator tableCreator = new TableCreator();
         tableCreator.appendTableHeader(context, mainLayout, TableHeadings.HOST, TableHeadings.HIGH, TableHeadings.LOW,

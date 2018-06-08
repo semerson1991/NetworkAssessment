@@ -18,16 +18,43 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/bottomNavigation"
             android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_above="@+id/bottomNavigation">
-            <FrameLayout
-                android:id="@+id/mainFrame"
+            android:layout_marginRight="1dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/bottomNavigation"
-                android:layout_centerHorizontal="true"></FrameLayout>
+                android:orientation="vertical">
 
+                <FrameLayout
+                    android:id="@+id/mainFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/bottomNavigation"
+                    android:layout_centerHorizontal="true"></FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/secondFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/bottomNavigation"
+                    android:layout_centerHorizontal="true"></FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/thirdFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/bottomNavigation"
+                    android:layout_centerHorizontal="true"></FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/fourthFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/bottomNavigation"
+                    android:layout_centerHorizontal="true"></FrameLayout>
+            </LinearLayout>
         </ScrollView>
 
         <RelativeLayout
@@ -40,9 +67,9 @@
                 android:id="@+id/youtubeFragment"
                 android:name="com.google.android.youtube.player.YouTubePlayerFragment"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_height="wrap_content"></fragment>
+                android:layout_marginRight="2dp"></fragment>
         </RelativeLayout>
 
 

@@ -6,21 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".activities.user.awareness.categories.AuthenticationAwareness">
 
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomNavigation"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingRight="5dp"
         android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:paddingTop="20dp">
 
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
             android:id="@+id/secure_awareness_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:textAlignment="center"
             android:textColor="@android:color/background_dark"
             android:textColorLink="@color/colorPrimary"
@@ -29,10 +38,17 @@
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/photo_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="250dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:adjustViewBounds="true"
-            android:paddingBottom="10dp"/>
+            android:cropToPadding="false"
+            android:paddingBottom="10dp"
+            android:scaleType="centerInside">
+
+        </com.github.chrisbanes.photoview.PhotoView>
 
 
     </LinearLayout>
+    </ScrollView>
 </FrameLayout>

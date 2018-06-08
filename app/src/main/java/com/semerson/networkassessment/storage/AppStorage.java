@@ -18,5 +18,8 @@ public class AppStorage {
     public static final String ADVANCED_MODE = "advanced_mode";
     public static final String RESULTS_HOME_CUSTOM_CHARTS = "results_home_custom_charts";
 
+    public static final String RISK_SCORE_HISTORY = "Risk Score History";
 
+
+    public static final String LAST_SCAN_DATE = "Last Scan Date";
 }

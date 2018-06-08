@@ -5,48 +5,74 @@
     android:layout_height="match_parent"
     tools:context=".activities.Results.MainNavigationFragments.impact.ConfidentialityFragment">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_height="match_parent" >
 
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/mainLayout"
+        <TextView
+            android:id="@+id/txtImpactTitle"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="60dp"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content"
+            android:text="Impact Scope"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtImpactTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Impact Scope"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="20dp">
 
-            <RadioGroup
+            <RadioButton
+                android:id="@+id/radio_confidentiality"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:orientation="vertical">
+                android:onClick="onRadioButtonClicked"
+                android:paddingRight="5dp"
+                android:text="@string/confidentialityImpact" />
 
-                <RadioButton android:id="@+id/radio_confidentiality"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/confidentialityImpact"
-                    android:onClick="onRadioButtonClicked"/>
-                <RadioButton android:id="@+id/radio_integrity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/integrityImpact"
-                    android:onClick="onRadioButtonClicked"/>
-                <RadioButton android:id="@+id/radio_availability"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/availabilityImpact"
-                    android:onClick="onRadioButtonClicked"/>
-            </RadioGroup>
+            <RadioButton
+                android:id="@+id/radio_integrity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:paddingRight="5dp"
+                android:text="@string/integrityImpact" />
+
+            <RadioButton
+                android:id="@+id/radio_availability"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/availabilityImpact" />
+
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/impact_confidentiality_help"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:scaleType="fitStart"
+            android:layout_marginLeft="10dp"
+            android:onClick="showImpactText"
+            android:src="@drawable/question_mark" />
+
+        <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:paddingTop="20dp"
+            android:textSize="14sp" />
 
 
-
-        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

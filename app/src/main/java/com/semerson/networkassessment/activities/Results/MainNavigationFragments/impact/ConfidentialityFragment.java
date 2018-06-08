@@ -83,6 +83,10 @@ public class ConfidentialityFragment extends Fragment implements View.OnClickLis
         radioButtonConfidentiality = (RadioButton) view.findViewById(R.id.radio_confidentiality);
         radioButtonConfidentiality.setChecked(true);
 
+        TextView textView = view.findViewById(R.id.txtDescription);
+        textView.setText(R.string.ConfidentialityDescription);
+        textView.setVisibility(View.GONE);
+
         TableCreator tableCreator = new TableCreator();
         tableCreator.appendTableHeader(context, mainLayout, TableHeadings.HOST, TableHeadings.HIGH, TableHeadings.LOW,
                 TableHeadings.TOTAL);
