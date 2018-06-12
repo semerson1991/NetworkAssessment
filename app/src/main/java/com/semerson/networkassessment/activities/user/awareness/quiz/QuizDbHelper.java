@@ -12,7 +12,6 @@ import com.semerson.networkassessment.activities.user.awareness.quiz.questions.M
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.MobileSecurityQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.RansomwareQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.SocialEngineeringQuestions;
-import com.semerson.networkassessment.activities.user.awareness.quiz.questions.SoftwareConfigurationQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.WebQuestions;
 
 import java.util.ArrayList;
@@ -57,13 +56,13 @@ public class QuizDbHelper extends SQLiteOpenHelper {
 
     private void fillQuestionsTable() {
         List<Question> allQuestions = new ArrayList<>();
-        allQuestions.addAll(AuthenticationQuestions.getQuestions());
-        allQuestions.addAll(MalwareQuestions.getQuestions());
-        allQuestions.addAll(MobileSecurityQuestions.getQuestions());
-        allQuestions.addAll(RansomwareQuestions.getQuestions());
-        allQuestions.addAll(SocialEngineeringQuestions.getQuestions());
-        //allQuestions.addAll(SoftwareConfigurationQuestions.getQuestions());
-        allQuestions.addAll(WebQuestions.getQuestions());
+        allQuestions.addAll(AuthenticationQuestions.getAllQuestions());
+        allQuestions.addAll(MalwareQuestions.getAllQuestions());
+        allQuestions.addAll(MobileSecurityQuestions.getAllQuestions());
+        allQuestions.addAll(RansomwareQuestions.getAllQuestions());
+        allQuestions.addAll(SocialEngineeringQuestions.getAllQuestions());
+        //allQuestions.addAll(SoftwareConfigurationQuestions.getAllQuestions());
+        allQuestions.addAll(WebQuestions.getAllQuestions());
 
         for (Question question : allQuestions) {
             addQuestion(question);

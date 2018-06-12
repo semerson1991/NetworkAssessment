@@ -7,22 +7,17 @@ import java.util.List;
 
 public class WebQuestions {
 
-    public static List<Question> getQuestions() {
+    public static List<Question> getAllQuestions() {
         List<Question> questions = new ArrayList<>();
-        Question q1 = new Question("What does SSL stand for?",
-                "Secure Sockets Layer",
-                "Standard Security Layer",
-                "Safe & Secure Link",
-                "Solid State Link",
-                1, Question.DIFFICULTY_EASY, Question.CATEGORY_WEB_SEC);
-        questions.add(q1);
-        Question q2 = new Question("What does an SSL connection do?",
-                "Loads malware onto your computer",
-                "Scans websites for malware",
-                "Creates a firewall",
-                "Sends data through a secure \"tunnel\"",
-                3, Question.DIFFICULTY_EASY, Question.CATEGORY_WEB_SEC);
-        questions.add(q2);
+        questions.addAll(getEasyQuestions());
+        questions.addAll(getMediumQuestions());
+        questions.addAll(getHardQuestions());
+        return questions;
+    }
+
+    public static List<Question> getEasyQuestions() {
+        List<Question> questions = new ArrayList<>();
+
         Question q3 = new Question("The URL of a website containing SSL should contain:",
                 "HTTPS",
                 "HTTP",
@@ -65,6 +60,19 @@ public class WebQuestions {
                 "That the information entered into the site is not encrypted",
                 1, Question.DIFFICULTY_EASY, Question.CATEGORY_WEB_SEC);
         questions.add(q8);
+
+        return questions;
+    }
+
+    public static List<Question> getMediumQuestions() {
+        List<Question> questions = new ArrayList<>();
+        Question q1 = new Question("What does SSL stand for?",
+                "Secure Sockets Layer",
+                "Standard Security Layer",
+                "Safe & Secure Link",
+                "Solid State Link",
+                1, Question.DIFFICULTY_MEDIUM, Question.CATEGORY_WEB_SEC);
+        questions.add(q1);
         Question q9 = new Question("How can plug-ins or extensions make you vulnerable?",
                 "Bloatware",
                 "Malware",
@@ -72,6 +80,18 @@ public class WebQuestions {
                 "All of these answers",
                 1, Question.DIFFICULTY_MEDIUM, Question.CATEGORY_WEB_SEC);
         questions.add(q9);
+        return questions;
+    }
+
+    public static List<Question> getHardQuestions() {
+        List<Question> questions = new ArrayList<>();
+        Question q2 = new Question("What does an SSL connection do?",
+                "Loads malware onto your computer",
+                "Scans websites for malware",
+                "Creates a firewall",
+                "Sends data through a secure \"tunnel\"",
+                3, Question.DIFFICULTY_HARD, Question.CATEGORY_WEB_SEC);
+        questions.add(q2);
         return questions;
     }
 }

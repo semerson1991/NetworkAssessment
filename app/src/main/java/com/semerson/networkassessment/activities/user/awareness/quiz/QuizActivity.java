@@ -212,6 +212,7 @@ public class QuizActivity extends AppCompatActivity {
         rb1.setTextColor(Color.RED);
         rb2.setTextColor(Color.RED);
         rb3.setTextColor(Color.RED);
+        rb4.setTextColor(Color.RED);
 
         switch (currentQuestion.getAnswerNr()) {
             case 1:

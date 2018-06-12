@@ -5,10 +5,54 @@
     android:layout_height="match_parent"
     tools:context=".activities.user.awareness.SecurityAwarenessQuizFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_above="@+id/bottomNavigation"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp">
 
+        <!-- TODO: Update blank fragment layout -->
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:id="@+id/secure_awareness_home_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:textAlignment="center"
+                android:text="@string/Security_Awareness"
+                android:textColor="@android:color/background_dark"
+                android:textColorLink="@color/colorPrimary"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/idQuizTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Awareness quizzes"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <include layout="@layout/quiz_home_authentication_progress"/>
+            <include layout="@layout/quiz_home_malware_progress"/>
+            <include layout="@layout/quiz_home_malware_progress"/>
+            <include layout="@layout/quiz_home_ransomware_progress"/>
+            <include layout="@layout/quiz_home_social_engineering_progress"/>
+            <include layout="@layout/quiz_home_software_security_progress"/>
+            <include layout="@layout/quiz_home_web_security_progress"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 </FrameLayout>

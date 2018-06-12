@@ -7,7 +7,15 @@ import java.util.List;
 
 public class RansomwareQuestions {
 
-    public static List<Question> getQuestions() {
+    public static List<Question> getAllQuestions() {
+        List<Question> questions = new ArrayList<>();
+        questions.addAll(getEasyQuestions());
+        questions.addAll(getMediumQuestions());
+        questions.addAll(getHardQuestions());
+        return questions;
+    }
+
+    public static List<Question> getEasyQuestions() {
         List<Question> questions = new ArrayList<>();
         Question q1 = new Question("This type of malware locks and encrypts your files until a ransom is paid:",
                 "Rootkits",
@@ -23,13 +31,7 @@ public class RansomwareQuestions {
                 "Creates subfolders",
                 1, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
         questions.add(q2);
-        Question q3 = new Question("Ransomware is typically found in these file types:",
-                "Excel files, Jpeg, and screen saver files",
-                "PDF files",
-                "Macro enabled Office documents, executable files, and JavaScript files",
-                "Macro Enabled Office documents, screen saver files, and JavaScript files",
-                3, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
-        questions.add(q3);
+
         Question q4 = new Question("Users have been infected by compromised __________________________.",
                 "All listed",
                 "Ad networks",
@@ -37,13 +39,7 @@ public class RansomwareQuestions {
                 "Phishing emails",
                 1, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
         questions.add(q4);
-        Question q5 = new Question("",
-                "",
-                "",
-                "",
-                "",
-                1, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
-        questions.add(q5);
+
         Question q6 = new Question("Most commonly, ransomware attackers request payment via:",
                 "PayPal",
                 "Bitcoin",
@@ -65,20 +61,45 @@ public class RansomwareQuestions {
                 "True",
                 4, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
         questions.add(q8);
+
+        return questions;
+    }
+
+    public static List<Question> getMediumQuestions() {
+        List<Question> questions = new ArrayList<>();
         Question q9 = new Question("What four strategies can be employed to help prevent ransomware attacks?",
                 "Safe web browsing, don’t enable macros in attached documents, back up files regularly, and keep software up to date",
                 "Use caution around links, only open executable files from a saved email, store old files off site, download from only known sources",
                 "Keep software up to date, have IT open any strange attachments that are emailed to you, power down and shut off your computer at the end of the day, only use the incognito tab feature when browsing the web.",
                 "None of the above",
-                1, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
+                1, Question.DIFFICULTY_MEDIUM, Question.RANSOMWARE);
         questions.add(q9);
         Question q10 = new Question("If your computer is infected by ransomware you should:",
                 "Disconnect any external drives and networks",
                 "Power down your computer",
                 "Report the incident immediately",
                 "All listed",
-                4, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
+                4, Question.DIFFICULTY_MEDIUM, Question.RANSOMWARE);
         questions.add(q10);
+        Question q3 = new Question("Ransomware is typically found in these file types:",
+                "Excel files, Jpeg, and screen saver files",
+                "PDF files",
+                "Macro enabled Office documents, executable files, and JavaScript files",
+                "Macro Enabled Office documents, screen saver files, and JavaScript files",
+                3, Question.DIFFICULTY_MEDIUM, Question.RANSOMWARE);
+        questions.add(q3);
+        return questions;
+    }
+
+    public static List<Question> getHardQuestions() {
+        List<Question> questions = new ArrayList<>();
+        Question q1 = new Question("A good practice to prevent ransomware attacks is to:",
+                "Nothing needs to be applied as the anti-virus will always prevent such attacks",
+                "Only open files with a common file extensions as this means it is safe",
+                "Prevent all macros from executing - unless you have explicitly trusted them.",
+                "None of the above options",
+                3, Question.DIFFICULTY_HARD, Question.RANSOMWARE);
+        questions.add(q1);
         return questions;
     }
 }

@@ -107,9 +107,10 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
                 setFragment(securityAwarenessHomeFragment, false);
                 return true;
             case R.id.bottomNavAwarenessQuizes:
+                setFragment(securityAwarenessQuizFragment, false);
                 //setFragment(securityAwarenessQuizFragment, false);
-                Intent activity_quiz = new Intent(UserAwareness.this, QuizHome.class);
-                UserAwareness.this.startActivity(activity_quiz);
+                //Intent activity_quiz = new Intent(UserAwareness.this, QuizHome.class);
+                //UserAwareness.this.startActivity(activity_quiz);
                 return true;
             default:
                 return false;

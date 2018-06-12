@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="quizColorBackground">#BCAAA4</color>
+
+    <color name="colorProgressBarFirst">#fff22222</color>
+    <color name="colorProgressBarSecond">#ff77b539</color>
+    <color name="colorProgressBarThird">#ff39b54a</color>
 </resources>
