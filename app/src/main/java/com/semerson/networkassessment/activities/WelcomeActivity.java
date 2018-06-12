@@ -3,7 +3,9 @@ package com.semerson.networkassessment.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.net.Network;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -39,6 +41,7 @@ import com.semerson.networkassessment.activities.Results.ResultsActivity;
 import com.semerson.networkassessment.activities.settings.SettingsActivity;
 import com.semerson.networkassessment.activities.user.awareness.UserAwareness;
 import com.semerson.networkassessment.storage.AppStorage;
+import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.UiObjectCreator;
 
 import org.joda.time.DateTime;
@@ -49,6 +52,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -98,8 +103,28 @@ public class WelcomeActivity extends AppCompatActivity implements
                                 WelcomeActivity.this.startActivity(activity_vulnScanner);
                                 break;
                             case R.id.nav_assessment_results:
-                                Intent resultActivity = new Intent(WelcomeActivity.this, ResultsActivity.class);
-                                startActivity(resultActivity);
+                                boolean test = true;
+                                if (test) { //TODO REMOVE
+                                    AssetManager assetManager = getAssets();
+                                    InputStream input;
+                                    try {
+                                        input = assetManager.open("sampleJson.txt");
+                                        int size = input.available();
+                                        byte[] buffer = new byte[size];
+                                        input.read(buffer);
+                                        input.close();
+
+                                        // byte buffer into a string
+                                        String text = new String(buffer);
+                                        NetworkScanner networkScanner = new NetworkScanner();
+                                        ScanResults scanResults = networkScanner.processResponseTest(text);
+                                        Intent resultActivity = new Intent(WelcomeActivity.this, ResultsActivity.class);
+                                        resultActivity.putExtra("scan-results", scanResults);
+                                        startActivity(resultActivity);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                                 break;
                             case R.id.nav_sec_awareness:
                                 Intent activity_secAwareness = new Intent(WelcomeActivity.this, UserAwareness.class);
@@ -133,7 +158,7 @@ public class WelcomeActivity extends AppCompatActivity implements
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-       lineChart = (LineChart) findViewById(R.id.linechart);
+        lineChart = (LineChart) findViewById(R.id.linechart);
         lineChart.setOnChartGestureListener(this);
         lineChart.setOnChartValueSelectedListener(this);
 
@@ -164,21 +189,20 @@ public class WelcomeActivity extends AppCompatActivity implements
         lineChart.getAxisRight().setEnabled(false);
 
 
-
-      //  LocalDate date = new LocalDate( 01,06,  2018 );
+        //  LocalDate date = new LocalDate( 01,06,  2018 );
 
         String lastScanDate = preferences.getString(AppStorage.LAST_SCAN_DATE, null);
-        if (lastScanDate != null){
+        if (lastScanDate != null) {
             DateTimeFormatter dateformat = DateTimeFormat.forPattern("dd-MM-yyyy");
             DateTime dt = new DateTime(lastScanDate);
             TextView lastScanDateTxt = findViewById(R.id.lastscandate);
-            lastScanDateTxt.setText("Last scan date: "+dt.toString("dd-MM-yyyy"));
+            lastScanDateTxt.setText("Last scan date: " + dt.toString("dd-MM-yyyy"));
         }
 
 
-        TextView textViewHomePoster = UiObjectCreator.createTextView(this,"Securing your home: https://www.sans.org/sites/default/files/2017-12/STH-Poster-CyberSecureHome-Print_0.pdf",
+        TextView textViewHomePoster = UiObjectCreator.createTextView(this, "Securing your home: https://www.sans.org/sites/default/files/2017-12/STH-Poster-CyberSecureHome-Print_0.pdf",
                 R.style.custom_mainbody_text);
-        textViewHomePoster.setPadding(0,20,0,0);
+        textViewHomePoster.setPadding(0, 20, 0, 0);
         mainLayout.addView(textViewHomePoster);
 
     }

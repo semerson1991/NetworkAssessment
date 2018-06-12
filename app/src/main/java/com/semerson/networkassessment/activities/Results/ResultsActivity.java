@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -264,12 +265,16 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
+        Log.d("FragmentList",getSupportFragmentManager().getFragments().toString());
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
+            Log.d("OnBackPressed","Popping stack");
             fragmentManager.popBackStackImmediate();
         } else {
             super.onBackPressed();
 
         }
+
+
     }
 }

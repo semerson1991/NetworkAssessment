@@ -82,6 +82,8 @@ public class TableCreator {
         }
 
         for (TableRow tableRow : tableRows){
+           // tableRow.getLayout().setBackground(customBoarder);
+            tableRow.getLayout().setPadding(5, 5, 5, 5);
             view.addView(tableRow.getLayout());
         }
     }
@@ -95,7 +97,7 @@ public class TableCreator {
     private LinearLayout appendTableRow(Context context,  LinearLayout view, Drawable customBoarder, TableRow tableRow) {
         LinearLayout tableRowLayout = new LinearLayout(context);
         tableRowLayout.setOrientation(LinearLayout.HORIZONTAL);
-        tableRowLayout.setBackground(customBoarder);
+
 
         List<TableRowData> allTableRowData = tableRow.getTableDataRows();
         for (TableRowData tableRowData : allTableRowData){
@@ -108,6 +110,7 @@ public class TableCreator {
             column.addView(createTextView(context, tableRowData));
             tableRowLayout.addView(column);
         }
+       // tableRowLayout.setBackground(customBoarder);
         return tableRowLayout;
     }
 

@@ -38,5 +38,7 @@
     <string name="title_activity_phishing_awareness">PhishingAwareness</string>
     <string name="password">password</string>
     <string name="awarenessKey">awarenessPage</string>
+    <string name="title_activity_quiz">QuizActivity</string>
+    <string name="title_activity_quiz_home">QuizHome</string>
 
 </resources>

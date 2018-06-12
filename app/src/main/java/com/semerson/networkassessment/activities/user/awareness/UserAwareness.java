@@ -3,6 +3,7 @@ package com.semerson.networkassessment.activities.user.awareness;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -19,6 +20,7 @@ import com.semerson.networkassessment.activities.Results.FragmentName;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.OperatingSystems;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.ThreatLevels;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.VulnerabilityCategories;
+import com.semerson.networkassessment.activities.WelcomeActivity;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.user.awareness.categories.AuthenticationAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.FirewallAwareness;
@@ -27,6 +29,8 @@ import com.semerson.networkassessment.activities.user.awareness.categories.Phish
 import com.semerson.networkassessment.activities.user.awareness.categories.UnsecureConfigurationAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.UpdatesAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.WebAppAwareness;
+import com.semerson.networkassessment.activities.user.awareness.quiz.QuizActivity;
+import com.semerson.networkassessment.activities.user.awareness.quiz.QuizHome;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.utils.BottomNavigationViewHelper;
 
@@ -103,7 +107,9 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
                 setFragment(securityAwarenessHomeFragment, false);
                 return true;
             case R.id.bottomNavAwarenessQuizes:
-                setFragment(securityAwarenessQuizFragment, false);
+                //setFragment(securityAwarenessQuizFragment, false);
+                Intent activity_quiz = new Intent(UserAwareness.this, QuizHome.class);
+                UserAwareness.this.startActivity(activity_quiz);
                 return true;
             default:
                 return false;

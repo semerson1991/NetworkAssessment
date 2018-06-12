@@ -119,4 +119,39 @@ public class NetworkScanner extends AppCompatActivity implements RequestBuilder,
         resultActivity.putExtra("scan-results", scanResults);
         startActivity(resultActivity);
     }
+
+
+    public ScanResults processResponseTest(String response) {//TODO REMOVE
+        Log.i(TAG, "adding retrieved scan results");
+        ScanResults scanResults = new ScanResults();
+        try {
+//TODO Error checking - need to ensure it is a 200 response with Json data
+            JSONObject jsonResponse = new JSONObject(response);
+            String id;
+            String name;
+            JSONArray services;
+
+            //Nmap Results
+            JSONObject nmapResult = jsonResponse.getJSONObject("nmap_result");
+            JSONArray hosts = nmapResult.getJSONArray("hosts");
+
+            for (int i = 0; i < hosts.length(); i++) {
+                JSONObject host = hosts.getJSONObject(i);
+
+                scanResults.appendHost(host);
+            }
+
+            //OpenVas Results
+            JSONArray openvasResult = jsonResponse.getJSONArray("openvas_result");
+            JSONArray openvasResults = openvasResult.getJSONArray(0);
+            for (int i = 0; i < openvasResults.length(); i++) {
+                JSONObject ovasResult = openvasResults.getJSONObject(i);
+                scanResults.appendOpenVasResults(ovasResult);
+            }
+
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        return scanResults;
+    }
 }
