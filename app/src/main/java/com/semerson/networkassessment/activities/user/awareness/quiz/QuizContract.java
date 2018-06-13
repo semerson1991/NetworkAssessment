@@ -18,4 +18,12 @@ public final class QuizContract {
         public static final String COLUMN_DIFFICULTY = "difficulty";
         public static final String COLUMN_CATEGORY = "category";
     }
+
+    public static class CategoryScore implements  BaseColumns {
+        public static final String TABLE_NAME = "categoryscores";
+
+        public static final String COLUMN_CATEGORY = "CategoryName";
+        public static final String COLUMN_DIFFICULTY = "Difficulty";
+        public static final String COLUMN_HIGHSCORE = "Highscore";
+    }
 }

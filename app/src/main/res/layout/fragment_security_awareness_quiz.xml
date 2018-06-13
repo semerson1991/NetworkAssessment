@@ -22,27 +22,81 @@
             android:paddingTop="15dp">
 
             <TextView
-                android:id="@+id/secure_awareness_home_title"
+                android:id="@+id/idQuizTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:textAlignment="center"
-                android:text="@string/Security_Awareness"
+                android:text="Security Awareness Quizzes"
                 android:textColor="@android:color/background_dark"
                 android:textColorLink="@color/colorPrimary"
                 android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/idQuizTitle"
+            <Button
+                android:id="@+id/button_start_quiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:text="Start Quiz" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_view_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/spinner_categories"
+                    android:text="Category: "
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_difficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/spinner_difficulty"
+                    android:text="Difficulty: "
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_difficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Awareness quizzes"
-                android:textAlignment="center"
-                android:textSize="24sp" />
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/quiz_layout_category">
+
+
+
+            </LinearLayout>
 
             <include layout="@layout/quiz_home_authentication_progress"/>
+
             <include layout="@layout/quiz_home_malware_progress"/>
-            <include layout="@layout/quiz_home_malware_progress"/>
+            <include layout="@layout/quiz_home_mobile_progress"/>
             <include layout="@layout/quiz_home_ransomware_progress"/>
             <include layout="@layout/quiz_home_social_engineering_progress"/>
             <include layout="@layout/quiz_home_software_security_progress"/>
@@ -50,9 +104,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/btnTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 </FrameLayout>

@@ -30,7 +30,11 @@ public class QuizDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         this.db = db;
+
+        //TODO DROPPING THE TABLES THIS IS JUST FOR THE TESTING PHASE
         db.execSQL("DROP TABLE IF EXISTS " + QuestionsTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CategoryScore.TABLE_NAME);
+
         final String SQL_CREATE_QUESTIONS_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 QuestionsTable.TABLE_NAME + " ( " +
                 QuestionsTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -44,8 +48,16 @@ public class QuizDbHelper extends SQLiteOpenHelper {
                 QuestionsTable.COLUMN_CATEGORY + " TEXT" +
                 ")";
 
+        final String SQL_CREATE_CATEGORY_SCORE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                CategoryScore.TABLE_NAME + " ( " +
+                CategoryScore.COLUMN_CATEGORY + " TEXT," +
+                CategoryScore.COLUMN_HIGHSCORE + " INTEGER" +
+                ")";
+
         db.execSQL(SQL_CREATE_QUESTIONS_TABLE);
+        db.execSQL(SQL_CREATE_CATEGORY_SCORE_TABLE);
         fillQuestionsTable();
+        fillCategoryScoreTable();
     }
 
     @Override
@@ -61,7 +73,7 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         allQuestions.addAll(MobileSecurityQuestions.getAllQuestions());
         allQuestions.addAll(RansomwareQuestions.getAllQuestions());
         allQuestions.addAll(SocialEngineeringQuestions.getAllQuestions());
-        //allQuestions.addAll(SoftwareConfigurationQuestions.getAllQuestions());
+        //  allQuestions.addAll(SoftwareConfigurationQuestions.getAllQuestions());
         allQuestions.addAll(WebQuestions.getAllQuestions());
 
         for (Question question : allQuestions) {
@@ -80,6 +92,82 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         cv.put(QuestionsTable.COLUMN_DIFFICULTY, question.getDifficulty());
         cv.put(QuestionsTable.COLUMN_CATEGORY, question.getCategory());
         db.insert(QuestionsTable.TABLE_NAME, null, cv);
+    }
+
+    private void fillCategoryScoreTable() {
+        createCategoryHighScore(Question.CATEGORY_AUTHENTICATION, Question.DIFFICULTY_EASY, 0);
+        createCategoryHighScore(Question.CATEGORY_AUTHENTICATION, Question.DIFFICULTY_MEDIUM, 0);
+        createCategoryHighScore(Question.CATEGORY_AUTHENTICATION, Question.DIFFICULTY_HARD, 0);
+
+        createCategoryHighScore(Question.CATEGORY_MALWARE, Question.DIFFICULTY_EASY, 0);
+        createCategoryHighScore(Question.CATEGORY_MALWARE, Question.DIFFICULTY_MEDIUM, 0);
+        createCategoryHighScore(Question.CATEGORY_MALWARE, Question.DIFFICULTY_HARD, 0);
+
+        createCategoryHighScore(Question.CATEGORY_MOBILE_SEC, Question.DIFFICULTY_EASY, 0);
+        createCategoryHighScore(Question.CATEGORY_MOBILE_SEC, Question.DIFFICULTY_MEDIUM, 0);
+        createCategoryHighScore(Question.CATEGORY_MOBILE_SEC, Question.DIFFICULTY_HARD, 0);
+
+        createCategoryHighScore(Question.CATEGORY_RANSOMWARE, Question.DIFFICULTY_EASY, 0);
+        createCategoryHighScore(Question.CATEGORY_RANSOMWARE, Question.DIFFICULTY_MEDIUM, 0);
+        createCategoryHighScore(Question.CATEGORY_RANSOMWARE, Question.DIFFICULTY_HARD, 0);
+
+        createCategoryHighScore(Question.CATEGORY_SOFTWARE_SEC, Question.DIFFICULTY_EASY, 0);
+        createCategoryHighScore(Question.CATEGORY_SOFTWARE_SEC, Question.DIFFICULTY_MEDIUM, 0);
+        createCategoryHighScore(Question.CATEGORY_SOFTWARE_SEC, Question.DIFFICULTY_HARD, 0);
+
+        createCategoryHighScore(Question.CATEGORY_SOCIAL_ENGINEERING, Question.DIFFICULTY_EASY, 0);
+        createCategoryHighScore(Question.CATEGORY_SOCIAL_ENGINEERING, Question.DIFFICULTY_MEDIUM, 0);
+        createCategoryHighScore(Question.CATEGORY_SOCIAL_ENGINEERING, Question.DIFFICULTY_HARD, 0);
+
+        createCategoryHighScore(Question.CATEGORY_WEB_SEC, Question.DIFFICULTY_EASY, 0);
+        createCategoryHighScore(Question.CATEGORY_WEB_SEC, Question.DIFFICULTY_MEDIUM, 0);
+        createCategoryHighScore(Question.CATEGORY_WEB_SEC, Question.DIFFICULTY_HARD, 0);
+
+    }
+
+    public void createCategoryHighScore(String category, String difficulty, Integer score) {
+        ContentValues cv = new ContentValues();
+        cv.put(CategoryScore.COLUMN_CATEGORY, category);
+        cv.put(CategoryScore.COLUMN_DIFFICULTY, difficulty);
+        cv.put(CategoryScore.COLUMN_HIGHSCORE, score);
+        db.insert(CategoryScore.TABLE_NAME, null, cv);
+    }
+
+    public void updateCategoryHighScore(String category, String difficulty, Integer newHighScore) {
+        ContentValues cv = new ContentValues();
+        cv.put(CategoryScore.COLUMN_HIGHSCORE, newHighScore);
+
+        db.update(CategoryScore.TABLE_NAME,
+                cv,
+                CategoryScore.COLUMN_CATEGORY + " = ? AND " + CategoryScore.COLUMN_DIFFICULTY + " = ?",
+                new String[]{category, difficulty});
+    }
+
+    public List<QuizHighScore> getCategoriesHighScores() {
+        db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + CategoryScore.TABLE_NAME, null);
+        List<QuizHighScore> quizHighScores = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                String category = (c.getString(c.getColumnIndex(CategoryScore.COLUMN_CATEGORY)));
+                String difficulty = (c.getString(c.getColumnIndex(CategoryScore.COLUMN_DIFFICULTY)));
+                Integer score = (c.getInt(c.getColumnIndex(CategoryScore.COLUMN_HIGHSCORE)));
+                QuizHighScore quizHighScore = new QuizHighScore(category, difficulty, score);
+                quizHighScores.add(quizHighScore);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return quizHighScores;
+    }
+
+//TODO GET CURRENT HIGHSCORE FROM THE DATABASE
+    public Integer getCurrentHighScore(String category, String difficulty) {
+        Cursor c = db.rawQuery("SELECT * FROM " + CategoryScore.TABLE_NAME,+ " WHERE " +
+                db.
+                        TABLE_RECIPE_NAME + " where " + KEY_ownerID + " = ? AND " + KEY_partnerID +
+                        " = ? AND  " + KEY_advertiserID + " = ? AND " + KEY_chefID + " = ?",
+                new String[] { ownerID, partnerID, advertiserID, chefID });
     }
 
     public ArrayList<Question> getAllQuestions() {

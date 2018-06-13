@@ -5,10 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -17,8 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.AttackComplexity;
-import com.semerson.networkassessment.storage.results.ScanResults;
+import com.semerson.networkassessment.activities.user.awareness.SecurityAwarenessQuizFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +22,9 @@ import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_SCORE = "extraScore";
+    public static final String EXTRA_DIFFICULTY = "difficulty";
+    public static final String EXTRA_CATEGORY = "category";
+
     private static final long COUNTDOWN_IN_MILLIS = 60000;
 
     private static final String KEY_SCORE = "keyScore";
@@ -85,8 +84,8 @@ public class QuizActivity extends AppCompatActivity {
         textColorDefaultCd = textViewCountDown.getTextColors();
 
         Intent intent = getIntent();
-        String difficulty = intent.getStringExtra(QuizHome.EXTRA_DIFFICULTY);
-        String categorory = intent.getStringExtra(QuizHome.EXTRA_CATEGORY);
+        String difficulty = intent.getStringExtra(SecurityAwarenessQuizFragment.EXTRA_DIFFICULTY);
+        String categorory = intent.getStringExtra(SecurityAwarenessQuizFragment.EXTRA_CATEGORY);
 
         textViewCategory.setText("Category: " + categorory);
         textViewDifficulty.setText("Difficulty: " + difficulty);
@@ -242,6 +241,8 @@ public class QuizActivity extends AppCompatActivity {
     private void finishQuiz() {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(EXTRA_SCORE, score);
+        resultIntent.putExtra(EXTRA_DIFFICULTY, textViewDifficulty.getText()).toString();
+        resultIntent.putExtra(EXTRA_CATEGORY, textViewCategory.getText());
         setResult(RESULT_OK, resultIntent);
         finish();
     }

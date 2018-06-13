@@ -3,7 +3,9 @@ package com.semerson.networkassessment.activities.user.awareness;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -30,9 +32,14 @@ import com.semerson.networkassessment.activities.user.awareness.categories.Unsec
 import com.semerson.networkassessment.activities.user.awareness.categories.UpdatesAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.WebAppAwareness;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizActivity;
+import com.semerson.networkassessment.activities.user.awareness.quiz.QuizDbHelper;
+import com.semerson.networkassessment.activities.user.awareness.quiz.QuizHighScore;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizHome;
+import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.utils.BottomNavigationViewHelper;
+
+import java.util.List;
 
 public class UserAwareness extends AppCompatActivity implements View.OnClickListener, FragmentHost, BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -82,6 +89,34 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
                 return securityAwarenessQuizFragment;
         }
         return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SecurityAwarenessQuizFragment.REQUEST_CODE_QUIZ) {
+            if (resultCode == RESULT_OK) {
+                SharedPreferences preferences =  getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+
+                int score = data.getIntExtra(QuizActivity.EXTRA_SCORE, 0);
+                String difficulty = data.getStringExtra(QuizActivity.EXTRA_DIFFICULTY);
+                String category = data.getStringExtra(QuizActivity.EXTRA_CATEGORY);
+
+                if (score != 0 && difficulty != null && category != null ) {
+                    QuizDbHelper dbHelper = new QuizDbHelper(this);
+                    dbHelper.onCreate(dbHelper.getWritableDatabase());
+
+                    Integer currentHihgScore = dbHelper.getCurrentHighScore(category, difficulty);
+
+                    if (currentHihgScore < score ){
+                        dbHelper.updateCategoryHighScore(category, difficulty, score);
+                    }
+                }
+                setFragment(securityAwarenessQuizFragment, true);
+            }
+        }
     }
 
     @Override

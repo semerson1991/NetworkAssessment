@@ -22,14 +22,14 @@ public class RansomwareQuestions {
                 "Bots",
                 "Hijack malware",
                 "Ransomware",
-                4, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
+                4, Question.DIFFICULTY_EASY, Question.CATEGORY_RANSOMWARE);
         questions.add(q1);
         Question q2 = new Question("A Ransomware attack _____________ to all files.",
                 "Blocks access",
                 "Opens access",
                 "Provides encryption",
                 "Creates subfolders",
-                1, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
+                1, Question.DIFFICULTY_EASY, Question.CATEGORY_RANSOMWARE);
         questions.add(q2);
 
         Question q4 = new Question("Users have been infected by compromised __________________________.",
@@ -37,7 +37,7 @@ public class RansomwareQuestions {
                 "Ad networks",
                 "Malicious files hosted on peer to peer file sharing sites",
                 "Phishing emails",
-                1, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
+                1, Question.DIFFICULTY_EASY, Question.CATEGORY_RANSOMWARE);
         questions.add(q4);
 
         Question q6 = new Question("Most commonly, ransomware attackers request payment via:",
@@ -45,21 +45,21 @@ public class RansomwareQuestions {
                 "Bitcoin",
                 "Western Union",
                 "Gift cards",
-                2, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
+                2, Question.DIFFICULTY_EASY, Question.CATEGORY_RANSOMWARE);
         questions.add(q6);
         Question q7 = new Question("The best way to resolve a ransomware attack?",
                 "Don't pay the ransom",
                 "Pay the ransom",
                 "Try to contact the people behind the ransomware to sort a weekly payment plan",
                 "None of the above",
-                1, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
+                1, Question.DIFFICULTY_EASY, Question.CATEGORY_RANSOMWARE);
         questions.add(q7);
         Question q8 = new Question("Ransomware can affect external drives if the drive is hooked up to your computer at the time of the attack.",
                 "None of the above",
                 "False",
                 "Only if you browse files within the external drive",
                 "True",
-                4, Question.DIFFICULTY_EASY, Question.RANSOMWARE);
+                4, Question.DIFFICULTY_EASY, Question.CATEGORY_RANSOMWARE);
         questions.add(q8);
 
         return questions;
@@ -72,21 +72,21 @@ public class RansomwareQuestions {
                 "Use caution around links, only open executable files from a saved email, store old files off site, download from only known sources",
                 "Keep software up to date, have IT open any strange attachments that are emailed to you, power down and shut off your computer at the end of the day, only use the incognito tab feature when browsing the web.",
                 "None of the above",
-                1, Question.DIFFICULTY_MEDIUM, Question.RANSOMWARE);
+                1, Question.DIFFICULTY_MEDIUM, Question.CATEGORY_RANSOMWARE);
         questions.add(q9);
         Question q10 = new Question("If your computer is infected by ransomware you should:",
                 "Disconnect any external drives and networks",
                 "Power down your computer",
                 "Report the incident immediately",
                 "All listed",
-                4, Question.DIFFICULTY_MEDIUM, Question.RANSOMWARE);
+                4, Question.DIFFICULTY_MEDIUM, Question.CATEGORY_RANSOMWARE);
         questions.add(q10);
         Question q3 = new Question("Ransomware is typically found in these file types:",
                 "Excel files, Jpeg, and screen saver files",
                 "PDF files",
                 "Macro enabled Office documents, executable files, and JavaScript files",
                 "Macro Enabled Office documents, screen saver files, and JavaScript files",
-                3, Question.DIFFICULTY_MEDIUM, Question.RANSOMWARE);
+                3, Question.DIFFICULTY_MEDIUM, Question.CATEGORY_RANSOMWARE);
         questions.add(q3);
         return questions;
     }
@@ -98,7 +98,7 @@ public class RansomwareQuestions {
                 "Only open files with a common file extensions as this means it is safe",
                 "Prevent all macros from executing - unless you have explicitly trusted them.",
                 "None of the above options",
-                3, Question.DIFFICULTY_HARD, Question.RANSOMWARE);
+                3, Question.DIFFICULTY_HARD, Question.CATEGORY_RANSOMWARE);
         questions.add(q1);
         return questions;
     }

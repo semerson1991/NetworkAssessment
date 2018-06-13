@@ -13,9 +13,9 @@ public class Question implements Parcelable {
     public static final String CATEGORY_MALWARE = "Malware";
     public static final String CATEGORY_SOFTWARE_SEC = "Software Security";
     public static final String CATEGORY_WEB_SEC = "Web Security";
-    public static final String RANSOMWARE = "Ransomware";
-    public static final String SOCIAL_ENGINEERING = "Social Engineering";
-    public static final String MOBILE_SEC = "Mobile Security";
+    public static final String CATEGORY_RANSOMWARE = "Ransomware";
+    public static final String CATEGORY_SOCIAL_ENGINEERING = "Social Engineering";
+    public static final String CATEGORY_MOBILE_SEC = "Mobile Security";
 
     private String question;
     private String option1;
