@@ -2,6 +2,7 @@ package com.semerson.networkassessment.activities.user.awareness.quiz;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -13,51 +14,60 @@ import com.semerson.networkassessment.activities.user.awareness.quiz.questions.M
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.RansomwareQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.SocialEngineeringQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.WebQuestions;
+import com.semerson.networkassessment.storage.AppStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizDbHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "securityAwarenessQuiz.db";
-    private static final int DATABASE_VERSION = 1;
+import static android.content.Context.MODE_PRIVATE;
 
+public class QuizDbHelper extends SQLiteOpenHelper {
+    public static final String DATABASE_NAME = "securityAwarenessQuiz.db";
+    public static final int DATABASE_VERSION = 1;
+    private Context context;
     private SQLiteDatabase db;
 
     public QuizDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         this.db = db;
 
-        //TODO DROPPING THE TABLES THIS IS JUST FOR THE TESTING PHASE
-        db.execSQL("DROP TABLE IF EXISTS " + QuestionsTable.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + CategoryScore.TABLE_NAME);
+        SharedPreferences prefs = context.getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE);
+        boolean dbCreated = prefs.getBoolean(AppStorage.DATABASE_CREATED, false);
+        if (!dbCreated) {
+            final String SQL_CREATE_QUESTIONS_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                    QuestionsTable.TABLE_NAME + " ( " +
+                    QuestionsTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    QuestionsTable.COLUMN_QUESTION + " TEXT, " +
+                    QuestionsTable.COLUMN_OPTION1 + " TEXT, " +
+                    QuestionsTable.COLUMN_OPTION2 + " TEXT, " +
+                    QuestionsTable.COLUMN_OPTION3 + " TEXT, " +
+                    QuestionsTable.COLUMN_OPTION4 + " TEXT, " +
+                    QuestionsTable.COLUMN_ANSWER_NR + " INTEGER, " +
+                    QuestionsTable.COLUMN_DIFFICULTY + " TEXT," +
+                    QuestionsTable.COLUMN_CATEGORY + " TEXT" +
+                    ")";
 
-        final String SQL_CREATE_QUESTIONS_TABLE = "CREATE TABLE IF NOT EXISTS " +
-                QuestionsTable.TABLE_NAME + " ( " +
-                QuestionsTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                QuestionsTable.COLUMN_QUESTION + " TEXT, " +
-                QuestionsTable.COLUMN_OPTION1 + " TEXT, " +
-                QuestionsTable.COLUMN_OPTION2 + " TEXT, " +
-                QuestionsTable.COLUMN_OPTION3 + " TEXT, " +
-                QuestionsTable.COLUMN_OPTION4 + " TEXT, " +
-                QuestionsTable.COLUMN_ANSWER_NR + " INTEGER, " +
-                QuestionsTable.COLUMN_DIFFICULTY + " TEXT," +
-                QuestionsTable.COLUMN_CATEGORY + " TEXT" +
-                ")";
+            final String SQL_CREATE_CATEGORY_SCORE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                    CategoryScore.TABLE_NAME + " ( " +
+                    CategoryScore.COLUMN_CATEGORY + " TEXT," +
+                    CategoryScore.COLUMN_DIFFICULTY + " TEXT," +
+                    CategoryScore.COLUMN_HIGHSCORE + " INTEGER" +
+                    ")";
 
-        final String SQL_CREATE_CATEGORY_SCORE_TABLE = "CREATE TABLE IF NOT EXISTS " +
-                CategoryScore.TABLE_NAME + " ( " +
-                CategoryScore.COLUMN_CATEGORY + " TEXT," +
-                CategoryScore.COLUMN_HIGHSCORE + " INTEGER" +
-                ")";
+            db.execSQL(SQL_CREATE_QUESTIONS_TABLE);
+            db.execSQL(SQL_CREATE_CATEGORY_SCORE_TABLE);
+            fillQuestionsTable();
+            fillCategoryScoreTable();
 
-        db.execSQL(SQL_CREATE_QUESTIONS_TABLE);
-        db.execSQL(SQL_CREATE_CATEGORY_SCORE_TABLE);
-        fillQuestionsTable();
-        fillCategoryScoreTable();
+            SharedPreferences.Editor editor = context.getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE).edit();
+            editor.putBoolean(AppStorage.DATABASE_CREATED, true);
+            editor.apply();
+        }
     }
 
     @Override
@@ -111,13 +121,13 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         createCategoryHighScore(Question.CATEGORY_RANSOMWARE, Question.DIFFICULTY_MEDIUM, 0);
         createCategoryHighScore(Question.CATEGORY_RANSOMWARE, Question.DIFFICULTY_HARD, 0);
 
-        createCategoryHighScore(Question.CATEGORY_SOFTWARE_SEC, Question.DIFFICULTY_EASY, 0);
-        createCategoryHighScore(Question.CATEGORY_SOFTWARE_SEC, Question.DIFFICULTY_MEDIUM, 0);
-        createCategoryHighScore(Question.CATEGORY_SOFTWARE_SEC, Question.DIFFICULTY_HARD, 0);
-
         createCategoryHighScore(Question.CATEGORY_SOCIAL_ENGINEERING, Question.DIFFICULTY_EASY, 0);
         createCategoryHighScore(Question.CATEGORY_SOCIAL_ENGINEERING, Question.DIFFICULTY_MEDIUM, 0);
         createCategoryHighScore(Question.CATEGORY_SOCIAL_ENGINEERING, Question.DIFFICULTY_HARD, 0);
+
+        createCategoryHighScore(Question.CATEGORY_SOFTWARE_SEC, Question.DIFFICULTY_EASY, 0);
+        createCategoryHighScore(Question.CATEGORY_SOFTWARE_SEC, Question.DIFFICULTY_MEDIUM, 0);
+        createCategoryHighScore(Question.CATEGORY_SOFTWARE_SEC, Question.DIFFICULTY_HARD, 0);
 
         createCategoryHighScore(Question.CATEGORY_WEB_SEC, Question.DIFFICULTY_EASY, 0);
         createCategoryHighScore(Question.CATEGORY_WEB_SEC, Question.DIFFICULTY_MEDIUM, 0);
@@ -141,6 +151,22 @@ public class QuizDbHelper extends SQLiteOpenHelper {
                 cv,
                 CategoryScore.COLUMN_CATEGORY + " = ? AND " + CategoryScore.COLUMN_DIFFICULTY + " = ?",
                 new String[]{category, difficulty});
+        }
+
+    public QuizHighScore getQuizHighScoreRow(String category, String difficulty){
+        String[] selectedArgs = new String[]{difficulty, category};
+        Cursor c = db.rawQuery("SELECT * FROM " + CategoryScore.TABLE_NAME +
+                " WHERE " + CategoryScore.COLUMN_DIFFICULTY + " = ? AND " + CategoryScore.COLUMN_CATEGORY +
+                " = + ?", selectedArgs);
+
+        QuizHighScore quizHighScore = new QuizHighScore();
+        if (c.moveToFirst()) {
+            quizHighScore.setDifficulty(c.getString(c.getColumnIndex(CategoryScore.COLUMN_DIFFICULTY)));
+            quizHighScore.setCategory(c.getString(c.getColumnIndex(CategoryScore.COLUMN_CATEGORY)));
+            quizHighScore.setHighscore(c.getInt(c.getColumnIndex(CategoryScore.COLUMN_HIGHSCORE)));
+            c.close();
+        }
+        return quizHighScore;
     }
 
     public List<QuizHighScore> getCategoriesHighScores() {
@@ -161,13 +187,20 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         return quizHighScores;
     }
 
-//TODO GET CURRENT HIGHSCORE FROM THE DATABASE
     public Integer getCurrentHighScore(String category, String difficulty) {
-        Cursor c = db.rawQuery("SELECT * FROM " + CategoryScore.TABLE_NAME,+ " WHERE " +
-                db.
-                        TABLE_RECIPE_NAME + " where " + KEY_ownerID + " = ? AND " + KEY_partnerID +
-                        " = ? AND  " + KEY_advertiserID + " = ? AND " + KEY_chefID + " = ?",
-                new String[] { ownerID, partnerID, advertiserID, chefID });
+
+        String[] selectedArgs = new String[]{difficulty, category};
+        Cursor c = db.rawQuery("SELECT * FROM " + CategoryScore.TABLE_NAME +
+                        " WHERE " + CategoryScore.COLUMN_DIFFICULTY + " = + ? AND " + CategoryScore.COLUMN_CATEGORY +
+                " = + ?", selectedArgs);
+
+        Integer highScore = 0;
+        if (c.moveToFirst()) {
+
+            highScore = (c.getInt(c.getColumnIndex(CategoryScore.COLUMN_HIGHSCORE)));
+            c.close();
+        }
+        return highScore;
     }
 
     public ArrayList<Question> getAllQuestions() {

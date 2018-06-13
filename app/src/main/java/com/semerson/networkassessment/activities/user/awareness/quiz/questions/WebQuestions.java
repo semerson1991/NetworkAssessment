@@ -90,7 +90,7 @@ public class WebQuestions {
                 "Scans websites for malware",
                 "Creates a firewall",
                 "Sends data through a secure \"tunnel\"",
-                3, Question.DIFFICULTY_HARD, Question.CATEGORY_WEB_SEC);
+                4, Question.DIFFICULTY_HARD, Question.CATEGORY_WEB_SEC);
         questions.add(q2);
         return questions;
     }

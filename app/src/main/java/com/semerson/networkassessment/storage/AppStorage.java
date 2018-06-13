@@ -22,4 +22,6 @@ public class AppStorage {
 
 
     public static final String LAST_SCAN_DATE = "Last Scan Date";
+
+    public static final String DATABASE_CREATED = "DatabaseCreated";
 }

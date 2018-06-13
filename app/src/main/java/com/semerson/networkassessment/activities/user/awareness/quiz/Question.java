@@ -9,7 +9,6 @@ public class Question implements Parcelable {
     public static final String DIFFICULTY_HARD = "Hard";
 
     public static final String CATEGORY_AUTHENTICATION = "Authentication";
-    public static final String CATEGORY_PHISHING= "Phishing";
     public static final String CATEGORY_MALWARE = "Malware";
     public static final String CATEGORY_SOFTWARE_SEC = "Software Security";
     public static final String CATEGORY_WEB_SEC = "Web Security";
@@ -133,7 +132,7 @@ public class Question implements Parcelable {
         return category;
     }
 
-    public void setCategory(String category){
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -157,8 +156,11 @@ public class Question implements Parcelable {
         return new String[]{
                 CATEGORY_AUTHENTICATION,
                 CATEGORY_MALWARE,
-                CATEGORY_PHISHING,
+                CATEGORY_MOBILE_SEC,
+                CATEGORY_RANSOMWARE,
+                CATEGORY_SOCIAL_ENGINEERING,
                 CATEGORY_SOFTWARE_SEC,
                 CATEGORY_WEB_SEC
         };
-}}
+    }
+}

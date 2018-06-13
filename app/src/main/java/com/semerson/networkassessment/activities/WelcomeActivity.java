@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.net.Network;
 import android.os.Bundle;
@@ -40,6 +42,8 @@ import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.Results.ResultsActivity;
 import com.semerson.networkassessment.activities.settings.SettingsActivity;
 import com.semerson.networkassessment.activities.user.awareness.UserAwareness;
+import com.semerson.networkassessment.activities.user.awareness.quiz.QuizContract;
+import com.semerson.networkassessment.activities.user.awareness.quiz.QuizDbHelper;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.UiObjectCreator;
@@ -336,6 +340,7 @@ public class WelcomeActivity extends AppCompatActivity implements
 
         SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
 
         editor.putString(AppStorage.RISK_SCORE_HISTORY, jsonArray.toString());
 
@@ -343,6 +348,36 @@ public class WelcomeActivity extends AppCompatActivity implements
         DateTime date = new DateTime(2018, 6, 1, 0, 0, 0, 0);
 
         editor.putString(AppStorage.LAST_SCAN_DATE, date.toString());
+
+        //Just for db test purposes
+        editor.putBoolean(AppStorage.DATABASE_CREATED, false);
         editor.commit();
+
+        testDropDatabase(true);
     }
+
+    private void testDropDatabase(boolean drop){
+        if (drop) {
+            class TestDatabaseHelpers extends SQLiteOpenHelper {
+
+                public TestDatabaseHelpers(Context context) {
+                    super(context, QuizDbHelper.DATABASE_NAME, null, QuizDbHelper.DATABASE_VERSION);
+                }
+
+                @Override
+                public void onCreate(SQLiteDatabase db) {
+                    db.execSQL("DROP TABLE IF EXISTS " + QuizContract.QuestionsTable.TABLE_NAME);
+                    db.execSQL("DROP TABLE IF EXISTS " + QuizContract.CategoryScore.TABLE_NAME);
+                }
+
+                @Override
+                public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+                }
+            }
+
+            TestDatabaseHelpers dbHelper = new TestDatabaseHelpers(this);
+            dbHelper.onCreate(dbHelper.getWritableDatabase());
+        }
+        }
 }

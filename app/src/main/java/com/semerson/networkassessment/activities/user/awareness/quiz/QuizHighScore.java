@@ -5,6 +5,12 @@ public class QuizHighScore {
     public String difficulty;
     public Integer highscore;
 
+    public QuizHighScore(){
+        category = "";
+        difficulty = "";
+        highscore = 0;
+    }
+
     public QuizHighScore(String category, String difficulty, Integer highscore){
         this.category = category;
         this.difficulty = difficulty;

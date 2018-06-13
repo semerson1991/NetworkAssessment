@@ -1,6 +1,8 @@
 package com.semerson.networkassessment.activities.user.awareness.quiz;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.user.awareness.SecurityAwarenessQuizFragment;
+import com.semerson.networkassessment.storage.AppStorage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +27,7 @@ public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_SCORE = "extraScore";
     public static final String EXTRA_DIFFICULTY = "difficulty";
     public static final String EXTRA_CATEGORY = "category";
+    public static final String QUIZ_FINISHED = "QuizFinished";
 
     private static final long COUNTDOWN_IN_MILLIS = 60000;
 
@@ -35,6 +39,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private TextView textViewQuestion;
     private TextView textViewScore;
+    private TextView currentHighscore;
     private TextView textViewQuestionCount;
     private TextView textViewDifficulty;
     private TextView textViewCategory;
@@ -71,6 +76,7 @@ public class QuizActivity extends AppCompatActivity {
         textViewScore = findViewById(R.id.text_view_score);
         textViewQuestionCount = findViewById(R.id.text_view_question_count);
         textViewDifficulty = findViewById(R.id.text_view_difficulty);
+        currentHighscore = findViewById(R.id.text_view_previous_highscore);
         textViewCategory = findViewById(R.id.text_view_category);
         textViewCountDown = findViewById(R.id.text_view_countdown);
         rbGroup = findViewById(R.id.radio_group);
@@ -86,7 +92,9 @@ public class QuizActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String difficulty = intent.getStringExtra(SecurityAwarenessQuizFragment.EXTRA_DIFFICULTY);
         String categorory = intent.getStringExtra(SecurityAwarenessQuizFragment.EXTRA_CATEGORY);
+        Integer previousScore = intent.getIntExtra(SecurityAwarenessQuizFragment.EXTRA_CURRENT_HIGHSCORE, 0);
 
+        currentHighscore.setText("Previous Highscore: " + previousScore);
         textViewCategory.setText("Category: " + categorory);
         textViewDifficulty.setText("Difficulty: " + difficulty);
 
@@ -239,11 +247,13 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void finishQuiz() {
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(EXTRA_SCORE, score);
-        resultIntent.putExtra(EXTRA_DIFFICULTY, textViewDifficulty.getText()).toString();
-        resultIntent.putExtra(EXTRA_CATEGORY, textViewCategory.getText());
-        setResult(RESULT_OK, resultIntent);
+        SharedPreferences preferences =  getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putBoolean(QUIZ_FINISHED, true);
+        editor.putInt(EXTRA_SCORE, score);
+        editor.commit();
+
         finish();
     }
 

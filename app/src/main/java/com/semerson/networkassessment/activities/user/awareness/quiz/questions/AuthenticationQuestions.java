@@ -85,13 +85,20 @@ public class AuthenticationQuestions {
 
     public static List<Question> getHardQuestions() {
         List<Question> questions = new ArrayList<>();
-        Question q5 = new Question("What is a brute force attack?",
+        Question q5 = new Question("How can you prevent a brute force attack?",
                 "Change your password every 90 days",
                 "Use a long and complex password",
                 "Keep your anti-virus up-to-date",
                 "Be wary of links or attachments in emails",
                 2, Question.DIFFICULTY_HARD, Question.CATEGORY_AUTHENTICATION);
         questions.add(q5);
+        Question q6 = new Question("What is a brute force attack??",
+                "The use of spyware",
+                "Attempting to crack your password with thousands of possible variations",
+                "Physically stealing the hard drive with your passwords on it",
+                "The use of RAT malware",
+                2, Question.DIFFICULTY_HARD, Question.CATEGORY_AUTHENTICATION);
+        questions.add(q6);
         return questions;
     }
 }

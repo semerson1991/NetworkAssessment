@@ -6,12 +6,21 @@
     android:layout_height="match_parent"
     android:background="@color/quizColorBackground"
     android:padding="16dp"
-    tools:context=".activities.user.awareness.quiz.QuizActivity">
+    tools:context=".activities.user.awareness.quiz.QuizActivity">textViewHighScore
+
+    <TextView
+        android:id="@+id/text_view_previous_highscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:text="Score: 0"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/text_view_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_previous_highscore"
         android:freezesText="true"
         android:text="Score: 0"
         android:textColor="@android:color/black" />

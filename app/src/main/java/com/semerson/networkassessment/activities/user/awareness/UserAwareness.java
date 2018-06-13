@@ -97,24 +97,7 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
 
         if (requestCode == SecurityAwarenessQuizFragment.REQUEST_CODE_QUIZ) {
             if (resultCode == RESULT_OK) {
-                SharedPreferences preferences =  getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
 
-                int score = data.getIntExtra(QuizActivity.EXTRA_SCORE, 0);
-                String difficulty = data.getStringExtra(QuizActivity.EXTRA_DIFFICULTY);
-                String category = data.getStringExtra(QuizActivity.EXTRA_CATEGORY);
-
-                if (score != 0 && difficulty != null && category != null ) {
-                    QuizDbHelper dbHelper = new QuizDbHelper(this);
-                    dbHelper.onCreate(dbHelper.getWritableDatabase());
-
-                    Integer currentHihgScore = dbHelper.getCurrentHighScore(category, difficulty);
-
-                    if (currentHihgScore < score ){
-                        dbHelper.updateCategoryHighScore(category, difficulty, score);
-                    }
-                }
-                setFragment(securityAwarenessQuizFragment, true);
             }
         }
     }

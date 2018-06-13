@@ -4,6 +4,7 @@ package com.semerson.networkassessment.activities.user.awareness;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,14 +19,17 @@ import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.user.awareness.quiz.Question;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizActivity;
+import com.semerson.networkassessment.activities.user.awareness.quiz.QuizContract;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizDbHelper;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizHighScore;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.AuthenticationQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.MalwareQuestions;
+import com.semerson.networkassessment.activities.user.awareness.quiz.questions.MobileSecurityQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.RansomwareQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.SocialEngineeringQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.SoftwareConfigurationQuestions;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.WebQuestions;
+import com.semerson.networkassessment.storage.AppStorage;
 
 import java.util.List;
 
@@ -151,21 +155,22 @@ public class SecurityAwarenessQuizFragment extends Fragment {
         Intent intent = new Intent(context, QuizActivity.class);
         intent.putExtra(EXTRA_DIFFICULTY, difficulty);
         intent.putExtra(EXTRA_CATEGORY, category);
+        intent.putExtra(EXTRA_CURRENT_HIGHSCORE, getPreviousQuizScore(category, difficulty));
         startActivityForResult(intent, REQUEST_CODE_QUIZ);
     }
 
     private void setProgressBars() {
         setProgressBarMax(progressAuthEasy, AuthenticationQuestions.getEasyQuestions().size(),
-                progressAuthEasy, AuthenticationQuestions.getMediumQuestions().size(),
-                progressAuthEasy, AuthenticationQuestions.getHardQuestions().size());
+                progressAuthMedium, AuthenticationQuestions.getMediumQuestions().size(),
+                progressAuthHard, AuthenticationQuestions.getHardQuestions().size());
 
         setProgressBarMax(progressMalwareEasy, MalwareQuestions.getEasyQuestions().size(),
                 progressMalwareMedium, MalwareQuestions.getMediumQuestions().size(),
                 progressMalwareHard, MalwareQuestions.getHardQuestions().size());
 
-        setProgressBarMax(progressMobileEasy, SocialEngineeringQuestions.getEasyQuestions().size(),
-                progressMobileMiddle, SocialEngineeringQuestions.getMediumQuestions().size(),
-                progressMobileHard, SocialEngineeringQuestions.getHardQuestions().size());
+        setProgressBarMax(progressMobileEasy, MobileSecurityQuestions.getEasyQuestions().size(),
+                progressMobileMiddle, MobileSecurityQuestions.getMediumQuestions().size(),
+                progressMobileHard, MobileSecurityQuestions.getHardQuestions().size());
 
         setProgressBarMax(progressRansomwareEasy, RansomwareQuestions.getEasyQuestions().size(),
                 progressRansomwareMiddle, RansomwareQuestions.getMediumQuestions().size(),
@@ -304,6 +309,43 @@ public class SecurityAwarenessQuizFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + "must implement FragmentHost");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences preferences = context.getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
+
+        boolean resumedFromQuizFinished = preferences.getBoolean(QuizActivity.QUIZ_FINISHED, false);
+
+        if (resumedFromQuizFinished) {
+            int score = preferences.getInt(QuizActivity.EXTRA_SCORE, 0);
+
+            QuizDbHelper dbHelper = new QuizDbHelper(context);
+            dbHelper.onCreate(dbHelper.getWritableDatabase());
+
+            String selectedCategory = spinnerCateogories.getSelectedItem().toString();
+            String selectedDifficulty = spinnerDifficulty.getSelectedItem().toString();
+
+            // String categoryDbColumnName = getCategoryColumnName(selectedCategory);
+            // String difficultyDbColumnName = getDifficultyColumnName(selectedDifficulty);
+            Integer currentHighScore = dbHelper.getCurrentHighScore(selectedCategory, selectedDifficulty);
+
+            if (currentHighScore < score) {
+                dbHelper.updateCategoryHighScore(selectedCategory, selectedDifficulty, score);
+            }
+            preferences.edit().remove(QuizActivity.QUIZ_FINISHED).commit();
+
+            preferences.edit().remove(QuizActivity.EXTRA_SCORE).commit();
+            preferences.edit().commit();
+            setProgressBarProgress();
+        }
+    }
+
+    private Integer getPreviousQuizScore(String category, String difficulty) {
+        QuizDbHelper dbHelper = new QuizDbHelper(context);
+        dbHelper.onCreate(dbHelper.getWritableDatabase());
+        return dbHelper.getCurrentHighScore(category, difficulty);
     }
 
     public static SecurityAwarenessQuizFragment newInstance() {
