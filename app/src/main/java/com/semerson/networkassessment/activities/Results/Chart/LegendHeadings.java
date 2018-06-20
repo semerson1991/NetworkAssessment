@@ -12,8 +12,10 @@ public class LegendHeadings {
     public static final String AVAILABILITY = "Availability Impact";
     public static final String VULN_NAME = "Vulnerability Name";
 
+    public static final String HOST = "Host";
     public static final String TOTAL_OCCURRENCES = "Total Occurrences";
     public static final String OCCURRENCES_AS_PERCENT = "Occurrences (%)";
     public static String MITIGATION = "Mitigation";
     public static String MITIGATION_CATEGORY = "Mitigation Category";
+    public static final String SERVICES = "Services";
 }

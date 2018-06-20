@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.Results.ColorSet;
 import com.semerson.networkassessment.storage.results.ResultScoreMetrics;
 import com.semerson.networkassessment.utils.Utils;
@@ -316,6 +317,10 @@ public class PieChartCreator implements ChartCreator, OnChartValueSelectedListen
                     new TableRowData(String.valueOf(data.getEntryForIndex(i).getY()), Gravity.CENTER, listener),
                     new TableRowData(Utils.getFormattedPercentage(totalSum, totalOccurrences), Gravity.CENTER, listener));
             tableRow.setRowValue(totalOccurrences);
+
+            tableRow.setRowId(R.id.rowListener);
+            tableRow.setTag(entry.label.toString());
+            tableRow.setOnClickListener(listener);
             table.prepareTableRow(tableRow);
         }
         return table;

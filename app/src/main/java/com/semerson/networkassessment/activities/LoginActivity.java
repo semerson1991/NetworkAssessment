@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.network.NetworkDevices;
 import com.semerson.networkassessment.utils.ProcessHttpResponse;
 import com.semerson.networkassessment.utils.RequestBuilder;
 import com.semerson.networkassessment.service.ServerCommunicationService;
@@ -91,7 +92,7 @@ public class LoginActivity extends AppCompatActivity  implements RequestBuilder,
                 SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString(AppStorage.LOGIN_NAME, username.getText().toString());
-                Intent intent = new Intent(LoginActivity.this, NetworkScanner.class);
+                Intent intent = new Intent(LoginActivity.this, NetworkDevices.class);
                 startActivity(intent);
                 editor.commit();
             } else {

@@ -17,4 +17,7 @@ public class TableHeadings {
     public static final String CONFIDENTIALITY_IMPACT = "Confidentiality Impact";
     public static final String INTEGRITY_IMPACT = "Integrity Impact";
     public static final String AVAILABILITY_IMPACT = "Availability Impact";
+
+    public static final String LAST_SCANNED = "Last Scanned";
+    public static final String RISKS = "Risks";
 }

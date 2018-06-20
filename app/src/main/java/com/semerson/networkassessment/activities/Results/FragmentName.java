@@ -12,4 +12,9 @@ public class FragmentName {
     public final static int RESULT_CONFIDENTIALITY = 0x0101;
     public final static int RESULTS_AVAILABILITY = 0x0110;
     public final static int RESULTS_INTEGRITY = 0x0111;
+
+    public final static int NETWORK_DEVICES = 0x1010;
+    public final static int NETWORK_SERVICE_INFO = 0x101;
+    public static final int NETWORK_SERVICES = 0x1011;
+    public static final int OPERATING_SYSTEMS = 0x1100;
 }

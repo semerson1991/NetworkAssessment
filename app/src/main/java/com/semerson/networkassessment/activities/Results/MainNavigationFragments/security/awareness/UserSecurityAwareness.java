@@ -79,17 +79,17 @@ public class UserSecurityAwareness extends Fragment implements View.OnClickListe
 
         List<VulnerabilityResult> allVulnerabilties = resultController.getAllVulnerabilities();
 
-        List<ResultController.VulnerabilityCategoryOccrences> topVulnerabilityCategories = resultController.getTopVulnerabilityCategories(3);
+        List<ResultController.VulnerabilityCategoryOccurrences> topVulnerabilityCategories = resultController.getTopVulnerabilityCategories(3);
 
         mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.total_vulns_title, String.valueOf(allVulnerabilties.size())), mainBodyTitleMedium));
         mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.top_categories_title), mainBodyTitleMedium));
 
         List<String> vulnerabilityCategories = new ArrayList<>();
-        for (ResultController.VulnerabilityCategoryOccrences vulnerabilityCategoryOccrences : topVulnerabilityCategories) {
-            String vulnerabilityFamily = vulnerabilityCategoryOccrences.getVulnerabilityFamily();
+        for (ResultController.VulnerabilityCategoryOccurrences vulnerabilityCategoryOccurrences : topVulnerabilityCategories) {
+            String vulnerabilityFamily = vulnerabilityCategoryOccurrences.getVulnerabilityFamily();
             mainLayout.addView(UiObjectCreator.createTextView(
                     context,
-                    getString(R.string.top_vulnerability_category, vulnerabilityCategoryOccrences.getVulnerabilityFamily(),
+                    getString(R.string.top_vulnerability_category, vulnerabilityCategoryOccurrences.getVulnerabilityFamily(),
                             resultController.getCategoryOccurrenceAsPercent(vulnerabilityFamily)),
                     mainbodyText));
             vulnerabilityCategories.add(vulnerabilityFamily);

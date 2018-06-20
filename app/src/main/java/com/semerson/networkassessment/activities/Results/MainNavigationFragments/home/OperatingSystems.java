@@ -139,12 +139,19 @@ public class OperatingSystems extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent singleChartDisplay = new Intent(context, PieChartDetailsActivity.class);
         singleChartDisplay.putExtra("scan-results", scanResults);
-        if (v instanceof TextView){
+        if (v.getId() == R.id.rowListener){
+            Object operatingSystem = v.getTag();
+            if (operatingSystem != null){
+                if (operatingSystem instanceof String){
+
+                }
+            }
+
             String textValue = ((TextView) v).getText().toString();
             List<Host> hosts = scanResults.getHosts();
             for (Host theHost : hosts) {
                 if (theHost.getHostname(false).equals(textValue)) {
-                    android.app.Fragment fragment = HostVulnerabilityDetailsFragment.newInstance(scanResults, theHost.getHostname(false));
+                    Fragment fragment = HostVulnerabilityDetailsFragment.newInstance(scanResults, theHost.getHostname(false));
                     fragmentHost.setFragment(fragment, true);
                     break;
                 }

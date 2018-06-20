@@ -3,6 +3,7 @@ package com.semerson.networkassessment.utils;
 import android.content.Context;
 import android.support.annotation.IdRes;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -36,6 +37,8 @@ public class UiObjectCreator {
         textView.setText(text);
         return textView;
     }
+
+  //  public static SpannableString createHyperlinkString(S)
 
     public static TextView createTextView(@IdRes int id, String txtViewTxt, Context context) {
         TextView textView = new TextView(context);

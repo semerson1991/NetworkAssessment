@@ -9,5 +9,9 @@
     <item name="availabilityImpact" type="id"/>
     <item name="radio_operating_systems" type="id">Operating Systems</item>
     <item name="txtAwarenessStatistics" type="id">ResultAwarenessStatistics</item>
+    <item name="deviceTableHeader" type="id">deviceTableHeader</item>
+    <item name="rowDataListener" type="id">rowDataListener</item>
+    <item name="rowListener" type="id">RowListener</item>
+    <item name="updates_and_patching_hyperlink" type="id">updates_and_patching_hyperlink</item>
 
 </resources>

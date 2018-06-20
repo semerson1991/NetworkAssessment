@@ -76,8 +76,6 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
                 setFragment(securityAwarenessHomeFragment, true);
             }
         }
-
-
     }
 
     @Override

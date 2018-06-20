@@ -17,11 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.NetworkScanner;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.AllVulnerabilities;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.AttackComplexity;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.OperatingSystems;
@@ -81,11 +77,6 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        bottomLayout = (RelativeLayout) findViewById(R.id.youtubeLayout);
-        bottomLayout.setVisibility(View.INVISIBLE);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);

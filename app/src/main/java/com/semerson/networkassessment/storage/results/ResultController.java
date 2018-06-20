@@ -1,6 +1,7 @@
 package com.semerson.networkassessment.storage.results;
 
 import com.semerson.networkassessment.activities.Results.ResultCallback;
+import com.semerson.networkassessment.activities.network.TechnicalAndFriendlyName;
 import com.semerson.networkassessment.utils.Utils;
 
 import java.util.ArrayList;
@@ -17,11 +18,7 @@ public class ResultController {
     private Map<String, Host> hosts;
 
     public ResultController(List<Host> hosts) {
-        this.hosts = new HashMap<>();
-
-        for (Host host : hosts) {
-            this.hosts.put(host.getHostname(false), host);
-        }
+        updateHosts(hosts);
     }
 
     //Filter
@@ -159,7 +156,7 @@ public class ResultController {
         return resultData;
     }
 
-    public Map<String, Float> getThreatLevelFilterByVulnFamily (String vulnFamily) {
+    public Map<String, Float> getThreatLevelFilterByVulnFamily(String vulnFamily) {
         Map<String, Float> resultData = new HashMap<>();
         final float numToIncrement = 1.0f;
 
@@ -546,8 +543,8 @@ public class ResultController {
 
     //TODO This method returns the exact number of number of categories. This should eventually be changed to be more flexible on returning
     //TODO occurences based on additional condtions if there are more than 3 categories in the list with the same number of occurrences.
-    public List<VulnerabilityCategoryOccrences> getTopVulnerabilityCategories(int numberOfCategories) {
-        List<VulnerabilityCategoryOccrences> vulnerabilityCategoryOccrences = new ArrayList<>();
+    public List<VulnerabilityCategoryOccurrences> getTopVulnerabilityCategories(int numberOfCategories) {
+        List<VulnerabilityCategoryOccurrences> vulnerabilityCategoryOccrences = new ArrayList<>();
 
         for (String hostname : hosts.keySet()) {
             Host host = hosts.get(hostname);
@@ -555,7 +552,7 @@ public class ResultController {
             for (VulnerabilityResult vulnerabilityResult : vulnerabilityResults) {
                 String family = vulnerabilityResult.getVulnFamily();
                 boolean exists = false;
-                for (VulnerabilityCategoryOccrences vulnCatergory : vulnerabilityCategoryOccrences) {
+                for (VulnerabilityCategoryOccurrences vulnCatergory : vulnerabilityCategoryOccrences) {
                     if (vulnCatergory.getVulnerabilityFamily().equals(family)) {
                         vulnCatergory.appendOccurence();
                         exists = true;
@@ -563,12 +560,12 @@ public class ResultController {
                     }
                 }
                 if (!exists) {
-                    vulnerabilityCategoryOccrences.add(new VulnerabilityCategoryOccrences(family));
+                    vulnerabilityCategoryOccrences.add(new VulnerabilityCategoryOccurrences(family));
                 }
             }
         }
-        Collections.sort(vulnerabilityCategoryOccrences, new Comparator<VulnerabilityCategoryOccrences>() {
-            public int compare(VulnerabilityCategoryOccrences v1, VulnerabilityCategoryOccrences v2) {
+        Collections.sort(vulnerabilityCategoryOccrences, new Comparator<VulnerabilityCategoryOccurrences>() {
+            public int compare(VulnerabilityCategoryOccurrences v1, VulnerabilityCategoryOccurrences v2) {
                 return v2.getOccurences().compareTo(v1.getOccurences());
             }
         });
@@ -590,12 +587,97 @@ public class ResultController {
         return Utils.getFormattedPercentage(totalNumOfResults, occurences);
     }
 
+    public void updateHosts(List<Host> hosts) {
+        this.hosts = new HashMap<>();
 
-    public class VulnerabilityCategoryOccrences {
+        for (Host host : hosts) {
+            this.hosts.put(host.getHostname(false), host);
+        }
+    }
+
+    public String checkVulnerableOs(String os) {
+        switch (os) {
+            case "Windows XP":
+                return "Warning: This Operating System is obsolete and should be upgraded.";
+        }
+        return "";
+    }
+
+    public List<Host> getHostsFilterByOS(String os) {
+        List filteredHostsByOs = new ArrayList();
+
+        for (String hostname : hosts.keySet()) {
+            Host host = hosts.get(hostname);
+
+            if (host.getOs().equals(os)) {
+                filteredHostsByOs.add(host);
+            }
+        }
+        return filteredHostsByOs;
+    }
+
+    public Map<String, Float> getServices(boolean advancedMode) {
+        Map<String, Float> services = new HashMap<>();
+        final float numToIncrement = 1.0f;
+        for (String hostName : hosts.keySet()) {
+            Host host = hosts.get(hostName);
+            List<Service> hostServices = host.getServices();
+            for (Service service : hostServices) {
+                TechnicalAndFriendlyName serviceNames = service.getService();
+                String serviceName = advancedMode ? serviceNames.getTechnicalName() : serviceNames.getFriendlyName();
+                if (services.containsKey(serviceName)) {
+                    float value = services.get(serviceName);
+                    value = value + numToIncrement;
+                    services.put(serviceName, value); // May not need to put again? Check if value within map changes automatically
+                } else {
+                    services.put(serviceName, 1.0f);
+                }
+            }
+        }
+        return services;
+    }
+
+    public List<Host> getHostsFilterByService(String theService) {
+        List filteredHostsByService = new ArrayList();
+
+        for (String hostname : hosts.keySet()) {
+            Host host = hosts.get(hostname);
+            List<Service> services = host.getServices();
+            for (Service service : services) {
+                TechnicalAndFriendlyName names = service.getService();
+                if (names.getFriendlyName().equals(theService) || names.getTechnicalName().equals(theService)) {
+                    filteredHostsByService.add(host);
+                    break;
+                }
+            }
+        }
+        return filteredHostsByService;
+    }
+
+    public List<String> getUnsupportOperatingSystems() {
+        List<String> unsupportOperatingSystems = new ArrayList<>();
+        final String WINDOWS_XP = "Windows Xp";
+        final String LINUX_2_6 = "Linux 2.6.X";
+
+        for (String hostname : hosts.keySet()) {
+            Host host = hosts.get(hostname);
+            String os = host.getOs();
+            switch (os) {
+                case LINUX_2_6:
+                case WINDOWS_XP:
+                    unsupportOperatingSystems.add(os);
+                    break;
+
+            }
+        }
+        return unsupportOperatingSystems;
+    }
+
+    public class VulnerabilityCategoryOccurrences {
         Integer occurences = 1;
         String vulnerabilityFamily;
 
-        public VulnerabilityCategoryOccrences(String vulerabilityFamily) {
+        public VulnerabilityCategoryOccurrences(String vulerabilityFamily) {
             this.vulnerabilityFamily = vulerabilityFamily;
         }
 

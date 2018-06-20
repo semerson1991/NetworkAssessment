@@ -7,9 +7,7 @@ import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
-import android.net.Network;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,12 +18,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.chrisbanes.photoview.PhotoView;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -40,28 +35,23 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.Results.ResultsActivity;
+import com.semerson.networkassessment.activities.network.NetworkDevices;
 import com.semerson.networkassessment.activities.settings.SettingsActivity;
 import com.semerson.networkassessment.activities.user.awareness.UserAwareness;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizContract;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizDbHelper;
 import com.semerson.networkassessment.storage.AppStorage;
-import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.UiObjectCreator;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -69,16 +59,23 @@ public class WelcomeActivity extends AppCompatActivity implements
         OnChartGestureListener,
         OnChartValueSelectedListener {
 
+    public static final boolean TEST_MODE = false;
+    public static final boolean TEST_DATA = true;
+    public static final boolean TEST_LOGIN = true;
+
     private LineChart lineChart;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     public static boolean ADVANCED_MODE;
 
+    private static Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_area);
+
+        context = getApplicationContext();
 
         initialiseTestData(); //TODO This is just temp, for test purposes
 
@@ -102,13 +99,12 @@ public class WelcomeActivity extends AppCompatActivity implements
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
                                 break;
-                            case R.id.nav_vulnerability_assessment:
-                                Intent activity_vulnScanner = new Intent(WelcomeActivity.this, NetworkScanner.class);
+                            case R.id.nav_my_network:
+                                Intent activity_vulnScanner = new Intent(WelcomeActivity.this, NetworkDevices.class);
                                 WelcomeActivity.this.startActivity(activity_vulnScanner);
                                 break;
                             case R.id.nav_assessment_results:
-                                boolean test = true;
-                                if (test) { //TODO REMOVE
+                                if (TEST_MODE) { //TODO REMOVE - GET THIS FROM THE TEST CLASS INSTEAD
                                     AssetManager assetManager = getAssets();
                                     InputStream input;
                                     try {
@@ -120,10 +116,10 @@ public class WelcomeActivity extends AppCompatActivity implements
 
                                         // byte buffer into a string
                                         String text = new String(buffer);
-                                        NetworkScanner networkScanner = new NetworkScanner();
-                                        ScanResults scanResults = networkScanner.processResponseTest(text);
+                                        NetworkDevices networkDevices = new NetworkDevices();
+                                        // ScanResults scanResults = networkDevices.processResponseTest(text);
                                         Intent resultActivity = new Intent(WelcomeActivity.this, ResultsActivity.class);
-                                        resultActivity.putExtra("scan-results", scanResults);
+                                        // resultActivity.putExtra("scan-results", scanResults);
                                         startActivity(resultActivity);
                                     } catch (IOException e) {
                                         e.printStackTrace();
@@ -322,41 +318,54 @@ public class WelcomeActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    private void initialiseTestData() {
-        String riskScore1 = "43526";
-        String riskScore2 = "54652";
-        String riskScore3 = "32786";
-        String riskScore4 = "25673";
-        String riskScore5 = "15782";
+    public void initialiseTestData() {
+        if (TEST_DATA) {
+            String riskScore1 = "43526";
+            String riskScore2 = "54652";
+            String riskScore3 = "32786";
+            String riskScore4 = "25673";
+            String riskScore5 = "15782";
 
-        Set<String> riskScores = new LinkedHashSet<>();
-        riskScores.add(riskScore1);
-        riskScores.add(riskScore2);
-        riskScores.add(riskScore3);
-        riskScores.add(riskScore4);
-        riskScores.add(riskScore5);
+            Set<String> riskScores = new LinkedHashSet<>();
+            riskScores.add(riskScore1);
+            riskScores.add(riskScore2);
+            riskScores.add(riskScore3);
+            riskScores.add(riskScore4);
+            riskScores.add(riskScore5);
 
-        JSONArray jsonArray = new JSONArray(riskScores);
+            JSONArray jsonArray = new JSONArray(riskScores);
 
-        SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
+            SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
 
-        editor.putString(AppStorage.RISK_SCORE_HISTORY, jsonArray.toString());
 
-        DateTimeFormatter dateformat = DateTimeFormat.forPattern("dd-MM-yyyy");
-        DateTime date = new DateTime(2018, 6, 1, 0, 0, 0, 0);
+            editor.putString(AppStorage.RISK_SCORE_HISTORY, jsonArray.toString());
 
-        editor.putString(AppStorage.LAST_SCAN_DATE, date.toString());
+            DateTimeFormatter dateformat = DateTimeFormat.forPattern("dd-MM-yyyy");
+            DateTime date = new DateTime(2018, 6, 1, 0, 0, 0, 0);
 
-        //Just for db test purposes
-        editor.putBoolean(AppStorage.DATABASE_CREATED, false);
-        editor.commit();
+            editor.putString(AppStorage.LAST_SCAN_DATE, date.toString());
 
-        testDropDatabase(true);
+            //Just for db test purposes
+            editor.putBoolean(AppStorage.DATABASE_CREATED, false);
+            editor.commit();
+
+            testDropDatabase(true);
+        }
+
+        if (TEST_LOGIN) {
+            testModeLoginData();
+        }
+
     }
 
-    private void testDropDatabase(boolean drop){
+    private void testModeLoginData() {
+        AppStorage.putValue(this, AppStorage.NETWORK_NAME, "Stephens Home Network");
+        AppStorage.putValue(this, AppStorage.ALIAS_NAME, "Stephen");
+    }
+
+    private void testDropDatabase(boolean drop) {
         if (drop) {
             class TestDatabaseHelpers extends SQLiteOpenHelper {
 
@@ -378,6 +387,11 @@ public class WelcomeActivity extends AppCompatActivity implements
 
             TestDatabaseHelpers dbHelper = new TestDatabaseHelpers(this);
             dbHelper.onCreate(dbHelper.getWritableDatabase());
+            dbHelper.close();
         }
-        }
+    }
+
+    public static Context getAppContext() {
+        return WelcomeActivity.context;
+    }
 }

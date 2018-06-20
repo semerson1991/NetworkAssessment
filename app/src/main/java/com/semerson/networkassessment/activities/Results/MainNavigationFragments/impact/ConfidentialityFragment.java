@@ -98,11 +98,12 @@ public class ConfidentialityFragment extends Fragment implements View.OnClickLis
         Table table = new Table();
         for (String host : confidentialityImpactScore.keySet()) {
             ResultScoreMetrics confidentialityScoreCount = confidentialityImpactScore.get(host);
-
-            table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER, this),
-                    new TableRowData(String.valueOf(confidentialityScoreCount.getHighCount()), Gravity.CENTER),
-                    new TableRowData(String.valueOf(confidentialityScoreCount.getLowCount()), Gravity.CENTER),
-                    new TableRowData(String.valueOf(confidentialityScoreCount.getTotal()), Gravity.CENTER)));
+            if (confidentialityScoreCount.getTotal() != 0) {
+                table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER, this),
+                        new TableRowData(String.valueOf(confidentialityScoreCount.getHighCount()), Gravity.CENTER),
+                        new TableRowData(String.valueOf(confidentialityScoreCount.getLowCount()), Gravity.CENTER),
+                        new TableRowData(String.valueOf(confidentialityScoreCount.getTotal()), Gravity.CENTER)));
+            }
         }
         table.setSortedHighToLow(true);
         tableCreator.createTableViews(context, mainLayout, customBoarder, table);

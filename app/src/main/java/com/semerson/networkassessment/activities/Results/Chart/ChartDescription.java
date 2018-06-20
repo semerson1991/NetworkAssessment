@@ -12,5 +12,6 @@ public class ChartDescription {
     public static final String INTEGRITY = "Integrity Impact";
     public static final String AVAILABILITY = "Availability Impact";
 
-    public static String MITIGATION = "Mitigations";
+    public static final String SERVICES = "Running Services";
+    public static final String MITIGATION = "Mitigations";
 }

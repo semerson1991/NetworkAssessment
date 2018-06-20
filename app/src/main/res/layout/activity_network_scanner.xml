@@ -1,22 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NetworkScanner">
+    android:fillViewport="true"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnRunScan"
-        android:layout_width="0dp"
-        android:layout_height="58dp"
-        android:layout_marginBottom="34dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginLeft="52dp"
-        android:layout_marginRight="52dp"
-        android:layout_marginStart="52dp"
-        android:text="Run Vulnerability Scan"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</android.support.constraint.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/navigationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottomNavigation"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/mainFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/bottomNavigation"
+                    android:layout_centerHorizontal="true"></FrameLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="3dp"
+            app:menu="@menu/nav_items_my_network">
+
+        </android.support.design.widget.BottomNavigationView>
+
+    </RelativeLayout>
+</LinearLayout>

@@ -52,7 +52,7 @@ public class AvailabilityFragment extends Fragment implements View.OnClickListen
     private View rootview;
     private ResultController resultController;
     private TextView availabilityChartText;
-    private  TextView textView;
+    private TextView textView;
     private RadioButton radioAvailability;
 
     public AvailabilityFragment() {
@@ -98,14 +98,15 @@ public class AvailabilityFragment extends Fragment implements View.OnClickListen
         Table table = new Table();
         for (String host : availabilityImpactScore.keySet()) {
             ResultScoreMetrics availabilityScoreCount = availabilityImpactScore.get(host);
-
-            table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER,this),
-                    new TableRowData(String.valueOf(availabilityScoreCount.getHighCount()), Gravity.CENTER),
-                    new TableRowData(String.valueOf(availabilityScoreCount.getLowCount()), Gravity.CENTER),
-                    new TableRowData(String.valueOf(availabilityScoreCount.getTotal()), Gravity.CENTER)));
+            if (availabilityScoreCount.getTotal() != 0) {
+                table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER, this),
+                        new TableRowData(String.valueOf(availabilityScoreCount.getHighCount()), Gravity.CENTER),
+                        new TableRowData(String.valueOf(availabilityScoreCount.getLowCount()), Gravity.CENTER),
+                        new TableRowData(String.valueOf(availabilityScoreCount.getTotal()), Gravity.CENTER)));
+            }
         }
         table.setSortedHighToLow(true);
-        tableCreator.createTableViews(context, mainLayout, customBoarder, table );
+        tableCreator.createTableViews(context, mainLayout, customBoarder, table);
     }
 
     public static AvailabilityFragment newInstance(ScanResults scanResults) {

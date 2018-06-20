@@ -52,6 +52,7 @@ public class IntegrityFragment extends Fragment implements View.OnClickListener 
     private TextView integrityChartText;
 
     private RadioButton radioIntegrity;
+
     public IntegrityFragment() {
         // Required empty public constructor
     }
@@ -97,10 +98,12 @@ public class IntegrityFragment extends Fragment implements View.OnClickListener 
         for (String host : integrityImpactScore.keySet()) {
             ResultScoreMetrics integrityScoreCount = integrityImpactScore.get(host);
 
-            table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER,this),
-                    new TableRowData(String.valueOf(integrityScoreCount.getHighCount()), Gravity.CENTER),
-                    new TableRowData(String.valueOf(integrityScoreCount.getLowCount()), Gravity.CENTER),
-                    new TableRowData(String.valueOf(integrityScoreCount.getTotal()), Gravity.CENTER)));
+            if (integrityScoreCount.getTotal() != 0) {
+                table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER, this),
+                        new TableRowData(String.valueOf(integrityScoreCount.getHighCount()), Gravity.CENTER),
+                        new TableRowData(String.valueOf(integrityScoreCount.getLowCount()), Gravity.CENTER),
+                        new TableRowData(String.valueOf(integrityScoreCount.getTotal()), Gravity.CENTER)));
+            }
         }
         table.setSortedHighToLow(true);
         tableCreator.createTableViews(context, mainLayout, customBoarder, table);

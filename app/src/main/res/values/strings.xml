@@ -40,5 +40,37 @@
     <string name="awarenessKey">awarenessPage</string>
     <string name="title_activity_quiz">QuizActivity</string>
     <string name="title_activity_quiz_home">QuizHome</string>
+    <string name="title_activity_my_network">MyNetworkActivity</string>
+
+    <string name="device_not_scanned">This device has not been scanned!</string>
+    <string name="device_not_scanned_instructions">Click "'"scan device"'" button above to check for vulnerabilities</string>
+    <string name="device_previous_vulnerabilities">Previous vulnerabilities have not been fixed</string>
+    <string name="device_previous_vulnerabilities_instructions">Please see the results section to find detailed information on mitigations, then rerun the scan when they have been applied</string>
+    <string name="device_no_vulnerabilities">Well done! No vulnerabilities found on this device</string>
+    <string name="device_no_vulnerabilities_instructions">Reminder: It is recommended to search for vulnerabilities at least once a month as new vulnerabilities are discovered every week.</string>
+    <string name="Services">Services</string>
+    <string name="Devices">Devices</string>
+    <string name="ftp_description">"Used for the transfer of files between devices on the network"</string>
+    <string name="ssh_description">"Allows secure network communication between devices"</string>
+
+    <string name="telnet_description">"Provides bidirectional interactive text communication betweeen connected devices on the network"</string>
+    />
+    <string name="smtp_description">"Used for sending and receiving email"</string>
+    <string name="domain_description">"The internets equivalent of a phone book. Maintains human readable names that translates to an IP address. Example: Google.com translates to 172.217.12.206 (try this by typing 172.217.12.206 into your web browser)"</string>
+
+    <string name="http_description">"Used by the World Wide Web for sending and receiving website pages"</string>
+
+    <string name="rpcblind_description">"Remove"</string>
+    <string name="netbios_ssn_description">"Allows devices to communicate over the network"</string>
+
+    <string name="microsoft_ds_description">"A networking file sharing protocol used in Microsoft Windows"</string>
+    <string name="nfs_description">"Allows users to access files from another storage device across the network"</string>
+
+    <string name="mysql_description">"A database management system used for storing data"</string>
+    <string name="postgresql_description">"A database management system used for storing data"</string>
+
+    <string name="vnc_description">"Allows control of a computer from another computer on the network"</string>
+    <string name="irc_description">"Allows users to chat over communicate in text form"</string>
+    <string name="obsolete_operating_systems_detected">Operating Systems that are no longer support have been detected:</string>
 
 </resources>
