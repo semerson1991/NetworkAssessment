@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.ActivityID;
+import com.semerson.networkassessment.activities.DynamicUI;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityDetailsFragment;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
@@ -25,7 +27,7 @@ import com.semerson.networkassessment.utils.UiObjectCreator;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SingleNetworkDeviceFragment extends Fragment implements View.OnClickListener {
+public class SingleNetworkDeviceFragment extends Fragment implements View.OnClickListener, DynamicUI {
 
     private static final String NETWORK_DEVICE_TITLE = "Device details for host: ";
     private Context context;
@@ -36,9 +38,12 @@ public class SingleNetworkDeviceFragment extends Fragment implements View.OnClic
     private FragmentHost fragmentHost;
 
     private Button btnRunScan;
+    private Button btnViewResults;
+
     private NetworkDevices networkDevices;
     private Host host;
 
+    private View view;
     public SingleNetworkDeviceFragment() {
         // Required empty public constructor
     }
@@ -54,8 +59,13 @@ public class SingleNetworkDeviceFragment extends Fragment implements View.OnClic
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        this.view = view;
         mainLayout = view.findViewById(R.id.mainLayout);
         btnRunScan = view.findViewById(R.id.btnRunScan);
+        btnRunScan.setOnClickListener(this);
+        btnViewResults = view.findViewById(R.id.btnViewResults);
+        btnViewResults.setOnClickListener(this);
+
         host = getArguments().getParcelable("host");
         TextView textViewHost = view.findViewById(R.id.txtHostDetailsTitle);
         textViewHost.setText("Host: "+host.getHostname(true));
@@ -65,25 +75,7 @@ public class SingleNetworkDeviceFragment extends Fragment implements View.OnClic
         String osText = resultController.checkVulnerableOs(os);
         ostextView.setText("Operating System "+os + "\n" + osText);
 
-        String lastScanned = networkDevices.getHostLastScanned(host);
-        LinearLayout scanInformationView = view.findViewById(R.id.deviceScannedInfoView);
-        switch (lastScanned) {
-            case NetworkDevices.LAST_SCANNED_NEVER:
-                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_not_scanned), R.style.never_scanned_text));
-                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_not_scanned_instructions), R.style.custom_mainbody_text));
-                break;
-            case NetworkDevices.NO_RISKS_FOUND:
-                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_no_vulnerabilities), R.style.no_risks_found_text));
-                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_no_vulnerabilities_instructions), R.style.custom_mainbody_text));
-                break;
-
-            default:
-                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_previous_vulnerabilities), R.style.risks_found_text));
-                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_previous_vulnerabilities_instructions), R.style.custom_mainbody_text));
-        }
-
-        TextView textViewLastScanned = view.findViewById(R.id.txtHostLastScannedValue);
-        textViewLastScanned.setText(lastScanned);
+        setDynamicUI();
 
         TextView textViewMacAddress = view.findViewById(R.id.txtHostMacAddressValue);
         textViewMacAddress.setText(host.getMacAddress());
@@ -94,6 +86,31 @@ public class SingleNetworkDeviceFragment extends Fragment implements View.OnClic
         TextView textViewVendor = view.findViewById(R.id.txtVendorValue);
         textViewVendor.setText(host.getManufacturer());
 
+    }
+
+    public void setDynamicUI(){
+        Host updatedHost = resultController.getUpdatedHost(networkDevices, this.host);
+        String lastScanned = updatedHost.getlastScannedResult();
+        LinearLayout scanInformationView = view.findViewById(R.id.deviceScannedInfoView);
+        scanInformationView.removeAllViews();
+        switch (lastScanned) {
+            case Host.NEVER:
+                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_not_scanned), R.style.never_scanned_text));
+                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_not_scanned_instructions), R.style.custom_mainbody_text));
+                break;
+            case Host.NO_RISKS_FOUND:
+                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_no_vulnerabilities), R.style.no_risks_found_text));
+                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_no_vulnerabilities_instructions), R.style.custom_mainbody_text));
+                btnViewResults.setVisibility(View.VISIBLE);
+                break;
+            default:
+                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_previous_vulnerabilities), R.style.risks_found_text));
+                scanInformationView.addView(UiObjectCreator.createTextView(context, getString(R.string.device_previous_vulnerabilities_instructions), R.style.custom_mainbody_text));
+                btnViewResults.setVisibility(View.VISIBLE);
+        }
+
+        TextView textViewLastScanned = view.findViewById(R.id.txtHostLastScannedValue);
+        textViewLastScanned.setText(lastScanned);
     }
 
     public static SingleNetworkDeviceFragment newInstance(Host host) {
@@ -122,12 +139,24 @@ public class SingleNetworkDeviceFragment extends Fragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            VulnerabilityResult vulnerability = scanResults.getVulnerabilityInfo(textValue);
-            android.app.Fragment fragment = VulnerabilityDetailsFragment.newInstance(scanResults, vulnerability);
-            fragmentHost.setFragment(fragment, true);
+        //if (v instanceof TextView) {
+         //   String textValue = ((TextView) v).getText().toString();
+          //  VulnerabilityResult vulnerability = scanResults.getVulnerabilityInfo(textValue);
+           // android.app.Fragment fragment = VulnerabilityDetailsFragment.newInstance(scanResults, vulnerability);
+           // fragmentHost.setFragment(fragment, true);
+       // }
+        switch (v.getId()){
+            case R.id.btnRunScan:
+                networkDevices.performVulnerabilityScan(host);
+                break;
+            case R.id.btnViewResults:
+                networkDevices.displayResults(host);
+                break;
         }
     }
 
+    @Override
+    public void updateUI() {
+        setDynamicUI();
+    }
 }

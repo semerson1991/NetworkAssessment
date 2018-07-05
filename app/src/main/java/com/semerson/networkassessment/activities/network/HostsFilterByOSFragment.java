@@ -19,7 +19,6 @@ import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ScanResults;
-import com.semerson.networkassessment.storage.results.Service;
 import com.semerson.networkassessment.utils.StyledText;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
@@ -76,18 +75,18 @@ private String os;
         TableCreator tableCreator = new TableCreator();
         if (hosts.size() > 0) {
             for (Host host : hosts) {
-                StyledText risksFound = networkDevices.getRisksFound(host);
+                StyledText risksFound = host.getRisksFound();
 
                 TableRowData tableRowDataHost = new TableRowData(host.getHostname(true), Gravity.LEFT);
-                TableRowData tableRowDataLastScanned = new TableRowData(networkDevices.getHostLastScanned(host), Gravity.CENTER);
+                TableRowData tableRowDataLastScanned = new TableRowData(host.getlastScannedResult(), Gravity.CENTER);
                 TableRowData tableRowDataRisksFound = new TableRowData(risksFound.getText(), risksFound.getStyle(), Gravity.CENTER);
                 tableRowDataHost.setRowId(R.id.rowDataListener);
 
                 TableRow tableRow = new TableRow(tableRowDataHost, tableRowDataLastScanned, tableRowDataRisksFound);
                 tableRow.setOnClickListener(networkDevices);
                 tableRow.setRowId(R.id.rowListener);
-                table.appendTableRow(tableRow);
                 tableRow.setTag(host);
+                table.appendTableRow(tableRow);
             }
         } else {
             TableRow tableRow = new TableRow(

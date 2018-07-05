@@ -1,7 +1,11 @@
 package com.semerson.networkassessment.storage.results;
 
+import android.content.Context;
+
 import com.semerson.networkassessment.activities.Results.ResultCallback;
+import com.semerson.networkassessment.activities.network.NetworkDevices;
 import com.semerson.networkassessment.activities.network.TechnicalAndFriendlyName;
+import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.utils.Utils;
 
 import java.util.ArrayList;
@@ -671,6 +675,12 @@ public class ResultController {
             }
         }
         return unsupportOperatingSystems;
+    }
+
+    public Host getUpdatedHost(Context context, Host previousHost) {
+        ScanResults scanResults = AppStorage.getScanResults(context);
+        String hostIp = previousHost.getIp();
+        return scanResults.getHost(hostIp);
     }
 
     public class VulnerabilityCategoryOccurrences {

@@ -59,10 +59,11 @@ public class WelcomeActivity extends AppCompatActivity implements
         OnChartGestureListener,
         OnChartValueSelectedListener {
 
-    public static final boolean TEST_MODE = false;
+    public static final boolean TEST_MODE = true;
     public static final boolean TEST_DATA = true;
     public static final boolean TEST_LOGIN = true;
 
+    public static final DateTimeFormatter dateformat = DateTimeFormat.forPattern("dd-MM-yyyy");
     private LineChart lineChart;
 
     private DrawerLayout mDrawerLayout;
@@ -108,7 +109,7 @@ public class WelcomeActivity extends AppCompatActivity implements
                                     AssetManager assetManager = getAssets();
                                     InputStream input;
                                     try {
-                                        input = assetManager.open("sampleJson.txt");
+                                        input = assetManager.open("sample_nmap.txt");
                                         int size = input.available();
                                         byte[] buffer = new byte[size];
                                         input.read(buffer);
@@ -179,7 +180,7 @@ public class WelcomeActivity extends AppCompatActivity implements
         Description description = new Description();
         description.setText("Vulnerability Risk Score History");
         lineChart.setDescription(description);
-        lineChart.setNoDataText("You need to provide data for the chart.");
+        lineChart.setNoDataText("No Scan History.");
         lineChart.setTouchEnabled(true);
         lineChart.setDragEnabled(true);
         lineChart.setScaleEnabled(true);
@@ -191,14 +192,14 @@ public class WelcomeActivity extends AppCompatActivity implements
 
         //  LocalDate date = new LocalDate( 01,06,  2018 );
 
-        String lastScanDate = preferences.getString(AppStorage.LAST_SCAN_DATE, null);
+        String lastScanDate = preferences.getString(AppStorage.LAST_DISCOVERY_SCAN_DATE, null);
+        TextView lastScanDateTxt = findViewById(R.id.lastscandate);
         if (lastScanDate != null) {
-            DateTimeFormatter dateformat = DateTimeFormat.forPattern("dd-MM-yyyy");
             DateTime dt = new DateTime(lastScanDate);
-            TextView lastScanDateTxt = findViewById(R.id.lastscandate);
             lastScanDateTxt.setText("Last scan date: " + dt.toString("dd-MM-yyyy"));
+        } else {
+            lastScanDateTxt.setText("Last scan date: " + "Never!");
         }
-
 
         TextView textViewHomePoster = UiObjectCreator.createTextView(this, "Securing your home: https://www.sans.org/sites/default/files/2017-12/STH-Poster-CyberSecureHome-Print_0.pdf",
                 R.style.custom_mainbody_text);
@@ -345,7 +346,12 @@ public class WelcomeActivity extends AppCompatActivity implements
             DateTimeFormatter dateformat = DateTimeFormat.forPattern("dd-MM-yyyy");
             DateTime date = new DateTime(2018, 6, 1, 0, 0, 0, 0);
 
-            editor.putString(AppStorage.LAST_SCAN_DATE, date.toString());
+            //DateTime currentDate = new DateTime();
+           // DateTime parse = dateformat.parseDateTime(currentDate.toString());
+           // Log.i("WelcomeActivity Date", parse.toString());
+
+
+            editor.putString(AppStorage.LAST_DISCOVERY_SCAN_DATE, date.toString());
 
             //Just for db test purposes
             editor.putBoolean(AppStorage.DATABASE_CREATED, false);

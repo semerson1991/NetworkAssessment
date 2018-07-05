@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.semerson.networkassessment.activities.WelcomeActivity;
+import com.semerson.networkassessment.activities.network.NetworkDevices;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.utils.ProcessHttpResponse;
 import com.semerson.networkassessment.utils.RequestBuilder;
@@ -20,9 +21,10 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
 
     private static final String TAG = "CommunicationService";
 
-    public static final String BASE_URL = "http://192.168.0.4:8000";
+    public static final String BASE_URL = "http://192.168.0.45:8000";
     public static final String URL_REGISTER = BASE_URL + "/register-user/";
     public static final String URL_RUN_HOST_DISCOVERY = BASE_URL + "/run-nmap-scan/";
+    public static final String URL_RUN_VULNERABILITY_SCAN = BASE_URL + "/run-vulnerability-scan/";
     //public static final String URL_REGISTER_NETWORK = BASE_URL+"/register-network-config/";
     public static final String URL_LOGIN = BASE_URL + "/login-user/";
     public static final String URL_RUN_SCAN = BASE_URL + "/run-scan/";
@@ -31,7 +33,7 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
 
     private RequestBody requestBody;
     private ProcessHttpResponse processHttpResponse;
-private Context context;
+    private Context context;
     public ServerCommunicationService(Context theContext) {
         this.context = theContext;
         if (theContext instanceof ProcessHttpResponse) {
@@ -60,12 +62,17 @@ private Context context;
 
             try {
                 Log.i(TAG, "Sending request to " + url[0]);
+                Integer delay = AppStorage.getValue(WelcomeActivity.getAppContext(), AppStorage.REQUEST_DELAY, 0);
+                Log.i(TAG, "Delaying request " + delay.toString() + " seconds");
+                Thread.sleep(delay);
                 response = client.newCall(request).execute();
                 return response.body().string();
             } catch (IOException e) {
                 AppStorage.putValue(context, AppStorage.SERVER_COMMUNICATION_ERROR_MESSAGE, "Server connection error: "+ e.getMessage());
                 AppStorage.putValue(context, AppStorage.SERVER_COMMUNICATION_ERROR,true);
                 Log.e(TAG, "Error connecting to server: " + e.getMessage());
+            } catch (InterruptedException e) {
+                Log.e(TAG, "Error request delay error: " + e.getMessage());
             } finally {
                 if (response != null) {
                     response.close();
@@ -80,7 +87,13 @@ private Context context;
         super.onPostExecute(result);
         if (processHttpResponse != null) {
             Log.v(TAG, "result = " + result.toString());
-            processHttpResponse.processResponse(result);
+            if (NetworkDevices.activityActive){
+                Log.i(TAG, "Network Device activity is active, updating UI");
+                processHttpResponse.processResponse(result);
+            } else {
+                Log.i(TAG, "Network Device activity is not active, storing results");
+                AppStorage.putValue(WelcomeActivity.getAppContext(),AppStorage.SERVER_RESPONSE, result);
+            }
         }
     }
 

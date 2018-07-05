@@ -76,10 +76,10 @@ public class HostsFilterByServiceFragment extends Fragment {
         TableCreator tableCreator = new TableCreator();
         if (hosts.size() > 0) {
             for (Host host : hosts) {
-                StyledText risksFound = networkDevices.getRisksFound(host);
+                StyledText risksFound = host.getRisksFound();
 
                 TableRowData tableRowDataHost = new TableRowData(host.getHostname(true), Gravity.LEFT);
-                TableRowData tableRowDataLastScanned = new TableRowData(networkDevices.getHostLastScanned(host), Gravity.CENTER);
+                TableRowData tableRowDataLastScanned = new TableRowData(host.getlastScannedResult(), Gravity.CENTER);
                 TableRowData tableRowDataRisksFound = new TableRowData(risksFound.getText(), risksFound.getStyle(), Gravity.CENTER);
                 tableRowDataHost.setRowId(R.id.rowDataListener);
 

@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.ActivityID;
+import com.semerson.networkassessment.activities.DynamicUI;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
@@ -32,7 +34,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NetworkDevicesFragment extends Fragment implements View.OnClickListener {
+public class NetworkDevicesFragment extends Fragment implements View.OnClickListener, DynamicUI {
     private static final String NETWORK_DEVICES_TITLE = "Wi-Fi network: ";
     private static final String NETWORK_DEVICES_FOUND_TITLE = " devices found";
     private Context context;
@@ -49,6 +51,7 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
     private Button btnFindDevices;
     private Button btnRunScan;
 
+    private View view;
     private View previousTableItems = null;
 
     public NetworkDevicesFragment() {
@@ -64,7 +67,7 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
+        this.view = view;
         mainLayout = view.findViewById(R.id.mainLayout);
         btnFindDevices = view.findViewById(R.id.btnFindDevices);
         btnRunScan = view.findViewById(R.id.btnRunScan);
@@ -73,13 +76,10 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
 
         TextView textViewTitle = view.findViewById(R.id.txtNetworkNameTitle);
         textViewTitle.setText(NETWORK_DEVICES_TITLE + AppStorage.getValue(networkDevices, AppStorage.NETWORK_NAME, "N/A"));
-        TextView textViewDevicesTitle = view.findViewById(R.id.txtDevicesTitle);
-        textViewDevicesTitle.setText(Integer.toString(AppStorage.getScanResults(networkDevices).getHosts().size()) + NETWORK_DEVICES_FOUND_TITLE);
-
-        updateNetworkDeviceLayout();
+        updateDynamicUI();
     }
 
-    public void updateNetworkDeviceLayout() {
+    public void updateDynamicUI() {
         Table table = new Table();
         TableCreator tableCreator = new TableCreator();
 
@@ -97,18 +97,21 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
 
         Drawable customBoarder = getResources().getDrawable(R.drawable.customboarder_top_bottom_isvisible);
 
-
         List<Host> hosts = scanResults.getHosts();
         if (hosts.size() > 0) {
             btnRunScan.setVisibility(View.VISIBLE);
 
 
             for (Host host : hosts) {
-                StyledText styledText = networkDevices.getRisksFound(host);
-                TableRow tableRow = new TableRow(
-                        new TableRowData(host.getHostname(true), Gravity.LEFT, this),
-                        new TableRowData(networkDevices.getHostLastScanned(host), Gravity.CENTER),
-                        new TableRowData(styledText.getText(), styledText.getStyle(), Gravity.CENTER));
+                StyledText styledText = host.getRisksFound();
+
+                TableRowData tableRowDataHost = new TableRowData(host.getHostname(true), Gravity.LEFT);
+                TableRowData tableRowDataLastScanned = new TableRowData(host.getlastScannedResult(), Gravity.CENTER);
+                TableRowData tableRowDataRisksFound = new TableRowData(styledText.getText(), styledText.getStyle(), Gravity.CENTER);
+
+                TableRow tableRow = new TableRow(tableRowDataHost, tableRowDataLastScanned, tableRowDataRisksFound);
+                tableRow.setOnClickListener(this);
+                tableRow.setTag(host);
                 table.appendTableRow(tableRow);
             }
         } else {
@@ -119,10 +122,20 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
         }
         tableCreator.createTableViews(context, mainLayout, customBoarder, table);
         previousTableItems = mainLayout.getChildAt(mainLayout.getChildCount() - 1); //Store the table contents
+
+        TextView textViewDevicesTitle = view.findViewById(R.id.txtDevicesTitle);
+        textViewDevicesTitle.setText(Integer.toString(AppStorage.getScanResults(networkDevices).getHosts().size()) + NETWORK_DEVICES_FOUND_TITLE);
     }
 
     @Override
     public void onClick(View v) {
+        if (v instanceof LinearLayout) {
+            Object object = v.getTag();
+            if (object instanceof Host) {
+                SingleNetworkDeviceFragment singleNetworkDeviceFragment = SingleNetworkDeviceFragment.newInstance((Host) object);
+                fragmentHost.setFragment(singleNetworkDeviceFragment, true);
+            }
+        }
 
         if (v instanceof Button) {
             if (networkDevices != null) {
@@ -144,6 +157,7 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
             fragmentHost.setFragment(singleNetworkDeviceFragment, true);
         }
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -162,5 +176,10 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
         TextView tvError = mainLayout.findViewById(R.id.txtConnctionError);
         tvError.setVisibility(View.VISIBLE);
         tvError.setText(error);
+    }
+
+    @Override
+    public void updateUI() {
+        updateDynamicUI();
     }
 }

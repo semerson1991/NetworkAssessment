@@ -1,0 +1,184 @@
+{
+    "nmap_result": null,
+    "openvas_result": [
+        [
+            {
+                "vulnerabilityId": "1.3.6.1.4.1.25623.1.0.108440",
+                "host": "10.10.10.3",
+                "port": "80",
+                "protocol": "tcp",
+                "name": "Vulnerable data transmission",
+                "technicalname": "Cleartext Transmission of Sensitive Information via HTTP",
+                "baseScore": 4,
+                "baseVector": "AV:N/AC:H/Au:N/C:P/I:N/A:N",
+                "family": "Web application abuses",
+                "summary": "The web server sends information such as username and passwords in a non obfuscated form.",
+                "impact": "An attacker eavesdropping the traffic between web browser and server may obtain logins and passwords of valid users.",
+                "solution": "Make sure https is used. This may require technical details to enable as configuration changes will need to be applied. Please see the URL provided for further information.",
+                "solution_type": "Configuration Change",
+                "solution_type_technical": "Configuration File Modification",
+                "technicalDetails": "Evaluate previous collected information and check if the host / application is not enforcing the transmission of sensitive data via an encrypted SSL/TLS connection.\r\nThe script is currently checking the following:\r\n\r\n- HTTP Basic Authentication (Basic Auth)\r\n\r\n- HTTP Forms (e.g. Login) with input field of type 'password'",
+                "threatRating": "Medium",
+                "date": "2018-05-27",
+                "urlCount": 1,
+                "url0": {
+                    "urlName": "https://www.howtogeek.com/181767/htg-explains-what-is-https-and-why-should-i-care/",
+                    "urlDescription": "The dangers of http, and why you should use https"
+                }
+            },
+            {
+                "vulnerabilityId": "1.3.6.1.4.1.25623.1.0.103551",
+                "host": "10.10.10.3",
+                "port": "3306",
+                "protocol": "tcp",
+                "name": "Weak Database authentication",
+                "technicalname": "MySQL / MariaDB weak password",
+                "baseScore": 9,
+                "baseVector": "AV:N/AC:L/Au:N/C:C/I:P/A:P",
+                "family": "Weak Authentication",
+                "summary": "It was possible to login into the remote MySQL as  root using weak credential.",
+                "impact": "An attacker will be able to access the database and will be able view all the data. They could perform many actions on the data such as view, edit, and delete.",
+                "solution": "It is recommended to change the password as soon as possible. Please see the resources provided on methods of doing this.",
+                "solution_type": "Strengthen Authentication",
+                "solution_type_technical": "Strengthen Authentication",
+                "technicalDetails": "It was possible to login as root with an empty password.",
+                "threatRating": "High",
+                "date": "2010-08-17",
+                "urlCount": 2,
+                "url0": {
+                    "urlName": "https://mariadb.com/kb/en/library/set-password/",
+                    "urlDescription": "Information on how to change the Maria database password"
+                },
+                "url1": {
+                    "urlName": "https://www.cyberaware.gov.uk/passwords",
+                    "urlDescription": "Information on the importance of using strong passwords."
+                }
+            },
+            {
+                "vulnerabilityId": "1.3.6.1.4.1.25623.1.0.103674",
+                "host": "10.10.10.3",
+                "port": "general",
+                "protocol": "tcp",
+                "name": "Operating System - End of life",
+                "technicalname": "Operating System - End of life",
+                "baseScore": 10,
+                "baseVector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+                "family": "Obsolete platform",
+                "summary": "The Operating System installed on this host has reached its end of life date. This should not be used anymore due to it no. longer receiving support for security updates and therefore will be vulnerable to new flaws",
+                "impact": "An unsupported Operating System is very dangerous to have on the network. The Operating System will not receive any security patches and updates, resulting in it being a risk to the network. If the device becomes infected, the chances of other successful attacks on other network devices is increased.",
+                "solution": "Microsoft has released a set of patches for Windows XP, Vista, 2008, 7, and 2008 R2. Run Windows Update and update the listed fixes or download and update mentioned fixes from the below link",
+                "solution_type": "Update",
+                "solution_type_technical": "Update",
+                "technicalDetails": "",
+                "threatRating": "High",
+                "date": "2014-05-27",
+                "urlCount": 1,
+                "url0": {
+                    "urlName": "https://www.ncsc.gov.uk/guidance/obsolete-platforms-security-guidance#Applyshort-termmitigations",
+                    "urlDescription": "Helpful resource for understanding mitigations for obsolete operating systems"
+                }
+            },
+            {
+                "vulnerabilityId": "1.3.6.1.4.1.25623.1.0.103552",
+                "host": "10.10.10.3",
+                "port": "5432",
+                "protocol": "tcp",
+                "name": "Weak Database authentication",
+                "technicalname": "PostgreSQL weak password",
+                "baseScore": 9,
+                "baseVector": "AV:N/AC:L/Au:N/C:C/I:P/A:P",
+                "family": "Weak Authentication",
+                "summary": "It was possible to login into the remote PostgreSQL as user postgres using weak credentials.",
+                "impact": "An attacker will be able to view all database data and perform actions such as modify, and delete.",
+                "solution": "Change the password as soon as possible.",
+                "solution_type": "Strengthen Authentication",
+                "solution_type_technical": "Strengthen Authentication",
+                "technicalDetails": "It was possible to login as user postgres with password postgres..",
+                "threatRating": "High",
+                "date": "2018-05-27",
+                "urlCount": 2,
+                "url0": {
+                    "urlName": "https://www.postgresql.org/docs/8.0/static/sql-alteruser.html",
+                    "urlDescription": "Information on how to change PostGress sql user authentication."
+                },
+                "url1": {
+                    "urlName": "https://www.cyberaware.gov.uk/passwords",
+                    "urlDescription": "Information on the importance of using strong passwords."
+                }
+            },
+            {
+                "vulnerabilityId": "1.3.6.1.4.1.25623.1.0.105610",
+                "host": "10.10.10.3",
+                "port": "22",
+                "protocol": "tcp",
+                "name": "Weak data obfuscation",
+                "technicalname": "SSH Weak MAC Algorithms Supported",
+                "baseScore": 2,
+                "baseVector": "AV:N/AC:H/Au:N/C:P/I:N/A:N",
+                "family": "Unsecure Setting",
+                "summary": "The remote SSH server is configured to allow weak hash algorithms.",
+                "impact": "If the password file is accessed by an attacker, the obfuscated passwords within it can be reverse. This is due to a weak method being used to obfuscate the passwords.",
+                "solution": "Contact the vendor or consult product documentation to disable MD5 and 96-bit MAC algorithms.",
+                "solution_type": "Update",
+                "solution_type_technical": "Update",
+                "technicalDetails": "The following weak client-to-server MAC algorithms are supported by the remote service: nhmac-md5 hmac-md5-96 hmac-sha1-96. The following weak server-to-client MAC algorithms are supported by the remote service: hmac-md5 hmac-md5-96 hmac-sha1-96",
+                "threatRating": "Low",
+                "date": "2013-11-22"
+            },
+            {
+                "vulnerabilityId": "1.3.6.1.4.1.25623.1.0.80091",
+                "host": "10.10.10.3",
+                "port": "general",
+                "protocol": "tcp",
+                "name": "Timestamps are supported",
+                "technicalname": "TCP timestamps",
+                "baseScore": 2,
+                "baseVector": "AV:N/AC:H/Au:N/C:P/I:N/A:N",
+                "family": "Information Exposure",
+                "summary": "TCP / IP supports timestamps.  A side effect of this feature is that the uptime of the remote host can sometimes be computed.",
+                "impact": "The uptine of the system can be computed. This can give an attacker additional information to aid within an attack.",
+                "solution": "The solution for this required technical knowledge of networking. The URL's provided will assist in the fix.",
+                "solution_type": "Configuration Change",
+                "solution_type_technical": "Configuration File Modification",
+                "technicalDetails": "Special IP packets are forged and sent with a little delay in between to the  target IP. The responses are searched for a timestamps. If found, the timestamps are reported.",
+                "threatRating": "Low",
+                "date": "2007-05-16",
+                "urlCount": 1,
+                "url0": {
+                    "urlName": "https://social.technet.microsoft.com/Forums/windowsserver/en-US/802ae0e0-1adc-490a-b77a-27fd7f92690b/tcp1323opts-question-tcp-timestamps?forum=winserverPN",
+                    "urlDescription": "Information on how to disable TCP timestamps"
+                }
+            },
+            {
+                "vulnerabilityId": "1.3.6.1.4.1.25623.1.0.140797",
+                "host": "10.10.10.3",
+                "port": "80",
+                "protocol": "tcp",
+                "name": "Vulnerable web application",
+                "technicalname": "Tiki Wiki CMS Groupware XSS Vulnerability",
+                "baseScore": 3,
+                "baseVector": "AV:N/AC:M/Au:S/C:N/I:P/A:N",
+                "family": "Web application abuses",
+                "summary": "A remote attacker is able to insert malicious code that result in the web application performing dangerously. (The action it performs depends on the code the attacker inserts).",
+                "impact": "Malicious code within a web application can be very dangerous. This is called cross site scripting (XSS) as it allows an attacker to insert malicious scripts that are executed within a web page. Please see the following links for more information.",
+                "solution": "Upgrade the Tiki version. Please see the provided URL for more information.",
+                "solution_type": "Update",
+                "solution_type_technical": "Update",
+                "technicalDetails": "The installed version of TikiWiki fails to sanitize user-supplied input to the 'type' parameter in the 'tiki-edit_wiki_section.php' script before using it to generate dynamic HTML content.\r\n\r\nAn unauthenticated, remote attacker may be able to leverage this issue to inject arbitrary HTML or script code into a user's browser to be executed within the security context of the affected site.",
+                "threatRating": "Low",
+                "date": "2007-09-28",
+                "urlCount": 1,
+                "url0": {
+                    "urlName": "https://doc.tiki.org/Upgrade",
+                    "urlDescription": "Documentation that provides information on the impact of not upgrading, along with the solution on how to upgrade."
+                }
+            }
+        ]
+    ],
+    "results_collected": true,
+    "scan_id": {
+        "int": 1.90122213115985626711116898833765620694e+38
+    },
+    "action": "results-collected",
+    "file_path": "/root/Desktop/FinalYearProjectRESTAPI/automated_scans/reports/8f0834d2-42c2-435d-9ad1-27e6f03ddbd6.xml"
+}

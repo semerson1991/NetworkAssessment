@@ -12,9 +12,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.DynamicUI;
 import com.semerson.networkassessment.activities.Results.FragmentName;
 import com.semerson.networkassessment.activities.WelcomeActivity;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
@@ -26,6 +26,8 @@ import com.semerson.networkassessment.utils.ProcessHttpResponse;
 import com.semerson.networkassessment.utils.RequestBuilder;
 import com.semerson.networkassessment.service.ServerCommunicationService;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,24 +36,22 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 import com.semerson.networkassessment.storage.results.ScanResults;
-import com.semerson.networkassessment.utils.StyledText;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class NetworkDevices extends AppCompatActivity implements RequestBuilder, ProcessHttpResponse, View.OnClickListener, FragmentHost, BottomNavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "NetworkDevices";
-    public static final String NEVER = "Never";
-    public static final String NEVER_SCANNED = NEVER + "Scanned";
-    public static final String LAST_SCANNED_NEVER = "Last Scanned: " + NEVER;
-    public static final String NO_RISKS_FOUND = "No Risks Found";
-    public static final String RISKS_FOUND = "Risks found";
 
     public static final String SERVER_ACTION_NMAP_STARTED = "nmap_scan_started";
+    public static final String SERVER_ACTION_OPENVAS_STARTED = "openvas_scan_started";
     public static final String SERVER_ACTION_SCAN_STATUS = "scan-status";
     public static final String SERVER_ACTION_RESULTS_COLLECTED = "results-collected";
+
+    public static boolean activityActive = false;
 
     private BottomNavigationView bottomNavigationView;
     private String scanType = "high"; //TODO CHANGE
@@ -61,10 +61,12 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
     private List<Host> hosts;
     private ScanResults scanResults;
 
-    OperatingSystemsFragment operatingSystemsFragment;
-    NetworkDevicesFragment networkDevicesFragment;
-    ServicesFragment servicesFragment;
-    SingleNetworkDeviceFragment singleNetworkDeviceFragment;
+    private OperatingSystemsFragment operatingSystemsFragment;
+    private NetworkDevicesFragment networkDevicesFragment;
+    private ServicesFragment servicesFragment;
+    private SingleNetworkDeviceFragment singleNetworkDeviceFragment;
+
+    private Fragment activeFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
                     AssetManager assetManager = getAssets();
                     InputStream input;
                     try {
-                        input = assetManager.open("sampleJson.txt");
+                        input = assetManager.open("sample_nmap.txt");
                         int size = input.available();
                         byte[] buffer = new byte[size];
                         input.read(buffer);
@@ -126,18 +128,40 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
         }
     }
 
+
+    public void performVulnerabilityScan(Host... host) {
+        ArrayList<String> hostsToScan = new ArrayList<>();
+        for (Host hostToScan : host) {
+            hostsToScan.add(hostToScan.getIp());
+        }
+        AppStorage.putValue(this, AppStorage.CURRENT_SCAN, AppStorage.OPENVAS_SCAN);
+        AppStorage.putValue(this, AppStorage.HOSTS_BEING_VULN_SCANNED, hostsToScan);
+        // if (WelcomeActivity.TEST_MODE) {
+
+        //} else {
+        SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE);
+        preferences.edit().putString(AppStorage.SERVER_ACTION, AppStorage.OPENVAS_SCAN_REQUEST).commit();
+
+        final ServerCommunicationService requester = new ServerCommunicationService(NetworkDevices.this);
+        requester.execute(ServerCommunicationService.URL_RUN_VULNERABILITY_SCAN);
+        // }
+    }
+
+    public void displayResults(Host host) {
+    }
+
     public void discoverNetworkDevices() {
+        AppStorage.putValue(this, AppStorage.CURRENT_SCAN, AppStorage.NMAP_SCAN);
         if (WelcomeActivity.TEST_MODE) {
             AssetManager assetManager = getAssets();
             InputStream input;
             try {
-                input = assetManager.open("sampleJson.txt");
+                input = assetManager.open("sample_nmap.txt");
                 int size = input.available();
                 byte[] buffer = new byte[size];
                 input.read(buffer);
                 input.close();
 
-                // byte buffer into a string
                 String text = new String(buffer);
                 processResponse(text);
             } catch (Exception e) {
@@ -146,7 +170,6 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
         } else {
             SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE);
             preferences.edit().putString(AppStorage.SERVER_ACTION, AppStorage.NMAP_SCAN_REQUEST).commit();
-
             final ServerCommunicationService requester = new ServerCommunicationService(NetworkDevices.this);
             requester.execute(ServerCommunicationService.URL_RUN_HOST_DISCOVERY);
         }
@@ -154,78 +177,56 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
 
     @Override
     public RequestBody buildRequestBody() {
-        SharedPreferences sharedPreferences = getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE);
-        String action = sharedPreferences.getString(AppStorage.SERVER_ACTION, "");
+        String action = AppStorage.getValue(this, AppStorage.SERVER_ACTION, "");
 
         RequestBody requestBody = null;
         switch (action) {
             case (AppStorage.NMAP_SCAN_REQUEST):
                 requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
-                        .addFormDataPart("action", "run-nmap-scan")
+                        .addFormDataPart("result-type", "nmap-results")
+                        .build();
+                break;
+            case (AppStorage.OPENVAS_SCAN_REQUEST):
+                List<String> hosts = AppStorage.getValue(this, AppStorage.HOSTS_BEING_VULN_SCANNED, new ArrayList());
+                StringBuilder sb = new StringBuilder();
+                for (String host : hosts) {
+                    sb.append(host + ",");
+                }
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("hosts", sb.toString())
                         .build();
                 break;
             case (AppStorage.NMAP_SCAN_STARTED):
+            case (AppStorage.OPENVAS_SCAN_STARTED):
             case (AppStorage.GETTING_RESULTS):
+                String resultType = "N/A";
+                switch (AppStorage.getValue(this, AppStorage.CURRENT_SCAN, "")) {
+                    case AppStorage.NMAP_SCAN:
+                        resultType = "nmap-results";
+                        break;
+                    case AppStorage.OPENVAS_SCAN:
+                        resultType = "openvas-results";
+                        break;
+                }
                 requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
-                        .addFormDataPart("scan-id", sharedPreferences.getString(AppStorage.SCAN_ID, "")) //TODO scan type will be low medium or high.
+                        .addFormDataPart("scan-id", AppStorage.getValue(this, AppStorage.SCAN_ID, "")) //TODO scan type will be low medium or high.
+                        .addFormDataPart("result-type", resultType)
                         .build();
                 break;
 
         }
-
-
         return requestBody;
     }
 
-    /*
-    @Override
     public void processResponse(String response) {
-        Log.i(TAG, "adding retrieved scan results");
-        ScanResults scanResults = new ScanResults();
-        try {
-//TODO Error checking - need to ensure it is a 200 response with Json data
-            JSONObject jsonResponse = new JSONObject(response);
-            String id;
-            String name;
-            JSONArray services;
-
-            //Nmap Results
-            JSONObject nmapResult = jsonResponse.getJSONObject("nmap_result");
-            JSONArray hosts = nmapResult.getJSONArray("hosts");
-
-            for (int i = 0; i < hosts.length(); i++) {
-                JSONObject host = hosts.getJSONObject(i);
-
-                scanResults.appendHost(host);
-            }
-
-            //OpenVas Results
-            JSONArray openvasResult = jsonResponse.getJSONArray("openvas_result");
-            JSONArray openvasResults = openvasResult.getJSONArray(0);
-            for (int i = 0; i < openvasResults.length(); i++) {
-                JSONObject ovasResult = openvasResults.getJSONObject(i);
-                scanResults.appendOpenVasResults(ovasResult);
-            }
-
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        }
-        Intent resultActivity = new Intent(NetworkDevices.this, ResultsActivity.class);
-        resultActivity.putExtra("scan-results", scanResults);
-        startActivity(resultActivity);
-    }
-*/
-
-    public void processResponse(String response) {//TODO REMOVE
         if (AppStorage.getValue(this, AppStorage.SERVER_COMMUNICATION_ERROR, false)) {
             networkDevicesFragment.setConnectionError(AppStorage.getValue(this, AppStorage.SERVER_COMMUNICATION_ERROR_MESSAGE, "Error connecting to server. Unable to identify reason, please check the log file or contact us for support"));
             AppStorage.removeValue(this, AppStorage.SERVER_COMMUNICATION_ERROR);
             AppStorage.removeValue(this, AppStorage.SERVER_COMMUNICATION_ERROR_MESSAGE);
         } else {
-
-
             Log.i(TAG, "adding retrieved scan results");
             ScanResults scanResults = AppStorage.getScanResults(this);
             try {
@@ -240,6 +241,12 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
                     case SERVER_ACTION_NMAP_STARTED:
                         Log.i(TAG, "Nmap scan has been started.");
                         AppStorage.putValue(this, AppStorage.SERVER_ACTION, AppStorage.NMAP_SCAN_STARTED);
+                        AppStorage.putValue(this, AppStorage.SCAN_ID, jsonResponse.getString("scan-id"));
+                        checkScanStatus();
+                        break;
+                    case SERVER_ACTION_OPENVAS_STARTED:
+                        Log.i(TAG, "Openvas scan has been started.");
+                        AppStorage.putValue(this, AppStorage.SERVER_ACTION, AppStorage.OPENVAS_SCAN_STARTED);
                         AppStorage.putValue(this, AppStorage.SCAN_ID, jsonResponse.getString("scan-id"));
                         checkScanStatus();
                         break;
@@ -259,7 +266,10 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
                         Log.i(TAG, "Scan results have been collected");
 
                         //Nmap Results
-                        if (jsonResponse.getJSONObject("nmap_result") != null) {
+                        if (!jsonResponse.isNull("nmap_result")) {
+                            DateTime dateTime = new DateTime(DateTimeZone.UTC);
+                            AppStorage.putValue(this, AppStorage.LAST_DISCOVERY_SCAN_DATE, dateTime.toString("dd-MM-yyyy"));
+
                             JSONObject nmapResult = jsonResponse.getJSONObject("nmap_result");
                             try {
                                 JSONArray hosts = nmapResult.getJSONArray("hosts");
@@ -276,7 +286,7 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
                         }
 
                         //OpenVas Results
-                        if (jsonResponse.getJSONArray("openvas_result") != null) {
+                        if (!jsonResponse.isNull("openvas_result")) {
                             JSONArray openvasResult = jsonResponse.getJSONArray("openvas_result");
 
                             if (openvasResult.length() > 0) {
@@ -286,16 +296,38 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
                                     scanResults.appendOpenVasResults(ovasResult);
                                 }
                             }
+                            List<String> hostsBeingVulnScanned = AppStorage.getValue(this, AppStorage.HOSTS_BEING_VULN_SCANNED, new ArrayList());
+                            if (!hostsBeingVulnScanned.isEmpty()) {
+                                for (String hostsScanned : hostsBeingVulnScanned) {
+                                    Host host = scanResults.getHost(hostsScanned);
+                                    host.setScanID(AppStorage.getValue(this, AppStorage.SCAN_ID, ""));
+                                    String lastScanned = host.getVulnerabilityResults().size() == 0 ? Host.NO_RISKS_FOUND : Host.RISKS_FOUND;
+                                    host.setLastScanned(lastScanned);
+
+                                    host.setLastScanDate(new DateTime(DateTimeZone.UTC));
+                                }
+                            }
                         }
+
                         //Clean shared preference
+                        AppStorage.removeValue(this, AppStorage.CURRENT_SCAN);
+                        AppStorage.removeValue(this, AppStorage.HOSTS_BEING_VULN_SCANNED);
                         AppStorage.removeValue(this, AppStorage.SERVER_ACTION);
                         AppStorage.removeValue(this, AppStorage.SCAN_ID);
+                        AppStorage.removeValue(this, AppStorage.REQUEST_DELAY);
+
                         AppStorage.storeScanResults(this, scanResults);
 
-                        networkDevicesFragment.updateNetworkDeviceLayout();
+                        if (activeFragment != null) {
+                            if (activeFragment instanceof DynamicUI){
+                                DynamicUI dynamicUI = (DynamicUI) activeFragment;
+                                Log.i(TAG, "Scanning finished, updating user interface");
+                                dynamicUI.updateUI(); //DEBUGGING CHECK IF SCAN RESULTS HAVE BEEN UPDATED!!
+                            }
+                        }
                         break;
                 }
-                //TODO SET LAST_SCAN_DATE WHEN A VULN SCAN PERFORMED
+                //TODO SET LAST_DISCOVERY_SCAN_DATE WHEN A VULN SCAN PERFORMED
             } catch (JSONException e1) {
                 e1.printStackTrace();
             } catch (InterruptedException e) {
@@ -306,29 +338,18 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
 
 
     private void checkScanStatus() throws InterruptedException {
-        Log.i(TAG, "Waiting 5 seconds then checking results");
-        Thread.sleep(5000);
+        switch (AppStorage.getValue(this, AppStorage.SERVER_ACTION, "")) {
+            case AppStorage.NMAP_SCAN_STARTED:
+                AppStorage.putValue(this, AppStorage.REQUEST_DELAY, 5 * 1000);
+                break;
+            case AppStorage.OPENVAS_SCAN_STARTED:
+                AppStorage.putValue(this, AppStorage.REQUEST_DELAY, 60 * 1000);
+                break;
+            default:
+                AppStorage.putValue(this, AppStorage.REQUEST_DELAY, 1 * 1000);
+        }
         final ServerCommunicationService requester = new ServerCommunicationService(NetworkDevices.this);
         requester.execute(ServerCommunicationService.URL_CHECK_SCAN_RESULTS);
-    }
-
-    public String getHostLastScanned(Host host) {
-        return AppStorage.getValue(this, AppStorage.LAST_SCAN_DATE + host.getHostname(false), LAST_SCANNED_NEVER);
-    }
-
-    public StyledText getRisksFound(Host host) {
-        String dateScanned = AppStorage.getValue(this, AppStorage.LAST_SCAN_DATE + host.getHostname(false), NEVER);
-        if (dateScanned.equals(NEVER)) {
-            return new StyledText(NEVER_SCANNED, R.style.never_scanned_text);
-        } else {
-            Integer numberOfVulns = resultController.getVulnerabilitiesFilterByHost(host.getHostname(true)).size();
-
-            if (numberOfVulns == 0) {
-                return new StyledText(NO_RISKS_FOUND, R.style.no_risks_found_text);
-            } else {
-                return new StyledText(numberOfVulns.toString() + RISKS_FOUND, R.style.risks_found_text);
-            }
-        }
     }
 
     @Override
@@ -347,6 +368,7 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
 
     @Override
     public void setFragment(Fragment fragment, boolean addToBackStack) {
+        activeFragment = fragment;
         setFragment(fragment, addToBackStack, R.id.mainFrame);
     }
 
@@ -389,5 +411,27 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
                 setFragment(singleNetworkDeviceFragment, true);
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        activityActive = true;
+        if (AppStorage.checkExists(this, AppStorage.SERVER_ACTION)) {
+            Log.i(TAG, "HTTP Response pending: Calling function");
+            processResponse(AppStorage.getValue(this, AppStorage.SERVER_RESPONSE, ""));
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        activityActive = false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        activityActive = false;
     }
 }

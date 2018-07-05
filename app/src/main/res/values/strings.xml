@@ -44,7 +44,7 @@
 
     <string name="device_not_scanned">This device has not been scanned!</string>
     <string name="device_not_scanned_instructions">Click "'"scan device"'" button above to check for vulnerabilities</string>
-    <string name="device_previous_vulnerabilities">Previous vulnerabilities have not been fixed</string>
+    <string name="device_previous_vulnerabilities">Vulnerabilities have been found on this device.</string>
     <string name="device_previous_vulnerabilities_instructions">Please see the results section to find detailed information on mitigations, then rerun the scan when they have been applied</string>
     <string name="device_no_vulnerabilities">Well done! No vulnerabilities found on this device</string>
     <string name="device_no_vulnerabilities_instructions">Reminder: It is recommended to search for vulnerabilities at least once a month as new vulnerabilities are discovered every week.</string>

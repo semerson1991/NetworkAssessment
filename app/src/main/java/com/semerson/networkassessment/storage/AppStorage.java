@@ -6,6 +6,11 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.semerson.networkassessment.storage.results.ScanResults;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class AppStorage {
@@ -13,6 +18,7 @@ public class AppStorage {
     public static final String APP_PREFERENCE = "com.semerson.networkassessment.storage";
     public static final String SERVER_COMMUNICATION_ERROR = "Server_Communication_error";
     public static final String SERVER_COMMUNICATION_ERROR_MESSAGE = "Server_Communication_error_message";
+    public static final String SERVER_RESPONSE = "serverResponse";
     public static final String LOGIN_NAME = "loginName";
     public static final String ALIAS_NAME = "alias";
     public static final String NETWORK_NAME = "networkName";
@@ -27,7 +33,7 @@ public class AppStorage {
     public static final String RISK_SCORE_HISTORY = "Risk Score History";
 
 
-    public static final String LAST_SCAN_DATE = "Last Scan Date";
+    public static final String LAST_DISCOVERY_SCAN_DATE = "Last Scan Date";
 
     public static final String DATABASE_CREATED = "DatabaseCreated";
 
@@ -36,10 +42,19 @@ public class AppStorage {
     public static final String SERVER_ACTION = "Server Action";
     public static final String SCANNING_RESULTS = "ScanningResults";
 
-    public static final String NMAP_SCAN_STARTED = "nmapScanStarted";
     public static final String NMAP_SCAN_REQUEST = "nmapScanRequest";
+    public static final String NMAP_SCAN_STARTED = "nmapScanStarted";
     public static final String GETTING_RESULTS = "gettingScanResults";
+
+    public static final String OPENVAS_SCAN_REQUEST = "openvasscan_request";
+    public static final String OPENVAS_SCAN_STARTED = "openvasscan_started";
+
     public static final String SCAN_ID = "ScanId";
+    public static final String REQUEST_DELAY = "request-delay";
+    public static final String HOSTS_BEING_VULN_SCANNED = "hosts-being-scanned";
+    public static final String CURRENT_SCAN = "current-scan";
+    public static final String OPENVAS_SCAN = "openvas-scan";
+    public static final String NMAP_SCAN = "nmap-scan";
 
     public static ScanResults getScanResults(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);
@@ -82,6 +97,53 @@ public class AppStorage {
             removeValue(context, key);
         }
         preferences.edit().putString(key, value).commit();
+    }
+
+    public static void putValue(Context context, String key, List<String> value) {
+        Set<String> set = new HashSet<String>();
+        set.addAll(value);
+        SharedPreferences preferences = context.getSharedPreferences(APP_PREFERENCE, MODE_PRIVATE);
+        if (preferences.contains(key)) {
+            removeValue(context, key);
+        }
+        preferences.edit().putStringSet(key, set).commit();
+    }
+
+    public static List<String> getValue(Context context, final String key, List value) {
+        Set<String> set = new HashSet<String>();
+        set.addAll(value);
+
+        SharedPreferences preferences = context.getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE);
+        Set<String> storedSet = preferences.getStringSet(key, set);
+
+        List<String> list = new ArrayList<>();
+        for (String str : storedSet) {
+            list.add(str);
+        }
+        return list;
+    }
+
+
+    public static void putValue(Context context, String key, int value) {
+        SharedPreferences preferences = context.getSharedPreferences(APP_PREFERENCE, MODE_PRIVATE);
+        if (preferences.contains(key)) {
+            removeValue(context, key);
+        }
+        preferences.edit().putInt(key, value).commit();
+    }
+
+    public static int getValue(Context context, final String key, int defaultValue) {
+        SharedPreferences preferences = context.getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE);
+        int value = preferences.getInt(key, defaultValue);
+        return value;
+    }
+
+    public static boolean checkExists(Context context, String key) {
+        SharedPreferences preferences = context.getSharedPreferences(APP_PREFERENCE, MODE_PRIVATE);
+        if (preferences.contains(key)) {
+            return true;
+        }
+        return false;
     }
 
     public static void putValue(Context context, final String key, final boolean value) {
