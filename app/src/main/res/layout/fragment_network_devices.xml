@@ -42,11 +42,11 @@
 
 
             <TextView
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
                 android:id="@+id/txtDevicesTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -55,6 +55,137 @@
                 android:orientation="vertical"
                 android:paddingBottom="30dp">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_view_networkscan_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/spinner_network_mapper_type"
+                        android:text="Network Scan type: "
+                        android:textSize="16sp" />
+
+                    <Spinner
+                        android:id="@+id/spinner_network_mapper_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/text_view_networkscan_type" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/custom_network_scanning_config"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/text_view_networkscan_technique"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/spinner_network_mapper_technique"
+                            android:text="Network Scan Technique: "
+                            android:textSize="16sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner_network_mapper_technique"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/text_view_networkscan_technique" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/lblHostname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/editHostname"
+                            android:text="Hosts(s): "
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/editHostname"
+                            android:layout_width="293dp"
+                            android:layout_height="wrap_content"
+                            android:ems="8"
+                            android:hint="e.g. 192.168.0.2 192.168.0.56"
+                            android:inputType="text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/lblPortRange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/editPortRange"
+                            android:text="Port Range: "
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/editPortRange"
+                            android:layout_width="293dp"
+                            android:layout_height="wrap_content"
+                            android:ems="8"
+                            android:hint="e.g. 23-55"
+                            android:inputType="number" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/lblAdditionalArguents"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/editAdditionalArguments"
+                            android:text="Custom arguments: "
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/editAdditionalArguments"
+                            android:layout_width="293dp"
+                            android:layout_height="wrap_content"
+                            android:ems="8"
+                            android:hint="e.g. -A -r  "
+                            android:inputType="text" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/lblNmapMan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/editNmapMan"
+                        android:autoLink="web"
+                        android:linksClickable="true"
+                        android:text="View the manual: https://nmap.org/book/man.html "
+                        android:textColorLink="#0645ad"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/btnFindDevices"

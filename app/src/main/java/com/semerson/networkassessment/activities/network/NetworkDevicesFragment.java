@@ -10,13 +10,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.ActivityID;
 import com.semerson.networkassessment.activities.DynamicUI;
+import com.semerson.networkassessment.activities.WelcomeActivity;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
@@ -53,6 +56,10 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
 
     private View view;
     private View previousTableItems = null;
+    private Spinner spinnerNetworkScanType;
+    private Spinner spinnerNetworkScanTechniques;
+    private EditText hostname;
+    private EditText port;
 
     public NetworkDevicesFragment() {
 
@@ -76,6 +83,38 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
 
         TextView textViewTitle = view.findViewById(R.id.txtNetworkNameTitle);
         textViewTitle.setText(NETWORK_DEVICES_TITLE + AppStorage.getValue(networkDevices, AppStorage.NETWORK_NAME, "N/A"));
+
+        spinnerNetworkScanType = view.findViewById(R.id.spinner_network_mapper_type);
+        //spinnerCateogories = view.findViewById(R.id.spinner_categories);
+
+        String[] networkScanTypes;
+
+        if (AppStorage.getValue(WelcomeActivity.getAppContext(), AppStorage.ADVANCED_MODE, false)) {
+            spinnerNetworkScanTechniques = view.findViewById(R.id.spinner_network_mapper_technique);
+            hostname = view.findViewById(R.id.editHostname);
+            port = view.findViewById(R.id.editPortRange);
+
+            networkScanTypes = ScanTypes.getAllNetworkMappingScanTypeAdvanced();
+            String[] networkScanTechniques = ScanTypes.getAllNetworkMappingScanTechniques();
+
+            ArrayAdapter<String> adapterNetworkScanTechnique = new ArrayAdapter<String>(context,
+                    android.R.layout.simple_spinner_item, networkScanTechniques);
+
+            adapterNetworkScanTechnique.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerNetworkScanTechniques.setAdapter(adapterNetworkScanTechnique);
+        } else {
+            networkScanTypes = ScanTypes.getAllNetworkMappingScanType();
+        }
+
+
+
+        ArrayAdapter<String> adapterNetworkScanType = new ArrayAdapter<String>(context,
+                android.R.layout.simple_spinner_item, networkScanTypes);
+
+
+        adapterNetworkScanType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerNetworkScanType.setAdapter(adapterNetworkScanType);
         updateDynamicUI();
     }
 
@@ -137,6 +176,16 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
             }
         }
 
+        if (view.getId() == R.id.spinner_network_mapper_type) {
+            if (view instanceof Spinner ) {
+                if (((Spinner) view).getSelectedItem().toString().equals(ScanTypes.NETWORK_SCAN_CUSTOM)) {
+                    view.findViewById(R.id.custom_network_scanning_config).setVisibility(View.VISIBLE);
+                } else {
+                    view.findViewById(R.id.custom_network_scanning_config).setVisibility(View.GONE);
+                }
+            }
+        }
+
         if (v instanceof Button) {
             if (networkDevices != null) {
                 switch (v.getId()) {
@@ -144,6 +193,20 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
                         // networkDevices.performVulnerabilityScan();
                         break;
                     case R.id.btnFindDevices:
+                        String scanType = spinnerNetworkScanType.getSelectedItem().toString();
+                        AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.NETWORK_SCAN_TYPE, scanType);
+                        if (scanType.equals(ScanTypes.NETWORK_SCAN_CUSTOM)){
+                            String networkScanTechnique = spinnerNetworkScanTechniques.getSelectedItem().toString();
+                            AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.NETWORK_SCAN_TECHNIQUE, networkScanTechnique);
+                            AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.PORT_RANGE, "");
+                            AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.NETWORK_SCAN_HOSTS, "");
+                        } else {
+                            AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.PORT_RANGE, "");
+                            AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.NETWORK_SCAN_TECHNIQUE, "");
+                            AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.NETWORK_SCAN_HOSTS, "");
+                        }
+
+
                         networkDevices.discoverNetworkDevices();
                         break;
                 }

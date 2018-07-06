@@ -316,6 +316,11 @@ public class NetworkDevices extends AppCompatActivity implements RequestBuilder,
                         AppStorage.removeValue(this, AppStorage.SCAN_ID);
                         AppStorage.removeValue(this, AppStorage.REQUEST_DELAY);
 
+                        AppStorage.removeValue(this, AppStorage.NETWORK_SCAN_TYPE);
+                        AppStorage.removeValue(this, AppStorage.PORT_RANGE);
+                        AppStorage.removeValue(this, AppStorage.NETWORK_SCAN_TECHNIQUE);
+                        AppStorage.removeValue(this, AppStorage.NETWORK_SCAN_HOSTS);
+
                         AppStorage.storeScanResults(this, scanResults);
 
                         if (activeFragment != null) {

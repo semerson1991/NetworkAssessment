@@ -56,6 +56,11 @@ public class AppStorage {
     public static final String OPENVAS_SCAN = "openvas-scan";
     public static final String NMAP_SCAN = "nmap-scan";
 
+    public static final String NETWORK_SCAN_TECHNIQUE = "network-scan-technique";
+    public static final String NETWORK_SCAN_TYPE = "network-scantype";
+    public static final String PORT_RANGE = "port-range";
+    public static final String NETWORK_SCAN_HOSTS = "hosts";
+
     public static ScanResults getScanResults(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);
         if (sharedPreferences.getString(SCANNING_RESULTS, "").equals("")) {
