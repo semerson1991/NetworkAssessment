@@ -1,22 +1,15 @@
 package com.semerson.networkassessment.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +17,9 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -34,10 +29,6 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.Results.ResultsActivity;
-import com.semerson.networkassessment.activities.network.NetworkDevices;
-import com.semerson.networkassessment.activities.settings.SettingsActivity;
-import com.semerson.networkassessment.activities.user.awareness.UserAwareness;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizContract;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizDbHelper;
 import com.semerson.networkassessment.storage.AppStorage;
@@ -49,162 +40,129 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
-public class WelcomeActivity extends AppCompatActivity implements
+public class WelcomeActivity extends BaseActivity implements
         OnChartGestureListener,
         OnChartValueSelectedListener {
 
-    public static final boolean TEST_MODE = true;
+    public static final boolean TEST_MODE = false;
+    public static final boolean NMAP_TEST_MODE = true;
+    public static final boolean OPENVAS_TEST_MODE = true;
+
+    private static final boolean TEST_NETWORK_CONF_DATA = true;
     public static final boolean TEST_DATA = true;
     public static final boolean TEST_LOGIN = true;
 
     public static final DateTimeFormatter dateformat = DateTimeFormat.forPattern("dd-MM-yyyy");
     private LineChart lineChart;
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
-    public static boolean ADVANCED_MODE;
+    //   private DrawerLayout mDrawerLayout;
+    //  private ActionBarDrawerToggle actionBarDrawerToggle;
 
     private static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_area);
 
-        context = getApplicationContext();
-
         initialiseTestData(); //TODO This is just temp, for test purposes
-
-        SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
-        ADVANCED_MODE = preferences.getBoolean(AppStorage.ADVANCED_MODE, false);
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-
-                        switch (menuItem.getItemId()) {
-                            case R.id.nav_home:
-                                break;
-                            case R.id.nav_my_network:
-                                Intent activity_vulnScanner = new Intent(WelcomeActivity.this, NetworkDevices.class);
-                                WelcomeActivity.this.startActivity(activity_vulnScanner);
-                                break;
-                            case R.id.nav_assessment_results:
-                                if (TEST_MODE) { //TODO REMOVE - GET THIS FROM THE TEST CLASS INSTEAD
-                                    AssetManager assetManager = getAssets();
-                                    InputStream input;
-                                    try {
-                                        input = assetManager.open("sample_nmap.txt");
-                                        int size = input.available();
-                                        byte[] buffer = new byte[size];
-                                        input.read(buffer);
-                                        input.close();
-
-                                        // byte buffer into a string
-                                        String text = new String(buffer);
-                                        NetworkDevices networkDevices = new NetworkDevices();
-                                        // ScanResults scanResults = networkDevices.processResponseTest(text);
-                                        Intent resultActivity = new Intent(WelcomeActivity.this, ResultsActivity.class);
-                                        // resultActivity.putExtra("scan-results", scanResults);
-                                        startActivity(resultActivity);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                break;
-                            case R.id.nav_sec_awareness:
-                                Intent activity_secAwareness = new Intent(WelcomeActivity.this, UserAwareness.class);
-                                WelcomeActivity.this.startActivity(activity_secAwareness);
-                                break;
-                            case R.id.nav_settings:
-                                Intent activity_settings = new Intent(WelcomeActivity.this, SettingsActivity.class);
-                                WelcomeActivity.this.startActivity(activity_settings);
-                                break;
-                            case R.id.nav_account:
-                                Intent activity_account = new Intent(WelcomeActivity.this, AccountActivity.class);
-                                WelcomeActivity.this.startActivity(activity_account);
-                                break;
-                            default:
-                        }
-                        return true;
-                    }
-                });
-
-
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-
-        mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
-        lineChart = (LineChart) findViewById(R.id.linechart);
-        lineChart.setOnChartGestureListener(this);
-        lineChart.setOnChartValueSelectedListener(this);
-
-        // add data
-        try {
-            setData();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // get the legend (only possible after setting data)
-        Legend l = lineChart.getLegend();
-
-        // modify the legend ...
-        // l.setPosition(LegendPosition.LEFT_OF_CHART);
-        l.setForm(Legend.LegendForm.LINE);
-
-        Description description = new Description();
-        description.setText("Vulnerability Risk Score History");
-        lineChart.setDescription(description);
-        lineChart.setNoDataText("No Scan History.");
-        lineChart.setTouchEnabled(true);
-        lineChart.setDragEnabled(true);
-        lineChart.setScaleEnabled(true);
-
-        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        lineChart.getXAxis().setLabelCount(1);
-        lineChart.getAxisRight().setEnabled(false);
-
-
-        //  LocalDate date = new LocalDate( 01,06,  2018 );
-
-        String lastScanDate = preferences.getString(AppStorage.LAST_DISCOVERY_SCAN_DATE, null);
-        TextView lastScanDateTxt = findViewById(R.id.lastscandate);
-        if (lastScanDate != null) {
-            DateTime dt = new DateTime(lastScanDate);
-            lastScanDateTxt.setText("Last scan date: " + dt.toString("dd-MM-yyyy"));
+        LinearLayout headerView = findViewById(R.id.headerOpsView);
+        if (!AppStorage.getValue(this, AppStorage.LOGGED_IN, false)) {
+            headerView.addView(UiObjectCreator.createLoginRequiredTextView(this));
         } else {
-            lastScanDateTxt.setText("Last scan date: " + "Never!");
+            TextView textViewWelcome = new TextView(this);
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+            spannableStringBuilder.append(Html.fromHtml("<font color=\"black\"> <b>" + "Welcome " + AppStorage.getValue(this, AppStorage.LOGIN_NAME, "") + "</b>"));
+
+            textViewWelcome.setText(spannableStringBuilder);
+            headerView.addView(textViewWelcome);
+            if (AppStorage.getValue(this, AppStorage.DEVICE_CONNECTED, false)) {
+                TextView networkWelcome = new TextView(this);
+                SpannableStringBuilder spannableStringNetworkBuilder = new SpannableStringBuilder();
+                spannableStringNetworkBuilder.append(Html.fromHtml("<font color=\"black\"> <b>" + "Network: " + AppStorage.getValue(this, AppStorage.NETWORK_NAME, "") + "</b>"));
+                networkWelcome.setText(spannableStringNetworkBuilder);
+                headerView.addView(networkWelcome);
+                lineChart = (LineChart) findViewById(R.id.linechart);
+                lineChart.setOnChartGestureListener(this);
+                lineChart.setOnChartValueSelectedListener(this);
+
+                // add data
+                try {
+                    setData();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // get the legend (only possible after setting data)
+                Legend l = lineChart.getLegend();
+
+                // modify the legend ...
+                // l.setPosition(LegendPosition.LEFT_OF_CHART);
+                l.setForm(Legend.LegendForm.LINE);
+
+                Description description = new Description();
+                description.setText("Vulnerability Risk Score History");
+                lineChart.setDescription(description);
+                lineChart.setNoDataText("No Scan History.");
+                lineChart.setTouchEnabled(true);
+                lineChart.setDragEnabled(true);
+                lineChart.setScaleEnabled(true);
+
+                lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                lineChart.getXAxis().setLabelCount(1);
+                lineChart.getAxisRight().setEnabled(false);
+
+                //  LocalDate date = new LocalDate( 01,06,  2018 );
+
+                String lastScanDate = AppStorage.getValue(WelcomeActivity.getAppContext(), AppStorage.LAST_DISCOVERY_SCAN_DATE, "");
+                TextView lastScanDateTxt = findViewById(R.id.lastscandate);
+                if (!lastScanDate.equals("")) {
+                    DateTime dt = new DateTime(lastScanDate);
+                    lastScanDateTxt.setText("Last scan date: " + dt.toString("dd-MM-yyyy"));
+                } else {
+                    lastScanDateTxt.setText("Last scan date: " + "Never!");
+                }
+            } else {
+                headerView.addView(UiObjectCreator.createNetworkRequiredTextView(this));
+            }
         }
+
 
         TextView textViewHomePoster = UiObjectCreator.createTextView(this, "Securing your home: https://www.sans.org/sites/default/files/2017-12/STH-Poster-CyberSecureHome-Print_0.pdf",
                 R.style.custom_mainbody_text);
         textViewHomePoster.setPadding(0, 20, 0, 0);
         mainLayout.addView(textViewHomePoster);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("Welc Resume Advanced:", AppStorage.getValue(WelcomeActivity.getAppContext(), AppStorage.ADVANCED_MODE, false).toString());
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // AppStorage.putValue(this, AppStorage.ADVANCED_MODE, "True");
+        Log.i("Welc Stop Advanced:", AppStorage.getValue(WelcomeActivity.getAppContext(), AppStorage.ADVANCED_MODE, false).toString());
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Log.i("Welc Pause Advanced:", AppStorage.getValue(WelcomeActivity.getAppContext(), AppStorage.ADVANCED_MODE, "False") );
 
     }
 
@@ -244,6 +202,47 @@ public class WelcomeActivity extends AppCompatActivity implements
         set1.setDrawCircleHole(false);
         set1.setValueTextSize(9f);
         set1.setDrawFilled(true);
+        set1.setFillColor(Color.WHITE);
+
+        List<Integer> colors = new ArrayList<>();
+        final float lowRisk = 3.5f;
+        final float highRisk = 7f;
+
+        for (int i = 0; i < yVals.size() - 1; i++) {
+            Entry entry = yVals.get(i + 1);
+            if (entry.getY() <= lowRisk) {
+                colors.add(Color.GREEN);
+            } else if (entry.getY() >= highRisk) {
+                colors.add(Color.RED);
+            } else {
+                colors.add(Color.parseColor("#FFA500"));
+            }
+        }
+        set1.setColors(colors);
+
+
+        LimitLine upperLimit = new LimitLine(7f, "Critical Risk");
+        upperLimit.setLineWidth(4f);
+        upperLimit.setEnabled(true);
+        upperLimit.setLineColor(Color.RED);
+        upperLimit.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
+        upperLimit.setTextSize(15f);
+        upperLimit.enableDashedLine(10f, 10f, 0);
+
+        LimitLine lowerLimit = new LimitLine(3.5f, "Low Risk");
+        lowerLimit.setLineWidth(4f);
+        lowerLimit.setEnabled(true);
+        lowerLimit.setLineColor(Color.GREEN);
+        lowerLimit.enableDashedLine(10f, 10f, 0);
+        lowerLimit.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
+        lowerLimit.setTextSize(15f);
+
+        YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.removeAllLimitLines();
+        leftAxis.addLimitLine(upperLimit);
+        leftAxis.addLimitLine(lowerLimit);
+        leftAxis.enableGridDashedLine(10f, 10f, 0);
+        leftAxis.setDrawLimitLinesBehindData(true);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets
@@ -254,7 +253,10 @@ public class WelcomeActivity extends AppCompatActivity implements
         // set data
         lineChart.setData(data);
 
+        Legend legend = lineChart.getLegend();
+        legend.setEnabled(false);
     }
+
 
     @Override
     public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
@@ -309,23 +311,25 @@ public class WelcomeActivity extends AppCompatActivity implements
         Log.i("Nothing selected", "Nothing selected.");
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
+    /*
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                    return true;
+            }
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
-    }
-
+    */
     public void initialiseTestData() {
+        Log.i("Welcome Ac", "Initialise Test Data");
         if (TEST_DATA) {
-            String riskScore1 = "43526";
-            String riskScore2 = "54652";
-            String riskScore3 = "32786";
-            String riskScore4 = "25673";
-            String riskScore5 = "15782";
+            String riskScore1 = "10";
+            String riskScore2 = "3";
+            String riskScore3 = "4";
+            String riskScore4 = "8";
+            String riskScore5 = "7";
 
             Set<String> riskScores = new LinkedHashSet<>();
             riskScores.add(riskScore1);
@@ -338,7 +342,7 @@ public class WelcomeActivity extends AppCompatActivity implements
 
             SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.clear();
+            //editor.clear();
 
 
             editor.putString(AppStorage.RISK_SCORE_HISTORY, jsonArray.toString());
@@ -347,8 +351,8 @@ public class WelcomeActivity extends AppCompatActivity implements
             DateTime date = new DateTime(2018, 6, 1, 0, 0, 0, 0);
 
             //DateTime currentDate = new DateTime();
-           // DateTime parse = dateformat.parseDateTime(currentDate.toString());
-           // Log.i("WelcomeActivity Date", parse.toString());
+            // DateTime parse = dateformat.parseDateTime(currentDate.toString());
+            // Log.i("WelcomeActivity Date", parse.toString());
 
 
             editor.putString(AppStorage.LAST_DISCOVERY_SCAN_DATE, date.toString());
@@ -363,12 +367,20 @@ public class WelcomeActivity extends AppCompatActivity implements
         if (TEST_LOGIN) {
             testModeLoginData();
         }
+        if (TEST_NETWORK_CONF_DATA) {
+            testNetworkConfData();
+        }
 
     }
 
     private void testModeLoginData() {
+        AppStorage.putValue(this, AppStorage.LOGIN_NAME, "a");
+        AppStorage.putValue(this, AppStorage.LOGGED_IN, true);
+    }
+
+    private void testNetworkConfData() {
         AppStorage.putValue(this, AppStorage.NETWORK_NAME, "Stephens Home Network");
-        AppStorage.putValue(this, AppStorage.ALIAS_NAME, "Stephen");
+        AppStorage.putValue(this, AppStorage.DEVICE_CONNECTED, true);
     }
 
     private void testDropDatabase(boolean drop) {

@@ -14,4 +14,5 @@ public class ChartDescription {
 
     public static final String SERVICES = "Running Services";
     public static final String MITIGATION = "Mitigations";
+    public static final String MITIGATION_CATEGORY = "Mitigation Category";
 }

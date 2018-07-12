@@ -22,6 +22,8 @@ import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.HostVulnerabilityDetailsFragment;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity;
+import com.semerson.networkassessment.activities.network.HostsFilterByOSFragment;
+import com.semerson.networkassessment.activities.network.SingleNetworkDeviceFragment;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ScanResults;
@@ -44,7 +46,6 @@ public class OperatingSystems extends Fragment implements View.OnClickListener {
 
     private TextView txtMoreDetails;
 
-    private RadioButton radioOS;
     private RadioButton radioThreatLevel;
     private RadioButton radioVulnerabilityCategory;
     private RadioButton radioComplexity;
@@ -59,7 +60,7 @@ public class OperatingSystems extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         rootview = getActivity().getWindow().getDecorView().getRootView();
         scanResults = (ScanResults) getArguments().getParcelable("scan-results");
-        if (scanResults != null){
+        if (scanResults != null) {
             resultController = new ResultController(scanResults.getHosts());
         }
         return inflater.inflate(R.layout.fragment_results, container, false);
@@ -80,21 +81,19 @@ public class OperatingSystems extends Fragment implements View.OnClickListener {
 
         TableCreator tableCreator = new TableCreator();
         tableCreator.appendTableHeader(context, mainLayout, LegendHeadings.OS,
-                LegendHeadings.TOTAL_OCCURRENCES, LegendHeadings.OCCURRENCES_AS_PERCENT );
+                LegendHeadings.TOTAL_OCCURRENCES, LegendHeadings.OCCURRENCES_AS_PERCENT);
 
         Table table = pieChartCreator.prepareTableLegendForPieChart(chart, this);
         table.setSortedHighToLow(true);
         tableCreator.createTableViews(context, mainLayout, customBoarder, table);
 
-        radioOS = (RadioButton) view.findViewById(R.id.radio_operating_system);
         radioThreatLevel = (RadioButton) view.findViewById(R.id.radio_threat_levels);
         radioVulnerabilityCategory = (RadioButton) view.findViewById(R.id.radio_vulnerability_categories);
         radioComplexity = (RadioButton) view.findViewById(R.id.radio_attack_complexity);
         radioVulnerableHosts = (RadioButton) view.findViewById(R.id.radio_vulnerable_hosts);
         radioAllVulnerabilities = (RadioButton) view.findViewById(R.id.radio_all_vulnerabilities);
-        radioOS.setChecked(true);
-       // txtMoreDetails = UiObjectCreator.createTextView(R.id.osText, UiObjectCreator.txtMoreDetails, context, this);
-       // mainLayout.addView(txtMoreDetails);
+        // txtMoreDetails = UiObjectCreator.createTextView(R.id.osText, UiObjectCreator.txtMoreDetails, context, this);
+        // mainLayout.addView(txtMoreDetails);
     }
 
     public static OperatingSystems newInstance(ScanResults scanResults) {
@@ -114,14 +113,13 @@ public class OperatingSystems extends Fragment implements View.OnClickListener {
         try {
             fragmentHost = (FragmentHost) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()+ "must implement FragmentHost");
+            throw new ClassCastException(activity.toString() + "must implement FragmentHost");
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        radioOS.setChecked(false);
         radioThreatLevel.setChecked(false);
         radioVulnerabilityCategory.setChecked(false);
         radioAllVulnerabilities.setChecked(false);
@@ -132,28 +130,16 @@ public class OperatingSystems extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        radioOS.setChecked(true);
     }
 
     @Override
     public void onClick(View v) {
-        Intent singleChartDisplay = new Intent(context, PieChartDetailsActivity.class);
-        singleChartDisplay.putExtra("scan-results", scanResults);
-        if (v.getId() == R.id.rowListener){
+        if (v.getId() == R.id.rowListener) {
             Object operatingSystem = v.getTag();
-            if (operatingSystem != null){
-                if (operatingSystem instanceof String){
-
-                }
-            }
-
-            String textValue = ((TextView) v).getText().toString();
-            List<Host> hosts = scanResults.getHosts();
-            for (Host theHost : hosts) {
-                if (theHost.getHostname(false).equals(textValue)) {
-                    Fragment fragment = HostVulnerabilityDetailsFragment.newInstance(scanResults, theHost.getHostname(false));
+            if (operatingSystem != null) {
+                if (operatingSystem instanceof String) {
+                    Fragment fragment = HostsFilterByOSFragment.newInstance((String) operatingSystem);
                     fragmentHost.setFragment(fragment, true);
-                    break;
                 }
             }
         }

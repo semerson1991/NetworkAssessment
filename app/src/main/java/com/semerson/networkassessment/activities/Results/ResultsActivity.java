@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.BaseActivity;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.AllVulnerabilities;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.AttackComplexity;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.OperatingSystems;
@@ -32,6 +33,7 @@ import com.semerson.networkassessment.activities.Results.MainNavigationFragments
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.security.awareness.UserSecurityAwareness;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.user.awareness.UserAwareness;
+import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ScanResults;
@@ -39,7 +41,7 @@ import com.semerson.networkassessment.utils.BottomNavigationViewHelper;
 
 import java.util.List;
 
-public class ResultsActivity extends AppCompatActivity implements View.OnClickListener, FragmentHost, BottomNavigationView.OnNavigationItemSelectedListener {
+public class ResultsActivity extends BaseActivity implements View.OnClickListener, FragmentHost, BottomNavigationView.OnNavigationItemSelectedListener {
     private List<Host> hosts;
     private ScanResults scanResults;
 
@@ -50,7 +52,7 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
     private RelativeLayout bottomLayout;
 
     //Fragment displayed within the results main page
-    private OperatingSystems operatingSystemsFragment;
+    //private OperatingSystems operatingSystemsFragment;
     private VulnerabilityCategories vulnerabilityCategoriesFragment;
     private ThreatLevels threatLevelsFragment;
     private AttackComplexity attackComplexityFragment;
@@ -81,15 +83,10 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        scanResults = AppStorage.getScanResultsToDisplay(this);
+        hosts = scanResults.getHosts();
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            scanResults = bundle.getParcelable("scan-results");
-            hosts = scanResults.getHosts();
-            ResultController resultController = new ResultController(hosts);
-        }
-
-        operatingSystemsFragment = OperatingSystems.newInstance(scanResults);
+        //operatingSystemsFragment = OperatingSystems.newInstance(scanResults);
         threatLevelsFragment = ThreatLevels.newInstance(scanResults);
         vulnerabilityCategoriesFragment = VulnerabilityCategories.newInstance(scanResults);
         attackComplexityFragment = AttackComplexity.newInstance(scanResults);
@@ -106,7 +103,7 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
         userAwarenessFragmentFragment = UserSecurityAwareness.newInstance(scanResults);
 
         if (savedInstanceState == null) {
-            setFragment(operatingSystemsFragment, true);
+            setFragment(vulnerableHostsFragment, true);
         }
     }
 
@@ -134,7 +131,7 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
     public Fragment getFragment(int fragmentID) {
         switch (fragmentID) {
             case FragmentName.RESULTS_HOME:
-                return operatingSystemsFragment;
+                return vulnerableHostsFragment;
             case FragmentName.RESULTS_VULNS:
                 return userAwarenessFragmentFragment;
             case FragmentName.RESULTS_IMPACT:
@@ -164,7 +161,7 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.bottomNavResults:
-                setFragment(operatingSystemsFragment, false);
+                setFragment(vulnerableHostsFragment, false);
                 return true;
             case R.id.bottomSecurityAwareness:
                 setFragment(userAwarenessFragmentFragment, false);
@@ -223,17 +220,11 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
                     setFragment(integrityFragment, false);
                     break;
                 }
-            case R.id.radio_operating_system:
-                //  toggleHomeRadioButtons(false);
-                setFragment(operatingSystemsFragment, false);
-                break;
             case R.id.radio_threat_levels:
-                //  radioButton.
                 setFragment(threatLevelsFragment, false);
                 break;
 
             case R.id.radio_vulnerability_categories:
-                //  toggleHomeRadioButtons(false);
                 setFragment(vulnerabilityCategoriesFragment, false);
                 break;
             case R.id.radio_attack_complexity:
@@ -256,10 +247,10 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        Log.d("FragmentList",getSupportFragmentManager().getFragments().toString());
+        Log.d("FragmentList", getSupportFragmentManager().getFragments().toString());
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
-            Log.d("OnBackPressed","Popping stack");
+            Log.d("OnBackPressed", "Popping stack");
             fragmentManager.popBackStackImmediate();
         } else {
             super.onBackPressed();

@@ -23,6 +23,7 @@ import com.semerson.networkassessment.activities.fragment.controller.FragmentHos
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.storage.results.VulnerabilityResult;
+import com.semerson.networkassessment.utils.StyledText;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
 import com.semerson.networkassessment.utils.table.TableHeadings;
@@ -88,26 +89,52 @@ public class HostVulnsFilterAvailability extends Fragment implements View.OnClic
         Drawable customBoarder = getResources().getDrawable(R.drawable.customboarder_top_bottom_isvisible);
 
         List<VulnerabilityResult> vulnerabilityResults = resultController.getVulnerabilitiesFilterByHost(host);
-        List<VulnerabilityResult> resultsRemoveScoreNone = new ArrayList<>();
+        List<VulnerabilityResult> resultsSorted = new ArrayList<>();
 
+        List<VulnerabilityResult> high = new ArrayList<>();
+        List<VulnerabilityResult> low = new ArrayList<>();
         for (VulnerabilityResult result : vulnerabilityResults) {
-            if (!result.getAvailabilityScore().equals(VulnerabilityResult.NONE)) {
-                resultsRemoveScoreNone.add(result);
+            String score = result.getAvailabilityScore();
+            switch (score) {
+                case VulnerabilityResult.LOW:
+                    low.add(result);
+                    break;
+                case VulnerabilityResult.HIGH:
+                    high.add(result);
+                    break;
             }
         }
 
-        Collections.sort(resultsRemoveScoreNone, new Comparator<VulnerabilityResult>() {
-            public int compare(VulnerabilityResult v1, VulnerabilityResult v2) {
-                return v1.getAvailabilityScore().compareTo(v2.getAvailabilityScore());
+        Collections.sort(high, new Comparator<VulnerabilityResult>() {
+            public int compare(VulnerabilityResult v2, VulnerabilityResult v1) {
+                return v1.getRiskScore().compareTo(v2.getRiskScore());
             }
         });
 
+        Collections.sort(low, new Comparator<VulnerabilityResult>() {
+            public int compare(VulnerabilityResult v2, VulnerabilityResult v1) {
+                return v1.getRiskScore().compareTo(v2.getRiskScore());
+            }
+        });
+
+        resultsSorted.addAll(high);
+        resultsSorted.addAll(low);
+
 
         Table table = new Table();
-        for (VulnerabilityResult result : resultsRemoveScoreNone) {
-            table.prepareTableRow(new TableRow(new TableRowData(result.getNvtName(), Gravity.CENTER, this),
-                    new TableRowData(result.getAvailabilityScore(), Gravity.CENTER),
-                    new TableRowData(result.getRiskScoreAsString(), Gravity.CENTER)));
+        for (VulnerabilityResult result : resultsSorted) {
+            StyledText styledVulnName = new StyledText(result.getNvtName(), R.style.text_black);
+            StyledText styledImpact = result.getAvailabilityScoreStyleText();
+            StyledText styledRiskScore = result.getRiskScoreStyledText();
+
+            TableRowData tableRowDataVulnerabilty = new TableRowData(styledVulnName.getText(), Gravity.CENTER);
+            TableRowData tableRowDataImpact = new TableRowData(styledImpact.getText(), styledImpact.getStyle(), Gravity.CENTER);
+            TableRowData tableRowDataScore = new TableRowData(styledRiskScore.getText(), styledRiskScore.getStyle(), Gravity.CENTER);
+
+            TableRow tableRow = new TableRow(tableRowDataVulnerabilty, tableRowDataImpact, tableRowDataScore);
+            tableRow.setOnClickListener(this);
+            tableRow.setTag(result);
+            table.appendTableRow(tableRow);
         }
         tableCreator.createTableViews(context, mainLayout, customBoarder, table);
     }
@@ -141,11 +168,12 @@ public class HostVulnsFilterAvailability extends Fragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            VulnerabilityResult vulnerability = scanResults.getVulnerabilityInfo(textValue);
-            Fragment fragment = VulnerabilityDetailsFragment.newInstance(scanResults, vulnerability);
-            fragmentHost.setFragment(fragment, true);
+        if (v instanceof LinearLayout) {
+            Object object = v.getTag();
+            if (object != null && object instanceof VulnerabilityResult) {
+                Fragment fragment = VulnerabilityDetailsFragment.newInstance(scanResults, (VulnerabilityResult) object);
+                fragmentHost.setFragment(fragment, true);
+            }
         }
     }
 }

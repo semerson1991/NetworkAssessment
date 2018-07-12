@@ -19,13 +19,19 @@ import okhttp3.Response;
 
 public class ServerCommunicationService extends AsyncTask<String, Integer, String> {
 
+    public static final String NETWORK_DEVICES_ACTIVITY = "Network Devices";
+    public static final String REGISTER_USER_ACTIVITY = "Register User";
+    public static final String REGISTER_NETWORK_ACTIVITY = "Register Network";
+    public static final String LOGIN_ACTIVITY = "Login";
+
     private static final String TAG = "CommunicationService";
 
-    public static final String BASE_URL = "http://192.168.0.45:8000";
+    public static final String BASE_URL = "http://192.168.0.22:8000";
     public static final String URL_REGISTER = BASE_URL + "/register-user/";
     public static final String URL_RUN_HOST_DISCOVERY = BASE_URL + "/run-nmap-scan/";
     public static final String URL_RUN_VULNERABILITY_SCAN = BASE_URL + "/run-vulnerability-scan/";
-    //public static final String URL_REGISTER_NETWORK = BASE_URL+"/register-network-config/";
+    public static final String URL_REGISTER_NETWORK = BASE_URL+"/register-network-config/";
+
     public static final String URL_LOGIN = BASE_URL + "/login-user/";
     public static final String URL_RUN_SCAN = BASE_URL + "/run-scan/";
     public static final String URL_CHECK_SCAN_RESULTS = BASE_URL + "/check-scan-status/";
@@ -34,6 +40,7 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
     private RequestBody requestBody;
     private ProcessHttpResponse processHttpResponse;
     private Context context;
+
     public ServerCommunicationService(Context theContext) {
         this.context = theContext;
         if (theContext instanceof ProcessHttpResponse) {
@@ -68,8 +75,8 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
                 response = client.newCall(request).execute();
                 return response.body().string();
             } catch (IOException e) {
-                AppStorage.putValue(context, AppStorage.SERVER_COMMUNICATION_ERROR_MESSAGE, "Server connection error: "+ e.getMessage());
-                AppStorage.putValue(context, AppStorage.SERVER_COMMUNICATION_ERROR,true);
+                AppStorage.putValue(context, AppStorage.SERVER_COMMUNICATION_ERROR_MESSAGE, "Server connection error: " + e.getMessage());
+                AppStorage.putValue(context, AppStorage.SERVER_COMMUNICATION_ERROR, true);
                 Log.e(TAG, "Error connecting to server: " + e.getMessage());
             } catch (InterruptedException e) {
                 Log.e(TAG, "Error request delay error: " + e.getMessage());
@@ -87,13 +94,19 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
         super.onPostExecute(result);
         if (processHttpResponse != null) {
             Log.v(TAG, "result = " + result.toString());
-            if (NetworkDevices.activityActive){
-                Log.i(TAG, "Network Device activity is active, updating UI");
-                processHttpResponse.processResponse(result);
+            String activityRequestingServer = AppStorage.getValue(context, AppStorage.ACTIVITY_REQUESTING_SERVER, "");
+            if (activityRequestingServer.equals(NETWORK_DEVICES_ACTIVITY)) {
+                if (NetworkDevices.activityActive) {
+                    Log.i(TAG, "Network Device activity is active, updating UI");
+                    processHttpResponse.processResponse(result);
+                } else {
+                    Log.i(TAG, "Network Device activity is not active, storing results");
+                    AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.SERVER_RESPONSE, result);
+                }
             } else {
-                Log.i(TAG, "Network Device activity is not active, storing results");
-                AppStorage.putValue(WelcomeActivity.getAppContext(),AppStorage.SERVER_RESPONSE, result);
+                processHttpResponse.processResponse(result);
             }
+
         }
     }
 

@@ -326,6 +326,12 @@ public class PieChartCreator implements ChartCreator, OnChartValueSelectedListen
         return table;
     }
 
+    /**
+     *Prepares the table that has a host as the first column with the occurrences of the high medium and low threat levels
+     * @param resultScoreMetrics
+     * @param listener
+     * @return
+     */
     public Table prepareTableLegendOccurrences(Map<String, ResultScoreMetrics> resultScoreMetrics, View.OnClickListener listener) {
         Table table = new Table();
         for (String host : resultScoreMetrics.keySet()) {
@@ -338,6 +344,10 @@ public class PieChartCreator implements ChartCreator, OnChartValueSelectedListen
                     new TableRowData(String.valueOf(scoreMetrics.getLowCount()), Gravity.CENTER));
             tableRow.setRowValue((float) scoreMetrics.getTotal());
             table.appendTableRow(tableRow);
+
+            tableRow.setRowId(R.id.rowListener);
+            tableRow.setTag(host);
+            tableRow.setOnClickListener(listener);
         }
         return table;
     }

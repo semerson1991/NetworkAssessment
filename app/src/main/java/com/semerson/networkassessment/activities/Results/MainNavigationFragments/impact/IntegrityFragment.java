@@ -20,13 +20,16 @@ import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
 import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
 import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityDetailsFragment;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.impact.singleview.HostVulnFilterIntegrity;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.impact.singleview.HostVulnsFilterAvailability;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ResultScoreMetrics;
 import com.semerson.networkassessment.storage.results.ScanResults;
+import com.semerson.networkassessment.storage.results.VulnerabilityResult;
 import com.semerson.networkassessment.utils.UiObjectCreator;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
@@ -99,10 +102,15 @@ public class IntegrityFragment extends Fragment implements View.OnClickListener 
             ResultScoreMetrics integrityScoreCount = integrityImpactScore.get(host);
 
             if (integrityScoreCount.getTotal() != 0) {
-                table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER, this),
-                        new TableRowData(String.valueOf(integrityScoreCount.getHighCount()), Gravity.CENTER),
-                        new TableRowData(String.valueOf(integrityScoreCount.getLowCount()), Gravity.CENTER),
-                        new TableRowData(String.valueOf(integrityScoreCount.getTotal()), Gravity.CENTER)));
+                TableRowData tableRowDataHostname = new TableRowData(host, Gravity.LEFT);
+                TableRowData tableRowDataHigh = new TableRowData(String.valueOf(integrityScoreCount.getHighCount()), Gravity.CENTER);
+                TableRowData tableRowDataLow = new TableRowData(String.valueOf(integrityScoreCount.getLowCount()), Gravity.CENTER);
+                TableRowData tableRowDataTotal = new TableRowData(String.valueOf(integrityScoreCount.getTotal()), Gravity.CENTER);
+
+                TableRow tableRow = new TableRow(tableRowDataHostname, tableRowDataHigh, tableRowDataLow, tableRowDataTotal);
+                tableRow.setOnClickListener(this);
+                tableRow.setTag(host);
+                table.appendTableRow(tableRow);
             }
         }
         table.setSortedHighToLow(true);
@@ -138,17 +146,11 @@ public class IntegrityFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        Intent singleChartDisplay = new Intent(context, PieChartDetailsActivity.class);
-        singleChartDisplay.putExtra("scan-results", scanResults);
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            List<Host> hosts = scanResults.getHosts();
-            for (Host theHost : hosts) {
-                if (theHost.getHostname(false).equals(textValue)) {
-                    Fragment fragment = HostVulnFilterIntegrity.newInstance(scanResults, theHost.getHostname(false));
-                    fragmentHost.setFragment(fragment, true);
-                    break;
-                }
+        if (v instanceof LinearLayout) {
+            Object object = v.getTag();
+            if (object != null && object instanceof String) {
+                Fragment fragment = HostVulnFilterIntegrity.newInstance(scanResults, (String) object);
+                fragmentHost.setFragment(fragment, true);
             }
         }
     }

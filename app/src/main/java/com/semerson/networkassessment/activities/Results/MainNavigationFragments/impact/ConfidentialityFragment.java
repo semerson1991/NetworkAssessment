@@ -20,6 +20,7 @@ import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
 import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
 import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.impact.singleview.HostVulnsFilterAvailability;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.impact.singleview.HostVulnsFilterConfidentiality;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity;
@@ -99,10 +100,15 @@ public class ConfidentialityFragment extends Fragment implements View.OnClickLis
         for (String host : confidentialityImpactScore.keySet()) {
             ResultScoreMetrics confidentialityScoreCount = confidentialityImpactScore.get(host);
             if (confidentialityScoreCount.getTotal() != 0) {
-                table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER, this),
-                        new TableRowData(String.valueOf(confidentialityScoreCount.getHighCount()), Gravity.CENTER),
-                        new TableRowData(String.valueOf(confidentialityScoreCount.getLowCount()), Gravity.CENTER),
-                        new TableRowData(String.valueOf(confidentialityScoreCount.getTotal()), Gravity.CENTER)));
+                TableRowData tableRowDataHostname = new TableRowData(host, Gravity.LEFT);
+                TableRowData tableRowDataHigh = new TableRowData(String.valueOf(confidentialityScoreCount.getHighCount()), Gravity.CENTER);
+                TableRowData tableRowDataLow = new TableRowData(String.valueOf(confidentialityScoreCount.getLowCount()), Gravity.CENTER);
+                TableRowData tableRowDataTotal = new TableRowData(String.valueOf(confidentialityScoreCount.getTotal()), Gravity.CENTER);
+
+                TableRow tableRow = new TableRow(tableRowDataHostname, tableRowDataHigh, tableRowDataLow, tableRowDataTotal);
+                tableRow.setOnClickListener(this);
+                tableRow.setTag(host);
+                table.appendTableRow(tableRow);
             }
         }
         table.setSortedHighToLow(true);
@@ -139,17 +145,11 @@ public class ConfidentialityFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        Intent singleChartDisplay = new Intent(context, PieChartDetailsActivity.class);
-        singleChartDisplay.putExtra("scan-results", scanResults);
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            List<Host> hosts = scanResults.getHosts();
-            for (Host theHost : hosts) {
-                if (theHost.getHostname(false).equals(textValue)) {
-                    Fragment fragment = HostVulnsFilterConfidentiality.newInstance(scanResults, theHost.getHostname(false));
-                    fragmentHost.setFragment(fragment, true);
-                    break;
-                }
+        if (v instanceof LinearLayout) {
+            Object object = v.getTag();
+            if (object != null && object instanceof String) {
+                Fragment fragment = HostVulnsFilterConfidentiality.newInstance(scanResults, (String) object);
+                fragmentHost.setFragment(fragment, true);
             }
         }
     }

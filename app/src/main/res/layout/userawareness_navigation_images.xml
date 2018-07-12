@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/userawareness_navigation_images"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/userawareness_navigation_images"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/nav_firewall"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
         android:background="@drawable/customboarder_awareness_section"
-        android:onClick="onClick">
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtFirewall"
@@ -38,10 +38,10 @@
         android:id="@+id/nav_malware"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
         android:background="@drawable/customboarder_awareness_section"
-        android:onClick="onClick">
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtMalware"
@@ -66,10 +66,10 @@
         android:id="@+id/nav_passwords"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
         android:background="@drawable/customboarder_awareness_section"
-        android:onClick="onClick">
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtPasswords"
@@ -91,15 +91,14 @@
     </LinearLayout>
 
 
-
     <LinearLayout
         android:id="@+id/nav_phishing"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
         android:background="@drawable/customboarder_awareness_section"
-        android:onClick="onClick">
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtPhishing"
@@ -124,10 +123,10 @@
         android:id="@+id/nav_unsecure_configuration"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
         android:background="@drawable/customboarder_awareness_section"
-        android:onClick="onClick">
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtunsecure_configuration"
@@ -152,10 +151,10 @@
         android:id="@+id/nav_updates"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
         android:background="@drawable/customboarder_awareness_section"
-        android:onClick="onClick">
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtupdates"
@@ -180,10 +179,10 @@
         android:id="@+id/nav_web"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="5dp"
         android:background="@drawable/customboarder_awareness_section"
-        android:onClick="onClick">
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtWeb"
@@ -203,4 +202,46 @@
             android:scaleType="fitXY"
             android:src="@drawable/web_nav" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_more"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/customboarder_awareness_section"
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/txtMore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="More: "
+                android:textAlignment="center"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/txtMoreDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="The following section provides various security related cateogries such as business security, security community, practical security resources and more..."
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
 </LinearLayout>

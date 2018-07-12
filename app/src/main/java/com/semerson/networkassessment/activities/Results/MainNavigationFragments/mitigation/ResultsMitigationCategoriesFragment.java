@@ -18,6 +18,7 @@ import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
 import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
 import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilitiesFilterFamily;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityFilterMitigationType;
 import com.semerson.networkassessment.storage.results.ResultController;
@@ -70,7 +71,7 @@ public class ResultsMitigationCategoriesFragment extends Fragment implements Vie
 
         ArrayList<Integer> colors = new ArrayList<>();
         PieChart chart = pieChartCreator.createChart(context, 1000, 1000);
-        pieChartCreator.setChartConfig(ChartDescription.MITIGATION, false, LegendHeadings.MITIGATION, chart, resultController.getMitigationCategories(), PieChartCreator.DEFAULT_MIXED);
+        pieChartCreator.setChartConfig(ChartDescription.MITIGATION_CATEGORY, false, LegendHeadings.MITIGATION_CATEGORY, chart, resultController.getMitigationCategories(), PieChartCreator.DEFAULT_MIXED);
         mainLayout.addView(chart);
 
         Drawable customBoarder = getResources().getDrawable(R.drawable.customboarder_top_bottom_isvisible);
@@ -121,10 +122,12 @@ public class ResultsMitigationCategoriesFragment extends Fragment implements Vie
 
     @Override
     public void onClick(View v) {
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            Fragment fragment = VulnerabilityFilterMitigationType.newInstance(scanResults, textValue);
-            fragmentHost.setFragment(fragment, true);
+        if (v instanceof LinearLayout) {
+            Object object = v.getTag();
+            if (object != null && object instanceof String) {
+                Fragment fragment = VulnerabilityFilterMitigationType.newInstance(scanResults, (String) object);
+                fragmentHost.setFragment(fragment, true);
+            }
         }
     }
 }

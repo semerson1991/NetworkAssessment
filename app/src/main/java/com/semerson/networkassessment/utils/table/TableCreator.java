@@ -101,7 +101,6 @@ public class TableCreator {
                 tableRowView.setId(tableRowid);
             }
 
-
             tableRowView.setTag(tableRow.getTag());
 
             view.addView(tableRowView);

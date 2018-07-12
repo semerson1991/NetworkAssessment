@@ -175,10 +175,10 @@
             }
         ]
     ],
-    "results_collected": true,
-    "scan_id": {
-        "int": 1.90122213115985626711116898833765620694e+38
-    },
-    "action": "results-collected",
-    "file_path": "/root/Desktop/FinalYearProjectRESTAPI/automated_scans/reports/8f0834d2-42c2-435d-9ad1-27e6f03ddbd6.xml"
+    "results_collected": false,
+    "scan_id": "3f28dfb2-9acd-479e-b504-78bdca33b70d",
+    "network_discovery_path": null,
+    "vuln_assessment_path": null,
+    "error": "",
+    "action": "results-collected"
 }

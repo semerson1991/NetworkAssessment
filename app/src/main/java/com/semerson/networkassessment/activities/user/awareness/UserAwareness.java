@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.BaseActivity;
 import com.semerson.networkassessment.activities.Results.FragmentName;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.OperatingSystems;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.ThreatLevels;
@@ -41,11 +42,12 @@ import com.semerson.networkassessment.utils.BottomNavigationViewHelper;
 
 import java.util.List;
 
-public class UserAwareness extends AppCompatActivity implements View.OnClickListener, FragmentHost, BottomNavigationView.OnNavigationItemSelectedListener {
+public class UserAwareness extends BaseActivity implements View.OnClickListener, FragmentHost, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigationView;
     private SecurityAwarenessHomeFragment securityAwarenessHomeFragment;
     private SecurityAwarenessQuizFragment securityAwarenessQuizFragment;
+    private Fragment activeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,7 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void setFragment(Fragment fragment, boolean addToBackStack) {
+        activeFragment = fragment;
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainFrame, fragment);
         if (addToBackStack) {
@@ -179,6 +182,15 @@ public class UserAwareness extends AppCompatActivity implements View.OnClickList
             case (R.id.nav_web):
                 fragment = WebAppAwareness.newInstance();
                 break;
+            case (R.id.nav_more):
+                if (activeFragment instanceof LayoutSwitcher) {
+                    ((LayoutSwitcher) activeFragment).changeLayout(R.id.secure_awareness_categories, R.id.secure_awareness_categories_more);
+                }
+                break;
+            case (R.id.nav_back):
+                if (activeFragment instanceof LayoutSwitcher) {
+                    ((LayoutSwitcher) activeFragment).changeLayout(R.id.secure_awareness_categories_more, R.id.secure_awareness_categories);
+                }
         }
         return fragment;
     }

@@ -79,7 +79,7 @@ public class HostsFilterByServiceFragment extends Fragment {
                 StyledText risksFound = host.getRisksFound();
 
                 TableRowData tableRowDataHost = new TableRowData(host.getHostname(true), Gravity.LEFT);
-                TableRowData tableRowDataLastScanned = new TableRowData(host.getlastScannedResult(), Gravity.CENTER);
+                TableRowData tableRowDataLastScanned = new TableRowData(host.getLastScanDate(), Gravity.CENTER);
                 TableRowData tableRowDataRisksFound = new TableRowData(risksFound.getText(), risksFound.getStyle(), Gravity.CENTER);
                 tableRowDataHost.setRowId(R.id.rowDataListener);
 

@@ -2,8 +2,10 @@ package com.semerson.networkassessment.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
+import com.semerson.networkassessment.activities.WelcomeActivity;
 import com.semerson.networkassessment.storage.results.ScanResults;
 
 import java.util.ArrayList;
@@ -20,12 +22,9 @@ public class AppStorage {
     public static final String SERVER_COMMUNICATION_ERROR_MESSAGE = "Server_Communication_error_message";
     public static final String SERVER_RESPONSE = "serverResponse";
     public static final String LOGIN_NAME = "loginName";
-    public static final String ALIAS_NAME = "alias";
     public static final String NETWORK_NAME = "networkName";
     public static final String NETWORK_TYPE = "networkType";
     public static final String SESSION = "sessions";
-    public static final String SCAN_RESULTS = "scan-results";
-
 
     public static final String ADVANCED_MODE = "advanced_mode";
     public static final String RESULTS_HOME_CUSTOM_CHARTS = "results_home_custom_charts";
@@ -41,6 +40,7 @@ public class AppStorage {
 
     public static final String SERVER_ACTION = "Server Action";
     public static final String SCANNING_RESULTS = "ScanningResults";
+    public static final String SCAN_RESULTS_TO_DISPLAY = "ScanningResultsToDisplay";
 
     public static final String NMAP_SCAN_REQUEST = "nmapScanRequest";
     public static final String NMAP_SCAN_STARTED = "nmapScanStarted";
@@ -57,10 +57,20 @@ public class AppStorage {
     public static final String NMAP_SCAN = "nmap-scan";
 
     public static final String NETWORK_SCAN_TECHNIQUE = "network-scan-technique";
-    public static final String NETWORK_SCAN_TYPE = "network-scantype";
+    public static final String NETWORK_SCAN_TYPE = "network-scan-type";
     public static final String PORT_RANGE = "port-range";
     public static final String NETWORK_SCAN_HOSTS = "hosts";
+    public static final String NETWORK_SCAN_CUSTOM_ARGS = "network-custom-scan-args";
+    public static final String NETWORK_MAPPING_DETECTION = "network-mapping-detection-ops";
+    public static final String VULN_SCAN_TYPE = "vulnerability-scan-type";
+    public static final String RISK_SCORE_FORMULA = "risk-score-formula";
+    public static final String FORMULA_MAXIMUM_TEN = "risk-max-ten";
+    public static final String FORMULA_MAXIMUM_DATE = "risk-by-date";
+    public static final String VULN_SCAN_PERFORMED = "vuln-scan-performed";
 
+    public static final String DEVICE_CONNECTED = "logged-in-state";
+    public static final String ACTIVITY_REQUESTING_SERVER = "Activity-Requesting";
+    public static final String LOGGED_IN = "Logged In";
     public static ScanResults getScanResults(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);
         if (sharedPreferences.getString(SCANNING_RESULTS, "").equals("")) {
@@ -79,6 +89,24 @@ public class AppStorage {
         sharedPreferences.edit().putString(SCANNING_RESULTS, scanningResults).commit();
     }
 
+    public static void storeScanResultsToDisplay(Context context, ScanResults scanResults) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String scanningResults = gson.toJson(scanResults);
+        sharedPreferences.edit().putString(SCAN_RESULTS_TO_DISPLAY, scanningResults).commit();
+    }
+
+    public static ScanResults getScanResultsToDisplay(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);
+        if (sharedPreferences.getString(SCAN_RESULTS_TO_DISPLAY, "").equals("")) {
+            return new ScanResults();
+        }
+        Gson gson = new Gson();
+        String scanResultsJson = sharedPreferences.getString(SCAN_RESULTS_TO_DISPLAY, "");
+        ScanResults scanResults = gson.fromJson(scanResultsJson, ScanResults.class);
+        return scanResults;
+    }
+
     public static void removeValue(Context context, final String key) {
         SharedPreferences preferences = context.getSharedPreferences(APP_PREFERENCE, MODE_PRIVATE);
         preferences.edit().remove(key).commit();
@@ -90,11 +118,7 @@ public class AppStorage {
         return value;
     }
 
-    public static Boolean getValue(Context context, final String key, final boolean isTrue) {
-        SharedPreferences preferences = context.getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE);
-        Boolean value = preferences.getBoolean(key, isTrue);
-        return value;
-    }
+
 
     public static void putValue(Context context, String key, String value) {
         SharedPreferences preferences = context.getSharedPreferences(APP_PREFERENCE, MODE_PRIVATE);
@@ -151,11 +175,18 @@ public class AppStorage {
         return false;
     }
 
-    public static void putValue(Context context, final String key, final boolean value) {
+    public static void putValue(Context context, String key, boolean value) {
         SharedPreferences preferences = context.getSharedPreferences(APP_PREFERENCE, MODE_PRIVATE);
         if (preferences.contains(key)) {
             removeValue(context, key);
         }
         preferences.edit().putBoolean(key, value).commit();
     }
+    public static Boolean getValue(Context context, final String key, boolean isTrue) {
+        SharedPreferences preferences = context.getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE);
+
+        Boolean value = preferences.getBoolean(key, isTrue);
+        return value;
+    }
+
 }

@@ -24,6 +24,7 @@ import com.semerson.networkassessment.activities.fragment.controller.FragmentHos
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.storage.results.VulnerabilityResult;
+import com.semerson.networkassessment.utils.StyledText;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
 import com.semerson.networkassessment.utils.table.TableHeadings;
@@ -66,8 +67,6 @@ public class ResultsAllMitigationsFragment extends Fragment implements View.OnCl
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mainLayout = view.findViewById(R.id.mainLayout);
-        TextView textViewTitle = view.findViewById(R.id.mitigation_title);
-        textViewTitle.setText(VULN_HOST_TITLE);
         PieChartCreator pieChartCreator = new PieChartCreator();
 
         radioAllMitigations =(RadioButton)view.findViewById(R.id.radio_all_mitigations);
@@ -75,7 +74,7 @@ public class ResultsAllMitigationsFragment extends Fragment implements View.OnCl
         radioAllMitigations.setChecked(true);
 
         PieChart chart = pieChartCreator.createChart(context, 1000, 1000);
-        pieChartCreator.setChartConfig(ChartDescription.MITIGATION, true, LegendHeadings.MITIGATION, chart, resultController.getMitigationCategories(), PieChartCreator.DEFAULT_MIXED);
+        pieChartCreator.setChartConfig(ChartDescription.MITIGATION_CATEGORY, true, LegendHeadings.MITIGATION_CATEGORY, chart, resultController.getMitigationCategories(), PieChartCreator.DEFAULT_MIXED);
         mainLayout.addView(chart);
 
         Drawable customBoarder = getResources().getDrawable(R.drawable.customboarder_top_bottom_isvisible);
@@ -85,11 +84,16 @@ public class ResultsAllMitigationsFragment extends Fragment implements View.OnCl
 
         Table table = new Table();
         for (VulnerabilityResult result : vulnerabilityResults) {
-            TableRow tableRow = new TableRow(
-                    new TableRowData(result.getNvtName(), Gravity.LEFT, this),
-                    new TableRowData(result.getSolution(), Gravity.CENTER),
-                    new TableRowData(result.getSolutionType(), Gravity.CENTER),
-                    new TableRowData(result.getRiskScoreAsString(), Gravity.CENTER));
+            StyledText styledRiskScore = result.getRiskScoreStyledText();
+
+            TableRowData tableRowDataVulnName = new TableRowData(result.getNvtName(), Gravity.LEFT);
+            TableRowData tableRowDataMitigation = new TableRowData(result.getSolution(), Gravity.LEFT);
+            TableRowData tableRowDataMitigationCategory = new TableRowData(result.getSolutionType(), Gravity.LEFT);
+            TableRowData tableRowDataRisksScore = new TableRowData(styledRiskScore.getText(), styledRiskScore.getStyle(), Gravity.CENTER);
+
+            TableRow tableRow = new TableRow(tableRowDataVulnName, tableRowDataMitigation, tableRowDataMitigationCategory, tableRowDataRisksScore);
+            tableRow.setOnClickListener(this);
+            tableRow.setTag(result);
             table.appendTableRow(tableRow);
         }
 
@@ -135,11 +139,12 @@ public class ResultsAllMitigationsFragment extends Fragment implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            VulnerabilityResult vulnerability = scanResults.getVulnerabilityInfo(textValue);
-            Fragment fragment = VulnerabilityDetailsFragment.newInstance(scanResults, vulnerability);
-            fragmentHost.setFragment(fragment, true);
+        if (v instanceof LinearLayout) {
+            Object object = v.getTag();
+            if (object != null && object instanceof VulnerabilityResult) {
+                Fragment fragment = VulnerabilityDetailsFragment.newInstance(scanResults, (VulnerabilityResult) object);
+                fragmentHost.setFragment(fragment, true);
+            }
         }
     }
 }

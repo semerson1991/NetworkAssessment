@@ -19,6 +19,7 @@ import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.HostVulnerabilityDetailsFragment;
+import com.semerson.networkassessment.activities.network.HostsFilterByOSFragment;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ResultScoreMetrics;
@@ -40,7 +41,6 @@ public class VulnerableHosts extends Fragment implements View.OnClickListener {
 
     private TextView txtMoreDetails;
 
-    private RadioButton radioOS;
     private RadioButton radioThreatLevel;
     private RadioButton radioVulnerabilityCategory;
     private RadioButton radioComplexity;
@@ -85,7 +85,6 @@ public class VulnerableHosts extends Fragment implements View.OnClickListener {
         table.setSortedHighToLow(true);
         tableCreator.createTableViews(context, mainLayout, customBoarder, table);
 
-        radioOS = (RadioButton) view.findViewById(R.id.radio_operating_system);
         radioThreatLevel = (RadioButton) view.findViewById(R.id.radio_threat_levels);
         radioVulnerabilityCategory = (RadioButton) view.findViewById(R.id.radio_vulnerability_categories);
         radioComplexity = (RadioButton) view.findViewById(R.id.radio_attack_complexity);
@@ -120,7 +119,6 @@ public class VulnerableHosts extends Fragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-        radioOS.setChecked(false);
         radioThreatLevel.setChecked(false);
         radioVulnerabilityCategory.setChecked(false);
         radioAllVulnerabilities.setChecked(false);
@@ -137,16 +135,12 @@ public class VulnerableHosts extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            List<Host> hosts = scanResults.getHosts();
-            for (Host theHost : hosts) {
-                if (theHost.getHostname(false).equals(textValue)) {
-                    HostVulnerabilityDetailsFragment hostVulnerabilityDetailsFragment = HostVulnerabilityDetailsFragment.newInstance(scanResults, theHost.getHostname(false));
+        if (v.getId() == R.id.rowListener) {
+            Object object = v.getTag();
+                if (object != null && object instanceof String) {
+                    HostVulnerabilityDetailsFragment hostVulnerabilityDetailsFragment = HostVulnerabilityDetailsFragment.newInstance(scanResults, (String) object);
                     fragmentHost.setFragment(hostVulnerabilityDetailsFragment, true);
-                    break;
                 }
-            }
         }
     }
 }

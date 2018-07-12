@@ -33,7 +33,24 @@
             android:textColorLink="@color/colorPrimary"
             android:textSize="30sp" />
 
-        <include layout="@layout/userawareness_navigation_images"/>
+        <LinearLayout
+            android:id="@+id/secure_awareness_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <include layout="@layout/userawareness_navigation_images"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/secure_awareness_categories_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/userawareness_navigation_images_more"/>
+        </LinearLayout>
+
 
     </LinearLayout>
     </ScrollView>

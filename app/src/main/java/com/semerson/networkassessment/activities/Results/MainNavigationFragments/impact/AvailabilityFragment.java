@@ -19,6 +19,7 @@ import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
 import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
 import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityDetailsFragment;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.impact.singleview.HostVulnsFilterAvailability;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity;
@@ -26,6 +27,8 @@ import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ResultScoreMetrics;
 import com.semerson.networkassessment.storage.results.ScanResults;
+import com.semerson.networkassessment.storage.results.VulnerabilityResult;
+import com.semerson.networkassessment.utils.StyledText;
 import com.semerson.networkassessment.utils.UiObjectCreator;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
@@ -78,8 +81,6 @@ public class AvailabilityFragment extends Fragment implements View.OnClickListen
         PieChart availabilityChart = pieChartCreator.createChart(context, 1000, 1000);
         pieChartCreator.setChartConfig(ChartDescription.AVAILABILITY, true, LegendHeadings.AVAILABILITY, availabilityChart, resultController.getAvailabilityScore(), PieChartCreator.LOW_TO_CRITICAL);
         mainLayout.addView(availabilityChart);
-        availabilityChartText = UiObjectCreator.createTextView(R.id.availabilityImpact, UiObjectCreator.txtMoreDetails, context, this);
-        mainLayout.addView(availabilityChartText);
         radioAvailability = (RadioButton) view.findViewById(R.id.radio_availability);
         radioAvailability.setChecked(true);
 
@@ -99,10 +100,15 @@ public class AvailabilityFragment extends Fragment implements View.OnClickListen
         for (String host : availabilityImpactScore.keySet()) {
             ResultScoreMetrics availabilityScoreCount = availabilityImpactScore.get(host);
             if (availabilityScoreCount.getTotal() != 0) {
-                table.prepareTableRow(new TableRow(new TableRowData(host, Gravity.CENTER, this),
-                        new TableRowData(String.valueOf(availabilityScoreCount.getHighCount()), Gravity.CENTER),
-                        new TableRowData(String.valueOf(availabilityScoreCount.getLowCount()), Gravity.CENTER),
-                        new TableRowData(String.valueOf(availabilityScoreCount.getTotal()), Gravity.CENTER)));
+                TableRowData tableRowDataHostname = new TableRowData(host, Gravity.LEFT);
+                TableRowData tableRowDataHigh = new TableRowData(String.valueOf(availabilityScoreCount.getHighCount()), Gravity.CENTER);
+                TableRowData tableRowDataLow = new TableRowData(String.valueOf(availabilityScoreCount.getLowCount()), Gravity.CENTER);
+                TableRowData tableRowDataTotal = new TableRowData(String.valueOf(availabilityScoreCount.getTotal()), Gravity.CENTER);
+
+                TableRow tableRow = new TableRow(tableRowDataHostname, tableRowDataHigh, tableRowDataLow, tableRowDataTotal);
+                tableRow.setOnClickListener(this);
+                tableRow.setTag(host);
+                table.appendTableRow(tableRow);
             }
         }
         table.setSortedHighToLow(true);
@@ -138,17 +144,11 @@ public class AvailabilityFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        Intent singleChartDisplay = new Intent(context, PieChartDetailsActivity.class);
-        singleChartDisplay.putExtra("scan-results", scanResults);
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            List<Host> hosts = scanResults.getHosts();
-            for (Host theHost : hosts) {
-                if (theHost.getHostname(false).equals(textValue)) {
-                    Fragment fragment = HostVulnsFilterAvailability.newInstance(scanResults, theHost.getHostname(false));
-                    fragmentHost.setFragment(fragment, true);
-                    break;
-                }
+        if (v instanceof LinearLayout) {
+            Object object = v.getTag();
+            if (object != null && object instanceof String) {
+                Fragment fragment = HostVulnsFilterAvailability.newInstance(scanResults, (String) object);
+                fragmentHost.setFragment(fragment, true);
             }
         }
     }

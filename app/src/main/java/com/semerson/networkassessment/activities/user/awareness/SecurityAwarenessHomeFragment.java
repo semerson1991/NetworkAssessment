@@ -19,11 +19,14 @@ import com.semerson.networkassessment.activities.fragment.controller.FragmentHos
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SecurityAwarenessHomeFragment extends Fragment implements View.OnClickListener {
+public class SecurityAwarenessHomeFragment extends Fragment implements View.OnClickListener, LayoutSwitcher {
 
     private Context context;
     private FragmentHost fragmentHost;
     private LinearLayout mainLayout;
+
+    private LinearLayout awarenessCategorySection;
+    private LinearLayout awarenessCategoryMoreSection;
 
     private static final String title = "Security Awareness";
 
@@ -43,6 +46,10 @@ public class SecurityAwarenessHomeFragment extends Fragment implements View.OnCl
     public void onViewCreated(View view, Bundle savedInstancesState) {
 
         mainLayout = view.findViewById(R.id.mainLayout);
+        awarenessCategorySection = view.findViewById(R.id.secure_awareness_categories);
+        awarenessCategoryMoreSection = view.findViewById(R.id.secure_awareness_categories_more);
+
+        awarenessCategoryMoreSection.setVisibility(View.GONE);
     }
 
 
@@ -68,5 +75,18 @@ public class SecurityAwarenessHomeFragment extends Fragment implements View.OnCl
 
     @Override
     public void onClick(View v) {
+    }
+
+
+    @Override
+    public void changeLayout(int layoutIdToReplace, int newLayoutID) {
+        View currentView = getView().findViewById(layoutIdToReplace);
+        if (currentView != null) {
+            View newView = getView().findViewById(newLayoutID);
+            if (newView != null) {
+                newView.setVisibility(View.VISIBLE);
+                currentView.setVisibility(View.GONE);
+            }
+        }
     }
 }

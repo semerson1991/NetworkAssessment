@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.OperatingSystems;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
@@ -33,8 +34,9 @@ import java.util.List;
  */
 public class HostsFilterByOSFragment extends Fragment {
 
-public static final String OS_KEY = "SERVICE_KEY";
-private String os;
+    public static final String OS_KEY = "OS_KEY";
+    public static final String DESCRIPTION = "Description: ";
+    private String os;
     private Context context;
     private NetworkDevices networkDevices;
     private ScanResults scanResults;
@@ -44,6 +46,7 @@ private String os;
     private FragmentHost fragmentHost;
 
     private static final String TITLE = "Hosts with Operating System: ";
+
     public HostsFilterByOSFragment() {
         // Required empty public constructor
     }
@@ -55,7 +58,7 @@ private String os;
         // Inflate the layout for this fragment
 
         resultController = new ResultController(AppStorage.getScanResults(networkDevices).getHosts());
-        os =  getArguments().getString(OS_KEY);
+        os = getArguments().getString(OS_KEY);
         return inflater.inflate(R.layout.fragment_hosts_filter_by_os, container, false);
     }
 
@@ -68,8 +71,10 @@ private String os;
         TextView textDesc = view.findViewById(R.id.description);
 
         textTitle.setText(TITLE + os);
-        //textDesc.setText(DESCRIPTION + Service.getServiceDescription(service));
-
+        String description = Host.getOsDescription(os);
+        if (!description.equals("")) {
+            textDesc.setText(DESCRIPTION + Host.getOsDescription(os));
+        }
         List<Host> hosts = resultController.getHostsFilterByOS(os);
         Table table = new Table();
         TableCreator tableCreator = new TableCreator();
@@ -78,7 +83,7 @@ private String os;
                 StyledText risksFound = host.getRisksFound();
 
                 TableRowData tableRowDataHost = new TableRowData(host.getHostname(true), Gravity.LEFT);
-                TableRowData tableRowDataLastScanned = new TableRowData(host.getlastScannedResult(), Gravity.CENTER);
+                TableRowData tableRowDataLastScanned = new TableRowData(host.getLastScanDate(), Gravity.CENTER);
                 TableRowData tableRowDataRisksFound = new TableRowData(risksFound.getText(), risksFound.getStyle(), Gravity.CENTER);
                 tableRowDataHost.setRowId(R.id.rowDataListener);
 

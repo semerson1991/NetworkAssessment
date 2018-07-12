@@ -9,4 +9,10 @@
     <color name="colorProgressBarFirst">#fff22222</color>
     <color name="colorProgressBarSecond">#ff77b539</color>
     <color name="colorProgressBarThird">#ff39b54a</color>
+
+    <color name="colorLightGrey">#00f0f4ec</color>
+    <color name="colorDarkGrey">#d9dcd9</color>
+
+
+
 </resources>

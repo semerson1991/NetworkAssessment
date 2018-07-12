@@ -21,10 +21,13 @@ import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityDetailsFragment;
+import com.semerson.networkassessment.activities.network.SingleNetworkDeviceFragment;
+import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ResultLevels;
 import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.storage.results.VulnerabilityResult;
+import com.semerson.networkassessment.utils.StyledText;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
 import com.semerson.networkassessment.utils.table.TableRow;
@@ -44,7 +47,6 @@ public class AllVulnerabilities extends Fragment implements View.OnClickListener
     private Context context;
     private FragmentHost fragmentHost;
 
-    private RadioButton radioOS;
     private RadioButton radioThreatLevel;
     private RadioButton radioVulnerabilityCategory;
     private RadioButton radioComplexity;
@@ -52,6 +54,7 @@ public class AllVulnerabilities extends Fragment implements View.OnClickListener
     private RadioButton radioAllVulnerabilities;
 
     boolean advancedMode;
+
     public AllVulnerabilities() {
         // Required empty public constructor
     }
@@ -98,7 +101,6 @@ public class AllVulnerabilities extends Fragment implements View.OnClickListener
 
         tableCreator.createTableViews(context, mainLayout, customBoarder, table);
 
-        radioOS = (RadioButton) view.findViewById(R.id.radio_operating_system);
         radioThreatLevel = (RadioButton) view.findViewById(R.id.radio_threat_levels);
         radioVulnerabilityCategory = (RadioButton) view.findViewById(R.id.radio_vulnerability_categories);
         radioComplexity = (RadioButton) view.findViewById(R.id.radio_attack_complexity);
@@ -110,12 +112,16 @@ public class AllVulnerabilities extends Fragment implements View.OnClickListener
     }
 
     private void prepareRow(List<VulnerabilityResult> results, Table table) {
-        TableRow tableRow = null;
         for (VulnerabilityResult result : results) {
-            tableRow = new TableRow(
-                    new TableRowData(result.getNvtName(), Gravity.CENTER, this),
-                    new TableRowData(result.getVulnFamily(), Gravity.CENTER),
-                    new TableRowData(result.getThreatLevel(), Gravity.CENTER));
+            StyledText styledRating = result.getThreatRatingStyledText();
+
+            TableRowData tableRowDataHost = new TableRowData(result.getNvtName(), Gravity.CENTER);
+            TableRowData tableRowDataLastScanned = new TableRowData(result.getVulnFamily(), Gravity.CENTER);
+            TableRowData tableRowDataRisksFound = new TableRowData(styledRating.getText(), styledRating.getStyle(), Gravity.CENTER);
+
+            TableRow tableRow = new TableRow(tableRowDataHost, tableRowDataLastScanned, tableRowDataRisksFound);
+            tableRow.setOnClickListener(this);
+            tableRow.setTag(result);
             table.appendTableRow(tableRow);
         }
     }
@@ -144,7 +150,6 @@ public class AllVulnerabilities extends Fragment implements View.OnClickListener
     @Override
     public void onPause() {
         super.onPause();
-        radioOS.setChecked(false);
         radioThreatLevel.setChecked(false);
         radioVulnerabilityCategory.setChecked(false);
         radioAllVulnerabilities.setChecked(false);
@@ -160,11 +165,12 @@ public class AllVulnerabilities extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            VulnerabilityResult vulnerability = scanResults.getVulnerabilityInfo(textValue);
-            Fragment fragment = VulnerabilityDetailsFragment.newInstance(scanResults, vulnerability);
-            fragmentHost.setFragment(fragment, true);
+        if (v instanceof LinearLayout) {
+            Object object = v.getTag();
+            if (object != null && object instanceof VulnerabilityResult) {
+                Fragment fragment = VulnerabilityDetailsFragment.newInstance(scanResults, (VulnerabilityResult) object);
+                fragmentHost.setFragment(fragment, true);
+            }
         }
     }
 }

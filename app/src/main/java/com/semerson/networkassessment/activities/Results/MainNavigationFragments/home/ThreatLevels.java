@@ -19,6 +19,7 @@ import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
 import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
 import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityFilterComplexity;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.PieChartDetailsActivity;
 import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityFilterThreatLevel;
@@ -42,7 +43,6 @@ public class ThreatLevels extends Fragment implements View.OnClickListener {
 
     private TextView txtMoreDetails;
 
-    private RadioButton radioOS;
     private RadioButton radioThreatLevel;
     private RadioButton radioVulnerabilityCategory;
     private RadioButton radioComplexity;
@@ -84,7 +84,6 @@ public class ThreatLevels extends Fragment implements View.OnClickListener {
         table.setSortedHighToLow(true);
         tableCreator.createTableViews(context, mainLayout, customBoarder, table);
 
-        radioOS = (RadioButton) view.findViewById(R.id.radio_operating_system);
         radioThreatLevel = (RadioButton) view.findViewById(R.id.radio_threat_levels);
         radioVulnerabilityCategory = (RadioButton) view.findViewById(R.id.radio_vulnerability_categories);
         radioComplexity = (RadioButton) view.findViewById(R.id.radio_attack_complexity);
@@ -119,7 +118,6 @@ public class ThreatLevels extends Fragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-        radioOS.setChecked(false);
         radioThreatLevel.setChecked(false);
         radioVulnerabilityCategory.setChecked(false);
         radioAllVulnerabilities.setChecked(false);
@@ -136,19 +134,12 @@ public class ThreatLevels extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent singleChartDisplay = new Intent(context, PieChartDetailsActivity.class);
-        singleChartDisplay.putExtra("scan-results", scanResults);
-        if (v instanceof TextView) {
-            String textValue = ((TextView) v).getText().toString();
-            switch (textValue) {
-                case ResultLevels.HIGH:
-                case ResultLevels.MEDIUM:
-                case ResultLevels.LOW:
-                    Fragment fragment = VulnerabilityFilterThreatLevel.newInstance(scanResults, textValue);
-                    fragmentHost.setFragment(fragment, true);
-                    break;
+        if (v instanceof LinearLayout) {
+            Object threadLevel = v.getTag();
+            if (threadLevel != null && threadLevel instanceof String) {
+                Fragment fragment = VulnerabilityFilterThreatLevel.newInstance(scanResults, (String) threadLevel);
+                fragmentHost.setFragment(fragment, true);
             }
-
         }
     }
 }

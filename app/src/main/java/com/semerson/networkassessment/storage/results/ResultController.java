@@ -3,7 +3,6 @@ package com.semerson.networkassessment.storage.results;
 import android.content.Context;
 
 import com.semerson.networkassessment.activities.Results.ResultCallback;
-import com.semerson.networkassessment.activities.network.NetworkDevices;
 import com.semerson.networkassessment.activities.network.TechnicalAndFriendlyName;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.utils.Utils;
@@ -145,7 +144,7 @@ public class ResultController {
             List<VulnerabilityResult> vulnerabilityResults = host.getVulnerabilityResults();
 
             for (VulnerabilityResult vulnResult : vulnerabilityResults) {
-                if (vulnResult.getThreatLevel().equals(threatLevel)) {
+                if (vulnResult.getThreatRating().equals(threatLevel)) {
                     String result = vulnResult.getVulnFamily();
                     if (resultData.containsKey(result)) {
                         float value = resultData.get(result);
@@ -170,7 +169,7 @@ public class ResultController {
 
             for (VulnerabilityResult vulnResult : vulnerabilityResults) {
                 if (vulnResult.getVulnFamily().equals(vulnFamily)) {
-                    String result = vulnResult.getThreatLevel();
+                    String result = vulnResult.getThreatRating();
                     if (resultData.containsKey(result)) {
                         float value = resultData.get(result);
                         value = value + numToIncrement;
@@ -238,7 +237,7 @@ public class ResultController {
         ResultCallback resultCallback = new ResultCallback() {
             @Override
             public String getResult(VulnerabilityResult vulnerabilityResult) {
-                return vulnerabilityResult.getThreatLevel();
+                return vulnerabilityResult.getThreatRating();
             }
         };
         return getResultDataOrdered(resultCallback);
@@ -414,7 +413,7 @@ public class ResultController {
         ResultCallback resultCallback = new ResultCallback() {
             @Override
             public String getResult(VulnerabilityResult vulnerabilityResult) {
-                return vulnerabilityResult.getThreatLevel();
+                return vulnerabilityResult.getThreatRating();
             }
         };
         return getScoreMetrics(resultCallback);
@@ -513,7 +512,7 @@ public class ResultController {
             Host host = hosts.get(hostname);
             List<VulnerabilityResult> vulnerabilityResults = host.getVulnerabilityResults();
             for (VulnerabilityResult vulnerabilityResult : vulnerabilityResults) {
-                if (vulnerabilityResult.getThreatLevel().equals(threatLevel)) {
+                if (vulnerabilityResult.getThreatRating().equals(threatLevel)) {
                     results.add(vulnerabilityResult);
                 }
             }
@@ -540,6 +539,15 @@ public class ResultController {
         Collections.sort(vulnerabilityResults, new Comparator<VulnerabilityResult>() {
             public int compare(VulnerabilityResult v1, VulnerabilityResult v2) {
                 return v2.getRiskScore().compareTo(v1.getRiskScore());
+            }
+        });
+        return vulnerabilityResults;
+    }
+
+    public List<VulnerabilityResult> filterByThreatRatingHighToLow(List<VulnerabilityResult> vulnerabilityResults) {
+        Collections.sort(vulnerabilityResults, new Comparator<VulnerabilityResult>() {
+            public int compare(VulnerabilityResult v1, VulnerabilityResult v2) {
+                return v1.getThreatRating().compareTo(v2.getThreatRating());
             }
         });
         return vulnerabilityResults;

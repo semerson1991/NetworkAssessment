@@ -1,143 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainLayout"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    tools:context="com.semerson.networkassessment.activities.Results.ResultsActivity">
 
-
-    <RelativeLayout
-        android:id="@+id/navigationLayout"
+    <LinearLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ScrollView
-            android:id="@+id/scrollView"
+
+        <RelativeLayout
+            android:id="@+id/navigationLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/bottomNavigation"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/toolbarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="?attr/actionBarSize"
                 android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/mainFrame"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/bottomNavigation"
-                    android:layout_centerHorizontal="true"></FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/secondFrame"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/bottomNavigation"
-                    android:layout_centerHorizontal="true"></FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/thirdFrame"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/bottomNavigation"
-                    android:layout_centerHorizontal="true"></FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/fourthFrame"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/bottomNavigation"
-                    android:layout_centerHorizontal="true"></FrameLayout>
+                <include layout="@layout/navigation_main_toolbar" />
             </LinearLayout>
-        </ScrollView>
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="3dp"
-            app:menu="@menu/nav_items"></android.support.design.widget.BottomNavigationView>
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/bottomNavigation"
+                android:layout_below="@+id/toolbarLayout"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp">
 
-    </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-</LinearLayout><!--app:itemBackground="@color/colorPrimary" -->
+                    <FrameLayout
+                        android:id="@+id/mainFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/bottomNavigation"
+                        android:layout_centerHorizontal="true"></FrameLayout>
 
-    <!--
-    <?xml version="1.0" encoding="utf-8"?>
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+                    <FrameLayout
+                        android:id="@+id/secondFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/bottomNavigation"
+                        android:layout_centerHorizontal="true"></FrameLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:orientation="vertical"
-        tools:context=".activities.ResultsActivity">
+                    <FrameLayout
+                        android:id="@+id/thirdFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/bottomNavigation"
+                        android:layout_centerHorizontal="true"></FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/fourthFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/bottomNavigation"
+                        android:layout_centerHorizontal="true"></FrameLayout>
+                </LinearLayout>
+            </ScrollView>
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottomNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="3dp"
+                android:theme="@style/AppTheme.NoActionBar"
+                app:menu="@menu/nav_items"></android.support.design.widget.BottomNavigationView>
+
+        </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="66dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="Vulnerability Assessment"
-            android:textAlignment="textStart"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <com.github.mikephil.charting.charts.PieChartCreator
-            android:id="@+id/PieOS"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
-
-        <com.github.mikephil.charting.charts.PieChartCreator
-            android:id="@+id/PieFamily"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
-
-        <com.github.mikephil.charting.charts.PieChartCreator
-            android:id="@+id/PieSkillLevel"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
-
-        <com.github.mikephil.charting.charts.PieChartCreator
-            android:id="@+id/PieVulnLevel"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
-
-        <com.github.mikephil.charting.charts.PieChartCreator
-            android:id="@+id/piChartOS"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:paddingBottom="2px"
-            android:layout_gravity="left"></com.github.mikephil.charting.charts.PieChartCreator>
-
-        <com.github.mikephil.charting.charts.PieChartCreator
-            android:id="@+id/piChartVulnerabilityFamily"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:paddingBottom="20px"
-            android:layout_gravity="center"></com.github.mikephil.charting.charts.PieChartCreator>
-
-    </LinearLayout>
-    </ScrollView>
-    -->
+    </LinearLayout><!--app:itemBackground="@color/colorPrimary" -->
+    <include layout="@layout/navigation_main_drawer" />
+</android.support.v4.widget.DrawerLayout>
