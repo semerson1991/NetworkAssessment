@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="news_description_heading">
+        "Description"
+    </string>
+
+    <string name="news_description">
+        "Keeping up with security news will greatly aid you in gaining awareness of up to date vulnerabilities, technologies, products, and services. A range of resources are provided to help you keep up to date.  \n"
+    </string>
+
+    <string name="news_resource_1_desc_heading">
+        "Stay Safe Online News \n"
+    </string>
+
+    <string name="news_resource_1_desc">
+        "Stay Safe Online provide releases and highlights from the National Cyber Security Alliance's Media coverage.\n"
+    </string>
+
+    <string name="news_resource_1">
+        "https://staysafeonline.org/news/ \n"
+    </string>
+
+    <string name="news_resource_2_desc_heading">
+        "BBC Cyber-Security \n"
+    </string>
+
+    <string name="news_resource_2_desc">
+        "All the latest news about cyber security from the BBC. \n"
+    </string>
+
+    <string name="news_resource_2">
+        https://www.bbc.co.uk/news/topics/cz4pr2gd85qt/cyber-security \n"
+    </string>
+
+    <string name="news_resource_3_desc_heading">
+        "Info Security Magazine \n"
+    </string>
+
+    <string name="news_resource_3_desc">
+        "Infosecurity Magazine is the award winning online magazine dedicated to the strategy, insight and technology of information security. \n"
+    </string>
+
+    <string name="news_resource_3">
+        "https://www.infosecurity-magazine.com/news/ \n"
+    </string>
+    
+    <string name="news_resource_4_desc_heading">
+        "National Cyber Security Centre News \n"
+    </string>
+
+    <string name="news_resource_4_desc">
+        "View the various news topics provided by the National Cyber Security Centre \n"
+     </string>
+
+    <string name="news_resource_4">
+        "https://www.ncsc.gov.uk/searchtype/news \n"
+    </string>
+</resources>

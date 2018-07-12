@@ -40,6 +40,7 @@ public class UserSecurityAwareness extends Fragment implements View.OnClickListe
     private LinearLayout layoutUnsecureConfig;
     private LinearLayout layoutUpdates;
     private LinearLayout layoutWeb;
+    private LinearLayout layoutMore;
 
     private FragmentHost fragmentHost;
 
@@ -69,6 +70,7 @@ public class UserSecurityAwareness extends Fragment implements View.OnClickListe
         layoutUnsecureConfig = view.findViewById(R.id.nav_unsecure_configuration);
         layoutUpdates = view.findViewById(R.id.nav_updates);
         layoutWeb = view.findViewById(R.id.nav_web);
+        layoutMore = view.findViewById(R.id.secure_awareness_categories_more);
 
         int mainbodyText = R.style.custom_mainbody_text;
         int mainBodyTitle = R.style.custom_mainbody_heading_centered;
@@ -138,6 +140,7 @@ public class UserSecurityAwareness extends Fragment implements View.OnClickListe
         layoutUnsecureConfig.setVisibility(View.GONE);
         layoutUpdates.setVisibility(View.GONE);
         layoutWeb.setVisibility(View.GONE);
+        layoutMore.setVisibility(View.GONE);
     }
 
     public static UserSecurityAwareness newInstance(ScanResults scanResults) {

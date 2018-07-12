@@ -103,7 +103,7 @@ public class ResultsActivity extends BaseActivity implements View.OnClickListene
         userAwarenessFragmentFragment = UserSecurityAwareness.newInstance(scanResults);
 
         if (savedInstanceState == null) {
-            setFragment(vulnerableHostsFragment, true);
+            setFragment(vulnerableHostsFragment, false);
         }
     }
 
@@ -159,6 +159,7 @@ public class ResultsActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        removeBackStacks();
         switch (item.getItemId()) {
             case R.id.bottomNavResults:
                 setFragment(vulnerableHostsFragment, false);

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="report_risk_description_heading">
+        "Description"
+    </string>
+
+    <string name="report_risk_description">
+        "Sometimes people choose not to report fraud because they are embarrassed that they fell for a scam, con, swindle, or any other word used to describe the crime. \n\n"
+        "Remember that fraud is a crime and that fraudsters will constantly reinvent themselves to find new ways of tricking people. Anyone could be a victim. \n\n"
+        "Some people also think that fraud is a victimless crime, or that it’s not as serious as other crimes. This is not true. Fraudsters are often part of serious organised criminal gangs, who use the money to fund other crimes such as human trafficking, illegal firearms trade and terrorism. \n"
+    </string>
+
+    <string name="report_risk_resource_1_desc_heading">
+        "Reporting Cyber crime\n"
+    </string>
+
+    <string name="report_risk_resource_1_desc">
+        "Please use the website provided to report a fraud / cybercrime \n"
+    </string>
+
+    <string name="report_risk_resource_1">
+        "https://www.actionfraud.police.uk/ \n"
+    </string>
+</resources>

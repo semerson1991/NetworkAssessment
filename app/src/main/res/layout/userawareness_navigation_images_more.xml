@@ -35,6 +35,121 @@
             android:src="@drawable/malware_nav" />
     </LinearLayout>
 
+
+
+    <LinearLayout
+        android:id="@+id/nav_sec_news"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/customboarder_awareness_section"
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/txtSecNews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Security News"
+            android:textAlignment="center"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:id="@+id/imgSecNews"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_arrow_back_24px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_sec_community"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/customboarder_awareness_section"
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/txtSeccommunity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Cyber Security Community"
+            android:textAlignment="center"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:id="@+id/imgSeccommunity"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_arrow_back_24px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_practical"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/customboarder_awareness_section"
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/txtpractical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Technical and Practical Education"
+            android:textAlignment="center"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:id="@+id/imgpractical"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_arrow_back_24px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_report"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/customboarder_awareness_section"
+        android:onClick="onClick"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/txtreport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Reporting Cyber Crime"
+            android:textAlignment="center"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:id="@+id/imgreport"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_arrow_back_24px" />
+    </LinearLayout>
+
+
     <LinearLayout
         android:id="@+id/nav_back"
         android:layout_width="match_parent"
@@ -55,7 +170,7 @@
             android:textSize="14dp" />
 
         <ImageView
-            android:id="@+id/imgFirewall"
+            android:id="@+id/imgBack"
             android:layout_width="200dp"
             android:layout_height="70dp"
             android:layout_weight="1"

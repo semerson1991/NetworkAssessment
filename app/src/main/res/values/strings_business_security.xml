@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="business_description_heading">
+        "Description"
+    </string>
+
+    <string name="business_description">
+        "All organisations should take basic steps to protect themselves against cyber-attacks. "
+        "Having good cyber security measures will help protect the business against cyber threats which lead to serious consequences such as "
+        "data theft, negative business reputation, financial loss, and much more. "
+        "The resources provided on this page will help greatly towards the prevention of these risks occuring. \n"
+    </string>
+
+    <string name="business_resource_1_desc_heading">
+        "Cyber Essentials Scheme \n"
+    </string>
+
+    <string name="business_resource_1_desc">
+        "The Cyber Essentials provides the business with technical measures to put in place to protect against the most common internet threats."
+        "This scheme is recommended by Government for all organisation which rely on the internet \n"
+    </string>
+
+    <string name="business_resource_1">
+        "https://www.cyberessentials.ncsc.gov.uk/ \n"
+    </string>
+
+    <string name="business_resource_2_desc_heading">
+        "10 Steps to Cyber Security \n"
+    </string>
+
+    <string name="business_resource_2_desc">
+        "The following resource shows larger businesses and organisations how to put a comprehensive cyber security risk management plan in place. This guidance is recommended by Government for all large organisations operating online. \n"
+    </string>
+
+    <string name="business_resource_2">
+        "https://www.ncsc.gov.uk/guidance/10-steps-cyber-security/ \n"
+    </string>
+
+    <string name="business_resource_3_desc_heading">
+        "Cyber Awareness \n"
+    </string>
+
+    <string name="business_resource_3_desc">
+        "Cyber Awareness is crucial for employees as attackers often attempt to exploit humans with attacks such as phishing emails. The guidelines for Cyber Aware are created from expert advice from the National Cyber Security Centre .  \n"
+    </string>
+
+    <string name="business_resource_3">
+        "https://www.cyberaware.gov.uk \n"
+    </string>
+
+    <string name="business_resource_3_1_desc">
+        "Take Five is a government backed awareness campaign led by FFA UK with a variety of big partners in the industry including financial firms and law agencies. "
+        "This campaign focuses less on the technical aspect and more on increasing awareness on identifying and dealing with different types of scams.   \n"
+    </string>
+
+    <string name="business_resource_3_1">
+        "https://takefive-stopfraud.org.uk/ \n"
+    </string>
+
+    <string name="business_resource_4_desc_heading">
+        "CyberSecure My Business \n"
+    </string>
+
+    <string name="business_resource_4_desc">
+        "CyberSecure My Business is a national program helping small and medium sizes businesses (SMBs) learn to be safer and more secure online. \n"
+     </string>
+
+    <string name="business_resource_4">
+        "https://staysafeonline.org/cybersecure-business/ \n"
+    </string>
+
+    <string name="business_resource_5_desc_heading">
+        "Government Security guidance for business \n"
+    </string>
+
+    <string name="business_resource_5_desc">
+        "The following resource provides a collection of resources to explore that all contribute towards the protection of businesses \n"
+     </string>
+
+    <string name="business_resource_5">
+        "https://www.gov.uk/government/collections/cyber-security-guidance-for-business \n"
+    </string>
+</resources>

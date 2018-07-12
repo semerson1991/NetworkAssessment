@@ -1,6 +1,7 @@
 package com.semerson.networkassessment.activities.network;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -71,6 +72,7 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_scanner);
 
@@ -87,7 +89,10 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
             operatingSystemsFragment = new OperatingSystemsFragment();
             networkDevicesFragment = new NetworkDevicesFragment();
             if (savedInstanceState == null) {
-                setFragment(networkDevicesFragment, true);
+                Log.i(TAG, "Saved Instance State Null");
+                setFragment(networkDevicesFragment, false);
+            } else {
+                Log.i(TAG, "Saved Instance State True");
             }
         } else {
             LinearLayout headerView = findViewById(R.id.headerOpsView);
@@ -372,12 +377,19 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
     @Override
     public void setFragment(Fragment fragment, boolean addToBackStack) {
         activeFragment = fragment;
+        if (fragment.isAdded()){
+            Log.i(TAG, "Fragment Already Added");
+            return;
+        } else {
+            Log.i(TAG, "Fragment Doesn't Exist");
+        }
         setFragment(fragment, addToBackStack, R.id.mainFrame);
     }
 
     @Override
     public void setFragment(Fragment fragment, boolean addToBackStack, int fragmentIdToReplace) {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
         fragmentTransaction.replace(fragmentIdToReplace, fragment);
         if (addToBackStack) {
             fragmentTransaction.addToBackStack(null);
@@ -387,6 +399,7 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        removeBackStacks();
         switch (item.getItemId()) {
             case R.id.bottomNavNetworkHome:
                 setFragment(networkDevicesFragment, false);
@@ -418,6 +431,7 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
 
     @Override
     public void onResume() {
+        Log.i(TAG, "Resumed");
         super.onResume();
         activityActive = true;
         if (AppStorage.checkExists(this, AppStorage.SERVER_ACTION)) {
@@ -428,13 +442,20 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
 
     @Override
     public void onStop() {
+        Log.i(TAG, "Stopped");
         super.onStop();
         activityActive = false;
     }
 
     @Override
     public void onPause() {
+        Log.i(TAG, "Paused");
         super.onPause();
         activityActive = false;
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
     }
 }

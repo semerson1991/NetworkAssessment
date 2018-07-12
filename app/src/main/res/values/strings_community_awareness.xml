@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="community_description_heading">
+        "Description"
+    </string>
+
+    <string name="community_description">
+        " Getting involved with cyber security communities is a fun way to interact with new people and learn new things. This section provides a range of resources from the security community.\n"
+    </string>
+
+    <string name="community_resource_1_desc_heading">
+        "Security Community Subreddits \n"
+    </string>
+
+    <string name="community_resource_1_desc">
+        "This subreddit is designed for users to post the latest Information Security related news and articles from around the Internet. It is intended to provide a location one can come and receive updated security community including the security and privacy industry. \n"
+    </string>
+
+    <string name="community_resource_1">
+        "https://www.reddit.com/r/InfoSecnews/ \n"
+    </string>
+
+    <string name="community_resource_1_1_desc">
+        "A place to ask security related questions. All questions are welcome. \n"
+    </string>
+
+    <string name="community_resource_1_1">
+        "https://www.reddit.com/r/AskNetsec/ \n"
+    </string>
+
+    <string name="community_resource_1_2_desc">
+        "Privacy is very important as it helps individuals maintain their autonomy and individuality. Privacy can also aid in preventing security risks such as identity theft. This subreddit is for users interested in privacy in the digital world. \n"
+    </string>
+
+    <string name="community_resource_1_2">
+        "https://www.reddit.com/r/privacy/ \n"
+    </string>
+
+
+    <string name="community_resource_2_desc_heading">
+        "National Cybersecurity Awareness Month \n"
+    </string>
+
+    <string name="community_resource_2_desc">
+        "It is important for everyone to take part to make sure their online lives are kept safe and secure. This is what the National Cybersecurty Awareness Month provided by Stay Safe Online is all about. Take part and learn how you can make the internet a safer place. \n"
+    </string>
+
+    <string name="community_resource_2">
+        https://staysafeonline.org/ncsam/ \n"
+    </string>
+
+    <string name="community_resource_3_desc_heading">
+        "Community Podcasts and Videos \n"
+    </string>
+
+    <string name="community_resource_3_1_desc">
+        "The Security Weekly podcast network: technical segments, interviews with security luminaries, and the latest information security and hacking community. This is hosted by security professionals and cover a variety of security related areas.  \n"
+    </string>
+
+    <string name="community_resource_3_1">
+        "https://securityweekly.com/ \n"
+    </string>
+
+    <string name="community_resource_3_2_desc">
+        "Steve Gibson, the man who coined the term spyware and created the first anti-spyware program, creator of Spinrite and ShieldsUP, discusses the hot topics in security today with Leo Laporte.  \n"
+    </string>
+
+    <string name="community_resource_3_2">
+        "https://www.youtube.com/channel/UCNbqa_9xihC8yaV2o6dlsUg \n"
+    </string>
+
+    <string name="community_resource_3_3_desc">
+        "Defensive Security is a cyber security podcast covering breaches and strategies for defense.  \n"
+    </string>
+
+    <string name="community_resource_3_3">
+        "https://defensivesecurity.org/ \n"
+    </string>
+
+    <string name="community_resource_4_desc_heading">
+        "Social Media for Security Awareness news \n"
+    </string>
+
+    <string name="community_resource_4_1_desc">
+        "Cyber Aware is all about discovering how you, your family and your business can be secure online.  \n"
+     </string>
+
+    <string name="community_resource_4_1">
+        "https://twitter.com/cyberawaregov?lang=en \n"
+    </string>
+
+    <string name="community_resource_4_2_desc">
+        "ISEA Project activities to widely generate information security awareness to children, home user and non-IT professionals in a planned manner.  \n"
+     </string>
+
+    <string name="community_resource_4_2">
+        "https://twitter.com/infosecawa?lang=en \n"
+    </string>
+</resources>

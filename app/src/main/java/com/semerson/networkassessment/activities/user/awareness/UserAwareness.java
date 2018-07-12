@@ -3,16 +3,12 @@ package com.semerson.networkassessment.activities.user.awareness;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,32 +16,26 @@ import android.widget.LinearLayout;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.BaseActivity;
 import com.semerson.networkassessment.activities.Results.FragmentName;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.OperatingSystems;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.ThreatLevels;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.VulnerabilityCategories;
-import com.semerson.networkassessment.activities.WelcomeActivity;
 import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.user.awareness.categories.AuthenticationAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.BusinessSecurityAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.CommunityAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.FirewallAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.MalwareAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.PhishingAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.PracticalAndTechnicalEducation;
+import com.semerson.networkassessment.activities.user.awareness.categories.ReportCrime;
+import com.semerson.networkassessment.activities.user.awareness.categories.SecurityNews;
 import com.semerson.networkassessment.activities.user.awareness.categories.UnsecureConfigurationAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.UpdatesAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.WebAppAwareness;
-import com.semerson.networkassessment.activities.user.awareness.quiz.QuizActivity;
-import com.semerson.networkassessment.activities.user.awareness.quiz.QuizDbHelper;
-import com.semerson.networkassessment.activities.user.awareness.quiz.QuizHighScore;
-import com.semerson.networkassessment.activities.user.awareness.quiz.QuizHome;
-import com.semerson.networkassessment.storage.AppStorage;
-import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.utils.BottomNavigationViewHelper;
-
-import java.util.List;
 
 public class UserAwareness extends BaseActivity implements View.OnClickListener, FragmentHost, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigationView;
     private SecurityAwarenessHomeFragment securityAwarenessHomeFragment;
+    private SecurityAwarenessHomeMoreFragment securityAwarenessHomeMoreFragment;
     private SecurityAwarenessQuizFragment securityAwarenessQuizFragment;
     private Fragment activeFragment;
 
@@ -62,6 +52,7 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         securityAwarenessHomeFragment = SecurityAwarenessHomeFragment.newInstance();
+        securityAwarenessHomeMoreFragment = SecurityAwarenessHomeMoreFragment.newInstance();
         securityAwarenessQuizFragment = SecurityAwarenessQuizFragment.newInstance();
 
         Bundle bundle = getIntent().getExtras();
@@ -75,7 +66,7 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
         }
         if (fragment == null) {
             if (savedInstanceState == null) {
-                setFragment(securityAwarenessHomeFragment, true);
+                setFragment(securityAwarenessHomeFragment, false);
             }
         }
     }
@@ -126,7 +117,7 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
                 setFragment(securityAwarenessHomeFragment, false);
                 return true;
             case R.id.bottomNavAwarenessQuizes:
-                setFragment(securityAwarenessQuizFragment, false);
+                setFragment(securityAwarenessQuizFragment, true);
                 //setFragment(securityAwarenessQuizFragment, false);
                 //Intent activity_quiz = new Intent(UserAwareness.this, QuizHome.class);
                 //UserAwareness.this.startActivity(activity_quiz);
@@ -138,6 +129,13 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
+        //Set Home selected
+        BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        int selectedItem = bottomNavigation.getSelectedItemId();
+        if (selectedItem != R.id.bottomNavAwarenessHome) {
+            bottomNavigation.setSelectedItemId(R.id.bottomNavAwarenessHome);
+        }
+
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStack();
@@ -160,6 +158,7 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
 
     private Fragment findFragment(int fragmentName) {
         Fragment fragment = null;
+        removeBackStacks();
         switch (fragmentName) {
             case (R.id.nav_passwords):
                 fragment = AuthenticationAwareness.newInstance();
@@ -183,14 +182,27 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
                 fragment = WebAppAwareness.newInstance();
                 break;
             case (R.id.nav_more):
-                if (activeFragment instanceof LayoutSwitcher) {
-                    ((LayoutSwitcher) activeFragment).changeLayout(R.id.secure_awareness_categories, R.id.secure_awareness_categories_more);
-                }
+                setFragment(securityAwarenessHomeMoreFragment, true);
                 break;
             case (R.id.nav_back):
-                if (activeFragment instanceof LayoutSwitcher) {
-                    ((LayoutSwitcher) activeFragment).changeLayout(R.id.secure_awareness_categories_more, R.id.secure_awareness_categories);
-                }
+                    setFragment(securityAwarenessHomeFragment, true);
+                break;
+            case (R.id.nav_business_sec):
+                fragment = BusinessSecurityAwareness.newInstance();
+                break;
+            case (R.id.nav_sec_news):
+                fragment = SecurityNews.newInstance();
+                break;
+            case (R.id.nav_sec_community):
+                fragment = CommunityAwareness.newInstance();
+                break;
+            case (R.id.nav_practical):
+                fragment = PracticalAndTechnicalEducation.newInstance();
+                break;
+            case (R.id.nav_report):
+                fragment = ReportCrime.newInstance();
+                break;
+
         }
         return fragment;
     }

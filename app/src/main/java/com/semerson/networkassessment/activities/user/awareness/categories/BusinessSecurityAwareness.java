@@ -22,7 +22,7 @@ import com.semerson.networkassessment.utils.UiObjectCreator;
 public class BusinessSecurityAwareness extends Fragment {
 
 
-    public static final String TITLE = "Firewall";
+    public static final String TITLE = "Cyber Security News";
 
     private Context context;
     private FragmentHost fragmentHost;
@@ -54,13 +54,26 @@ public class BusinessSecurityAwareness extends Fragment {
         textViewTitle.setText(TITLE);
 
         //Description
-        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.firewall_decription_heading), mainBodyTitle));
-        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.firewall_decription), mainbodyText));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_description_heading), mainBodyTitle));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_description), mainbodyText));
 
-        //Resources
-        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.firewall_resources), mainBodyTitle));
-        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.firewall_url1_desc), mainBodyTitleMedium));
-        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.firewall_url1), mainbodyText));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_1_desc_heading), mainBodyTitle));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_1_desc), mainbodyText));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_1), mainbodyText));
+
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_2_desc_heading), mainBodyTitle));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_2_desc), mainbodyText));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_2), mainbodyText));
+
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_3_desc_heading), mainBodyTitle));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_3_desc), mainbodyText));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_3), mainbodyText));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_3_1_desc), mainbodyText));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_3_1), mainbodyText));
+
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_5_desc_heading), mainBodyTitle));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_5_desc), mainbodyText));
+        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.business_resource_5), mainbodyText));
 
         PhotoView photoView = (PhotoView) view.findViewById(R.id.photo_view);
         photoView.setVisibility(View.GONE);
@@ -70,7 +83,6 @@ public class BusinessSecurityAwareness extends Fragment {
     public static BusinessSecurityAwareness newInstance() {
         BusinessSecurityAwareness fragment = new BusinessSecurityAwareness();
         Bundle bundle = new Bundle();
-        //bundle.putParcelable("scan-results", scanResults);
         fragment.setArguments(bundle);
 
         return fragment;

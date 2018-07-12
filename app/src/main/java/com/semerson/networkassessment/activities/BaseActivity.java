@@ -1,5 +1,6 @@
 package com.semerson.networkassessment.activities;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +27,7 @@ import com.semerson.networkassessment.storage.AppStorage;
 public class BaseActivity extends AppCompatActivity {
     private static String TAG = "BaseActivity";
 
-    private static int activeActivity = R.id.nav_home; //This is the welcome activity so will be launched first
+   // private static int activeActivity = R.id.nav_home; //This is the welcome activity so will be launched first
     private Toolbar toolbar;
 
     private DrawerLayout drawerLayout;
@@ -86,9 +87,9 @@ public class BaseActivity extends AppCompatActivity {
                 // appropriate action
                 Intent intent;
                 int menuItemID = menuItem.getItemId();
-                if (activeActivity == menuItemID){
+                /*if (activeActivity == menuItemID){
                     return false;
-                }
+                }*/
                 switch (menuItemID) {
 
                     case R.id.nav_home:
@@ -114,7 +115,6 @@ public class BaseActivity extends AppCompatActivity {
                         return true;
                 }
                 if (intent != null) {
-                    activeActivity = menuItemID;
                     BaseActivity.this.startActivity(intent);
                 }
                 return false;
@@ -184,4 +184,12 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void removeBackStacks(){
+        FragmentManager fragmentManager = getFragmentManager();
+        Integer i = fragmentManager.getBackStackEntryCount();
+        for (int l = 0; l < i ; l++){
+            Log.i(TAG, "POPPING Backstack");
+            fragmentManager.popBackStack();
+        }
+    }
 }

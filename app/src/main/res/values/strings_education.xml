@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="practical_description_heading">
+        "Description"
+    </string>
+
+    <string name="practical_description">
+        "This application section provides a range of resources and activities for users to educate themselves on technical security related areas and take part in practical challenges. It is against the law to perform actions such vulnerability scanning on a system that you do not own. However, there are many companies that provide activities and virtual machines for us to safely practice and enhance our skills. \n"
+    </string>
+
+    <string name="practical_resource_1_desc_heading">
+        "Beginner Technical Resources \n"
+    </string>
+
+    <string name="practical_resource_1_1_desc">
+        "Cybersecurity for Beginners: This book provides an easy insight into the essentials of cybersecurity, even if you have a non-technical background. \n"
+    </string>
+
+    <string name="practical_resource_1_1">
+       "https://www.amazon.co.uk/Cybersecurity-Beginners-Raef-Meeuwisse/dp/1483431231 \n"
+    </string>
+
+    <string name="practical_resource_1_2_desc">
+        "This is a free beginner level online course that provides an overview of Cyber Security concepts and practices. For more information on the course, browse the provided website. \n"
+    </string>
+
+    <string name="practical_resource_1_2">
+       "https://www.udemy.com/certified-secure-netizen/learn/v4/overview \n"
+    </string>
+
+
+    <string name="practical_resource_2_desc_heading">
+        "Advanced Practical Security Resources \n"
+    </string>
+
+    <string name="practical_resource_2_1_desc">
+        "A collection of security resources ranging from tools, books, online resources, security videos and more... \n"
+    </string>
+
+    <string name="practical_resource_2_1">
+        "https://github.com/enaqx/awesome-pentest \n"
+    </string>
+
+
+    <string name="practical_resource_3_desc_heading">
+        "Advanced Technical Security Resources \n"
+    </string>
+
+    <string name="practical_resource_3_1_desc">
+        "The wargames offered by the OverTheWire community can help you to learn and practice security concepts in the form of fun-filled games. \n"
+    </string>
+
+    <string name="practical_resource_3_1">
+        "http://overthewire.org/wargames/ \n"
+    </string>
+
+    <string name="practical_resource_3_2_desc">
+        "Hack This Site is a free, safe and legal training ground for hackers to test and expand their hacking skills. \n"
+    </string>
+
+    <string name="practical_resource_3_2">
+        "https://www.hackthissite.org/ \n"
+    </string>
+
+    <string name="practical_resource_3_3_desc">
+        "VulnHub provides materials allowing anyone to gain practical hands-on experience with digital security, computer applications and network administration tasks. \n"
+    </string>
+
+    <string name="practical_resource_3_3">
+        "https://www.vulnhub.com/ \n"
+    </string>
+</resources>
