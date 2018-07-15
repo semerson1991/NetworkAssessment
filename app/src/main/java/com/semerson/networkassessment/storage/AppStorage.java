@@ -71,6 +71,11 @@ public class AppStorage {
     public static final String DEVICE_CONNECTED = "logged-in-state";
     public static final String ACTIVITY_REQUESTING_SERVER = "Activity-Requesting";
     public static final String LOGGED_IN = "Logged In";
+    public static final String CUSTOM_AWARENESS_QUIZ_REQUIRED = "custom-awareness-quiz-required";
+    public static final String QUIZ_CATEGORY_1 = "category-1";
+    public static final String QUIZ_CATEGORY_2 = "category-2";
+    public static final String QUIZ_CATEGORY_3 = "category-3";
+
     public static ScanResults getScanResults(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);
         if (sharedPreferences.getString(SCANNING_RESULTS, "").equals("")) {
@@ -117,7 +122,6 @@ public class AppStorage {
         String value = preferences.getString(key, defaultValue);
         return value;
     }
-
 
 
     public static void putValue(Context context, String key, String value) {
@@ -182,6 +186,7 @@ public class AppStorage {
         }
         preferences.edit().putBoolean(key, value).commit();
     }
+
     public static Boolean getValue(Context context, final String key, boolean isTrue) {
         SharedPreferences preferences = context.getSharedPreferences(AppStorage.APP_PREFERENCE, MODE_PRIVATE);
 

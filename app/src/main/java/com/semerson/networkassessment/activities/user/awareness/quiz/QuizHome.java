@@ -10,8 +10,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.semerson.networkassessment.R;
+import com.semerson.networkassessment.activities.WelcomeActivity;
 import com.semerson.networkassessment.storage.AppStorage;
+
+import java.util.ArrayList;
 
 public class QuizHome extends AppCompatActivity {
 
@@ -54,12 +58,28 @@ public class QuizHome extends AppCompatActivity {
         loadHighscore();
 
         Button buttonStartQuiz = findViewById(R.id.button_start_quiz);
+
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startQuiz();
             }
         });
+
+        if (AppStorage.getValue(this, AppStorage.CUSTOM_AWARENESS_QUIZ_REQUIRED, false)) {
+            String difficulty = spinnerDifficulty.getSelectedItem().toString();
+
+            ArrayList<String> categoriesForQuiz = new ArrayList<>();
+            categoriesForQuiz.add(AppStorage.getValue(this, AppStorage.QUIZ_CATEGORY_1, categories[0]));
+            categoriesForQuiz.add(AppStorage.getValue(this, AppStorage.QUIZ_CATEGORY_2, categories[1]));
+            categoriesForQuiz.add(AppStorage.getValue(this, AppStorage.QUIZ_CATEGORY_3, categories[2]));
+            String category = spinnerCateogories.getSelectedItem().toString();
+
+            Intent intent = new Intent(QuizHome.this, QuizActivity.class);
+            intent.putExtra(EXTRA_DIFFICULTY, difficulty);
+            intent.putStringArrayListExtra(EXTRA_CATEGORY, categoriesForQuiz);
+            startActivityForResult(intent, REQUEST_CODE_QUIZ);
+        }
     }
 
     private void startQuiz() {
@@ -68,6 +88,10 @@ public class QuizHome extends AppCompatActivity {
 
         Intent intent = new Intent(QuizHome.this, QuizActivity.class);
         intent.putExtra(EXTRA_DIFFICULTY, difficulty);
+        String[] categoriesForQuiz = new String[1];
+        categoriesForQuiz[0] = category;
+
+
         intent.putExtra(EXTRA_CATEGORY, category);
         startActivityForResult(intent, REQUEST_CODE_QUIZ);
     }

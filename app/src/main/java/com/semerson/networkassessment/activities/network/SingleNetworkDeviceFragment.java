@@ -3,8 +3,10 @@ package com.semerson.networkassessment.activities.network;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,8 @@ import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.storage.results.VulnerabilityResult;
 import com.semerson.networkassessment.utils.UiObjectCreator;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,10 +74,24 @@ public class SingleNetworkDeviceFragment extends Fragment implements View.OnClic
         TextView textViewHost = view.findViewById(R.id.txtHostDetailsTitle);
         textViewHost.setText("Host: "+host.getHostname(true));
 
+        LinearLayout warning = view.findViewById(R.id.os_warning_view);
+
         TextView ostextView = view.findViewById(R.id.txtHostOperatingSystem);
         String os = host.getOs();
-        String osText = resultController.checkVulnerableOs(os);
-        ostextView.setText("Operating System "+os + "\n" + osText);
+        ostextView.setText("Operating System: "+os );
+
+
+        String osWarningText = resultController.checkVulnerableOs(os);
+        if (osWarningText.equals("")){
+            warning.setVisibility(View.GONE);
+        } else {
+            warning.setVisibility(View.VISIBLE);
+            TextView textWarning = (TextView) view.findViewById(R.id.txtHostOperatingSystem_warning);
+            textWarning.setLinkTextColor(Color.BLUE);
+            textWarning.setClickable(true);
+            Linkify.addLinks(textWarning, Linkify.WEB_URLS);
+            textWarning.setText(osWarningText );
+        }
 
         setDynamicUI();
 

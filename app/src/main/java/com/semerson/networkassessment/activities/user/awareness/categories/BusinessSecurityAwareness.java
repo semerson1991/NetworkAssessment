@@ -22,7 +22,7 @@ import com.semerson.networkassessment.utils.UiObjectCreator;
 public class BusinessSecurityAwareness extends Fragment {
 
 
-    public static final String TITLE = "Cyber Security News";
+    public static final String TITLE = "Business Security";
 
     private Context context;
     private FragmentHost fragmentHost;

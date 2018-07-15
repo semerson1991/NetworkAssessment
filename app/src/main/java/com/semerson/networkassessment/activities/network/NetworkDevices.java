@@ -1,7 +1,6 @@
 package com.semerson.networkassessment.activities.network;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -41,7 +40,10 @@ import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.UiObjectCreator;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 
 public class NetworkDevices extends BaseActivity implements RequestBuilder, ProcessHttpResponse, View.OnClickListener, FragmentHost, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -69,6 +71,8 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
     private SingleNetworkDeviceFragment singleNetworkDeviceFragment;
 
     private Fragment activeFragment = null;
+
+    private Stack<Fragment> activeFragmentsQueue = new Stack<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -308,9 +312,11 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
 
                             AppStorage.storeScanResults(this, scanResults);
 
-                            if (activeFragment != null) {
-                                if (activeFragment instanceof DynamicUI) {
-                                    DynamicUI dynamicUI = (DynamicUI) activeFragment;
+                            if (activeFragmentsQueue != null && activeFragmentsQueue.size() > 0) {
+                                Log.i(TAG, "Scan complete: Queue is not null or empty");
+                                if (activeFragmentsQueue.peek() instanceof DynamicUI) {
+                                    Log.i(TAG, "scan complete: Instance of dynamic");
+                                    DynamicUI dynamicUI = (DynamicUI) activeFragmentsQueue.peek();
                                     Log.i(TAG, "Scanning finished, updating user interface");
                                     dynamicUI.updateUI(); //DEBUGGING CHECK IF SCAN RESULTS HAVE BEEN UPDATED!!
                                 }
@@ -376,6 +382,10 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
 
     @Override
     public void setFragment(Fragment fragment, boolean addToBackStack) {
+        activeFragmentsQueue.push(fragment);
+        Integer size = activeFragmentsQueue.size();
+        Log.i(TAG + " SIZE", size.toString());
+
         activeFragment = fragment;
         if (fragment.isAdded()){
             Log.i(TAG, "Fragment Already Added");
@@ -400,6 +410,7 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         removeBackStacks();
+        activeFragmentsQueue.clear();
         switch (item.getItemId()) {
             case R.id.bottomNavNetworkHome:
                 setFragment(networkDevicesFragment, false);
@@ -457,5 +468,10 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
     @Override
     public void onBackPressed(){
         super.onBackPressed();
+        activeFragmentsQueue.pop();
+
+        Integer size = activeFragmentsQueue.size();
+        Log.i(TAG + " SIZE", size.toString());
+
     }
 }

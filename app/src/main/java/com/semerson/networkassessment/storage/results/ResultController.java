@@ -2,7 +2,9 @@ package com.semerson.networkassessment.storage.results;
 
 import android.content.Context;
 
+import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.Results.ResultCallback;
+import com.semerson.networkassessment.activities.WelcomeActivity;
 import com.semerson.networkassessment.activities.network.TechnicalAndFriendlyName;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.utils.Utils;
@@ -610,7 +612,7 @@ public class ResultController {
     public String checkVulnerableOs(String os) {
         switch (os) {
             case "Windows XP":
-                return "Warning: This Operating System is obsolete and should be upgraded.";
+                return WelcomeActivity.getAppContext().getString(R.string.windows_xp_warning);
         }
         return "";
     }
@@ -669,17 +671,12 @@ public class ResultController {
     public List<String> getUnsupportOperatingSystems() {
         List<String> unsupportOperatingSystems = new ArrayList<>();
         final String WINDOWS_XP = "Windows Xp";
-        final String LINUX_2_6 = "Linux 2.6.X";
 
         for (String hostname : hosts.keySet()) {
             Host host = hosts.get(hostname);
             String os = host.getOs();
-            switch (os) {
-                case LINUX_2_6:
-                case WINDOWS_XP:
-                    unsupportOperatingSystems.add(os);
-                    break;
-
+            if (os.toLowerCase().contains(WINDOWS_XP.toLowerCase())) {
+                unsupportOperatingSystems.add(os);
             }
         }
         return unsupportOperatingSystems;

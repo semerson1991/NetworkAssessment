@@ -70,7 +70,7 @@ public class UserSecurityAwareness extends Fragment implements View.OnClickListe
         layoutUnsecureConfig = view.findViewById(R.id.nav_unsecure_configuration);
         layoutUpdates = view.findViewById(R.id.nav_updates);
         layoutWeb = view.findViewById(R.id.nav_web);
-        layoutMore = view.findViewById(R.id.secure_awareness_categories_more);
+        layoutMore = view.findViewById(R.id.nav_more);
 
         int mainbodyText = R.style.custom_mainbody_text;
         int mainBodyTitle = R.style.custom_mainbody_heading_centered;
@@ -103,7 +103,8 @@ public class UserSecurityAwareness extends Fragment implements View.OnClickListe
             displayAwarenessImage(vulnerabilityCategory);
         }
 
-        mainLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.results_recommended_quiz), mainBodyTitleMedium));
+        LinearLayout quizLayout = (LinearLayout) view.findViewById(R.id.awareness_quiz_layout);
+        quizLayout.addView(UiObjectCreator.createTextView(context, getString(R.string.results_recommended_quiz), mainBodyTitleMedium));
     }
 
     private void displayAwarenessImage(String vulnCategory) {

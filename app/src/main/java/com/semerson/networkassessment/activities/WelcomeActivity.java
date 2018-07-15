@@ -53,9 +53,14 @@ public class WelcomeActivity extends BaseActivity implements
     public static final boolean NMAP_TEST_MODE = true;
     public static final boolean OPENVAS_TEST_MODE = true;
 
-    private static final boolean TEST_NETWORK_CONF_DATA = true;
+
     public static final boolean TEST_DATA = true;
-    public static final boolean TEST_LOGIN = true;
+    public static final boolean TEST_LOGIN_DATA = false;
+    private static final boolean TEST_NETWORK_CONF_DATA = false;
+
+    public static final boolean TEST_DEVICE = false;
+    public static final boolean TEST_LOGIN = false;
+    public static boolean CLEAR_SCAN_DATA = false;
 
     public static final DateTimeFormatter dateformat = DateTimeFormat.forPattern("dd-MM-yyyy");
     private LineChart lineChart;
@@ -364,7 +369,7 @@ public class WelcomeActivity extends BaseActivity implements
             testDropDatabase(true);
         }
 
-        if (TEST_LOGIN) {
+        if (TEST_LOGIN_DATA) {
             testModeLoginData();
         }
         if (TEST_NETWORK_CONF_DATA) {

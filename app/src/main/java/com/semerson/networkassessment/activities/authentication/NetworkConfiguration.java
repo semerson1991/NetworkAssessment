@@ -60,6 +60,9 @@ public class NetworkConfiguration extends BaseActivity implements RequestBuilder
                     errorText.setVisibility(View.VISIBLE);
                     errorText.setText("Required fields cannot be empty");
                 } else {
+                    if (WelcomeActivity.TEST_DEVICE) {
+                        processResponse(new String("{success : true}"));
+                    }
                     AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.ACTIVITY_REQUESTING_SERVER, ServerCommunicationService.REGISTER_USER_ACTIVITY);
                     final ServerCommunicationService requester = new ServerCommunicationService(NetworkConfiguration.this);
                     requester.execute(ServerCommunicationService.URL_REGISTER_NETWORK);

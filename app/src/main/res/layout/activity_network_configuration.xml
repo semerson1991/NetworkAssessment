@@ -93,7 +93,7 @@
             android:layout_marginLeft="5px"
             android:layout_marginRight="5px"
             android:gravity="left"
-            android:text="It is against the law to perform the scans included in this application on a network you do not ownn. For more information visit our terms of service section."
+            android:text="It is against the law to perform the scans included in this application on a network you do not own, or have authorisation to do so. For more information visit our terms of service section."
             android:textStyle="bold" />
 
         <Button

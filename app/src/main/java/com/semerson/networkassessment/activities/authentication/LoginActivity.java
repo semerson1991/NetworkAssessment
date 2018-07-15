@@ -64,9 +64,13 @@ public class LoginActivity extends BaseActivity implements RequestBuilder, Proce
                     errorText.setVisibility(View.VISIBLE);
                     errorText.setText("Please complete the empty fields");
                 } else {
-                    AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.ACTIVITY_REQUESTING_SERVER, ServerCommunicationService.LOGIN_ACTIVITY);
-                    final ServerCommunicationService requester = new ServerCommunicationService(LoginActivity.this);
-                    requester.execute(ServerCommunicationService.URL_LOGIN);
+                    if (WelcomeActivity.TEST_LOGIN == true) {
+                        processResponse(new String("{ success : true, nickname: Stephen}"));
+                    } else {
+                        AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.ACTIVITY_REQUESTING_SERVER, ServerCommunicationService.LOGIN_ACTIVITY);
+                        final ServerCommunicationService requester = new ServerCommunicationService(LoginActivity.this);
+                        requester.execute(ServerCommunicationService.URL_LOGIN);
+                    }
                 }
             }
         });
@@ -110,8 +114,6 @@ public class LoginActivity extends BaseActivity implements RequestBuilder, Proce
                             .setTitle("Login successful")
                             .create()
                             .show();
-                    SharedPreferences preferences = getSharedPreferences(AppStorage.APP_PREFERENCE, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
                     AppStorage.putValue(this, AppStorage.LOGIN_NAME, nickname);
                     AppStorage.putValue(this, AppStorage.LOGGED_IN, true);
                 } else {

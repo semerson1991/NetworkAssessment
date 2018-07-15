@@ -17,8 +17,7 @@
         <!-- Launching Activity -->
         <activity
             android:name=".activities.WelcomeActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,23 +31,20 @@
         <activity
             android:name=".activities.Results.ResultsActivity"
             android:label="@string/title_activity_results"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:launchMode="singleTask"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".activities.user.awareness.UserAwareness"
             android:label="@string/title_activity_user_awareness"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:launchMode="singleTask"/>
-        <activity android:name=".activities.network.NetworkDevices"
-            android:launchMode="singleTask"/>
+        <activity android:name=".activities.network.NetworkDevices"/>
         <activity
             android:name=".activities.settings.SettingsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:launchMode="singleTask"/>
         <activity
             android:name=".activities.authentication.AccountActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:launchMode="singleTask"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".activities.user.awareness.quiz.QuizActivity"
             android:label="@string/title_activity_quiz"

@@ -3,9 +3,11 @@ package com.semerson.networkassessment.activities.network;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +71,9 @@ public class HostsFilterByOSFragment extends Fragment {
         mainLayout = view.findViewById(R.id.mainLayout);
         TextView textTitle = view.findViewById(R.id.title);
         TextView textDesc = view.findViewById(R.id.description);
+        textDesc.setClickable(true);
+        textDesc.setLinkTextColor(Color.BLUE);
+        Linkify.addLinks(textDesc, Linkify.WEB_URLS);
 
         textTitle.setText(TITLE + os);
         String description = Host.getOsDescription(os);

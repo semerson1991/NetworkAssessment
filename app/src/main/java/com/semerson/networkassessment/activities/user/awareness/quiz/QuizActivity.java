@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.icu.lang.UCharacter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -15,12 +17,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.user.awareness.SecurityAwarenessQuizFragment;
 import com.semerson.networkassessment.storage.AppStorage;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
@@ -91,17 +97,39 @@ public class QuizActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String difficulty = intent.getStringExtra(SecurityAwarenessQuizFragment.EXTRA_DIFFICULTY);
-        String categorory = intent.getStringExtra(SecurityAwarenessQuizFragment.EXTRA_CATEGORY);
+
+
+
         Integer previousScore = intent.getIntExtra(SecurityAwarenessQuizFragment.EXTRA_CURRENT_HIGHSCORE, 0);
 
+        String categoriesStringArray = intent.getStringExtra(QuizHome.EXTRA_CATEGORY);
+
+       // ArrayList<String> categories = new ArrayList();
+        //for (int i = 0 ; i < categoriesStringArray.length; i ++){
+       //     categories.add(categoriesStringArray[i]);
+//        }
+
         currentHighscore.setText("Previous Highscore: " + previousScore);
-        textViewCategory.setText("Category: " + categorory);
+       // if (categories.size() == 1){
+            textViewCategory.setText("Category: " + categoriesStringArray);
+       // } else {
+        //    textViewCategory.append("Categories: ");
+        //    textViewCategory.append(System.getProperty("line.separator"));
+         //   for (String category : categories){
+         //       textViewCategory.append(" - " + category);
+         //       textViewCategory.append(System.getProperty("line.separator"));
+         //   }
+    //    }
+
         textViewDifficulty.setText("Difficulty: " + difficulty);
 
         if (savedInstanceState == null) {
             QuizDbHelper dbHelper = new QuizDbHelper(this);
             dbHelper.onCreate(dbHelper.getWritableDatabase());
-            questionList = dbHelper.getQuestions(difficulty, categorory);
+            //if (categories.size() == 1) {
+            //    questionList = dbHelper.getQuestions(difficulty, categories.get(0));
+           // }
+            questionList = dbHelper.getQuestions(difficulty, categoriesStringArray);
             questionCountTotal = questionList.size();
             Collections.shuffle(questionList);
 

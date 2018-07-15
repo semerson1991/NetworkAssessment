@@ -38,7 +38,7 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
     private SecurityAwarenessHomeMoreFragment securityAwarenessHomeMoreFragment;
     private SecurityAwarenessQuizFragment securityAwarenessQuizFragment;
     private Fragment activeFragment;
-
+    private int currentNavSelection = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +112,11 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == currentNavSelection && currentNavSelection != R.id.bottomNavAwarenessHome) {
+            return false;
+        }
+        currentNavSelection = item.getItemId();
+        removeBackStacks();
         switch (item.getItemId()) {
             case R.id.bottomNavAwarenessHome:
                 setFragment(securityAwarenessHomeFragment, false);
@@ -132,8 +137,9 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
         //Set Home selected
         BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         int selectedItem = bottomNavigation.getSelectedItemId();
-        if (selectedItem != R.id.bottomNavAwarenessHome) {
+        if (selectedItem == R.id.bottomNavAwarenessQuizes) {
             bottomNavigation.setSelectedItemId(R.id.bottomNavAwarenessHome);
+            currentNavSelection = R.id.bottomNavAwarenessHome;
         }
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -158,7 +164,6 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
 
     private Fragment findFragment(int fragmentName) {
         Fragment fragment = null;
-        removeBackStacks();
         switch (fragmentName) {
             case (R.id.nav_passwords):
                 fragment = AuthenticationAwareness.newInstance();
