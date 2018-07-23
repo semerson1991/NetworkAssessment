@@ -15,12 +15,11 @@ import android.text.style.ForegroundColorSpan;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.authentication.AccountActivity;
-import com.semerson.networkassessment.activities.authentication.LoginActivity;
-import com.semerson.networkassessment.activities.user.awareness.UserAwareness;
+import com.semerson.networkassessment.activities.account.AccountActivity;
+import com.semerson.networkassessment.activities.account.LoginActivity;
 
 public class UiObjectCreator {
 
@@ -119,6 +118,24 @@ public class UiObjectCreator {
     }
 
     /**
+     * Creates text with the title as bold with standard font size. The first item passed is the title, and the ones after are appended to the stringbuilder
+     * @param text
+     * @return
+     */
+    public static SpannableStringBuilder createTextWithBoldTitle(String... text){
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+        boolean first = true;
+        for (String textItem : text){
+            if (first){
+                spannableStringBuilder.append(Html.fromHtml("<font color=\"black\"> <b>"+textItem + "</b>"));
+                first = false;
+            } else {
+                spannableStringBuilder.append(textItem);
+            }
+        }
+        return spannableStringBuilder;
+    }
+    /**
      * The  Activity is the activity to navigate to upon clicking the spannable string
      * @param context
      * @param activity
@@ -136,6 +153,15 @@ public class UiObjectCreator {
         spannableString.setSpan(clickableText, 0, spannableString.toString().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), 0, spannableString.toString().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableString;
+    }
+
+    public static LinearLayout.LayoutParams createLayoutParams(int left, int top, int right, int bottom){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(left, top, right, bottom);
+        return params;
     }
 
 }

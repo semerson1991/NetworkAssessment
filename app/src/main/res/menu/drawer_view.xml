@@ -34,6 +34,11 @@
         android:id="@+id/nav_account"
          android:icon="@drawable/ic_account_box_black_24px"
         android:title="My Account" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_baseline_description_24px"
+            android:title="About" />
         <!-- android:icon="@drawable/ic_menu_slideshow"  -->
 
     </group>

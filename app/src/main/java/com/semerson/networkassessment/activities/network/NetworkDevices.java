@@ -1,7 +1,9 @@
 package com.semerson.networkassessment.activities.network;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,16 +11,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 import com.semerson.networkassessment.activities.BaseActivity;
-import com.semerson.networkassessment.activities.Results.ResultsActivity;
+import com.semerson.networkassessment.activities.results.ResultsActivity;
 import com.semerson.networkassessment.testdata.TestData;
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.DynamicUI;
-import com.semerson.networkassessment.activities.Results.FragmentName;
-import com.semerson.networkassessment.activities.WelcomeActivity;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.activities.results.FragmentName;
+import com.semerson.networkassessment.activities.home.WelcomeActivity;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
@@ -40,9 +43,7 @@ import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.utils.UiObjectCreator;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 
 
@@ -147,16 +148,68 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
         NetworkDevices.this.startActivity(activity_settings);
     }
 
-    public void discoverNetworkDevices() {
+    public void discoverNetworkDevices(boolean warningApproved) {
         AppStorage.putValue(this, AppStorage.ACTIVITY_REQUESTING_SERVER, ServerCommunicationService.NETWORK_DEVICES_ACTIVITY);
         AppStorage.putValue(this, AppStorage.CURRENT_SCAN, AppStorage.NMAP_SCAN);
-        if (WelcomeActivity.NMAP_TEST_MODE) { //TODO Remove
-            processResponse(TestData.getNetworkDiscoveryTestData(this));
+        if (warningApproved) {
+            Log.i(TAG, "Scan approved, initiating network mapping scan");
+            if (WelcomeActivity.NMAP_TEST_MODE) { //TODO Remove
+                processResponse(TestData.getNetworkDiscoveryTestData(this));
+            } else {
+                AppStorage.putValue(this, AppStorage.SERVER_ACTION, AppStorage.NMAP_SCAN_REQUEST);
+                final ServerCommunicationService requester = new ServerCommunicationService(NetworkDevices.this);
+                requester.execute(ServerCommunicationService.URL_RUN_HOST_DISCOVERY);
+            }
         } else {
-            AppStorage.putValue(this, AppStorage.SERVER_ACTION, AppStorage.NMAP_SCAN_REQUEST);
-            final ServerCommunicationService requester = new ServerCommunicationService(NetworkDevices.this);
-            requester.execute(ServerCommunicationService.URL_RUN_HOST_DISCOVERY);
+            checkScanWarning();
         }
+    }
+
+    private boolean checkScanWarning() {
+        final boolean acceptScanWarning = false;
+        if (AppStorage.getValue(this, AppStorage.SCAN_WARNING, true)) {
+            int mainbodyText = R.style.custom_mainbody_text;
+            final LinearLayout dialogScanWarning = new LinearLayout(this);
+
+            dialogScanWarning.setPadding(10 , 10, 10, 10);
+
+            final CheckBox chkAgree = new CheckBox(this);
+            chkAgree.setText("I Agree");
+
+            final CheckBox chkRemember = new CheckBox(this);
+            chkRemember.setText("Remember Choice");
+
+            dialogScanWarning.setOrientation(LinearLayout.VERTICAL);
+            dialogScanWarning.addView(UiObjectCreator.createTextView(this, getString(R.string.scan_warning_text), mainbodyText));
+            dialogScanWarning.addView(chkAgree);
+            dialogScanWarning.addView(chkRemember);
+
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setView(dialogScanWarning)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            if (chkAgree.isChecked()) {
+                                Boolean displayWarningNextTime;
+                                displayWarningNextTime = chkRemember.isChecked() ? false : true;
+                                Log.i(TAG, "Displaying warning next time: "+displayWarningNextTime.toString());
+                                AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.SCAN_WARNING, displayWarningNextTime);
+                                dialog.dismiss();
+                                discoverNetworkDevices(true);
+                            }
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.i(TAG, "Scan declined");
+                        }
+                    }).create();
+            dialog.show();
+        } else {
+            discoverNetworkDevices(true);
+        }
+        return acceptScanWarning;
     }
 
     @Override
@@ -267,6 +320,8 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
                                 DateTime dateTime = new DateTime(DateTimeZone.UTC);
                                 AppStorage.putValue(this, AppStorage.LAST_DISCOVERY_SCAN_DATE, dateTime.toString("dd-MM-yyyy"));
 
+                                //String unsecuredResult = jsonResponse.getString("nmap_result");
+                                // String unsecured = SecurityService.decrypt(null, null, unsecuredResult);
                                 JSONObject nmapResult = jsonResponse.getJSONObject("nmap_result");
                                 try {
                                     JSONArray hosts = nmapResult.getJSONArray("hosts");
@@ -387,7 +442,7 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
         Log.i(TAG + " SIZE", size.toString());
 
         activeFragment = fragment;
-        if (fragment.isAdded()){
+        if (fragment.isAdded()) {
             Log.i(TAG, "Fragment Already Added");
             return;
         } else {
@@ -466,7 +521,7 @@ public class NetworkDevices extends BaseActivity implements RequestBuilder, Proc
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
         activeFragmentsQueue.pop();
 

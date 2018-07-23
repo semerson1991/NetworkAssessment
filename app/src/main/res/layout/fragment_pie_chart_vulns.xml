@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.Results.MainNavigationFragments.home.VulnerabilityCategories">
+    tools:context=".activities.results.MainNavigationFragments.home.VulnerabilityCategories">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

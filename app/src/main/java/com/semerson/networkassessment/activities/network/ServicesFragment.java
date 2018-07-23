@@ -24,10 +24,10 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.Results.Chart.ChartDescription;
-import com.semerson.networkassessment.activities.Results.Chart.LegendHeadings;
-import com.semerson.networkassessment.activities.Results.Chart.PieChartCreator;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.activities.results.Chart.ChartDescription;
+import com.semerson.networkassessment.activities.results.Chart.LegendHeadings;
+import com.semerson.networkassessment.activities.results.Chart.PieChartCreator;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.user.awareness.UserAwareness;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.ResultController;

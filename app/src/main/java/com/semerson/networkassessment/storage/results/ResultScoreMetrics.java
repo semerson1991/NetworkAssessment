@@ -1,6 +1,6 @@
 package com.semerson.networkassessment.storage.results;
 
-import com.semerson.networkassessment.activities.Results.ResultCallback;
+import com.semerson.networkassessment.activities.results.ResultCallback;
 
 public class ResultScoreMetrics {
     private String host;

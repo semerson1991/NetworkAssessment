@@ -16,10 +16,9 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.user.awareness.quiz.Question;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizActivity;
-import com.semerson.networkassessment.activities.user.awareness.quiz.QuizContract;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizDbHelper;
 import com.semerson.networkassessment.activities.user.awareness.quiz.QuizHighScore;
 import com.semerson.networkassessment.activities.user.awareness.quiz.questions.AuthenticationQuestions;

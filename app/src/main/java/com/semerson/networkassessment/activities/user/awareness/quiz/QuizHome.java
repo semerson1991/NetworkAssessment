@@ -10,9 +10,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.WelcomeActivity;
 import com.semerson.networkassessment.storage.AppStorage;
 
 import java.util.ArrayList;

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="videos_description_heading">
+        "Description"
+    </string>
+
+    <string name="videos_description">
+        "The security awareness videos in this section are great material to learn about the possible dangers of certain cyber attacks."
+        "They also provide methods of how to recognise and defend such attacks."
+        "\n\nA special thanks goes to the security awareness company AwareGo for providing their security awareness videos."
+    </string>
+
+    <string name="videos_resource_1_desc_heading">
+        "Ransomware \n"
+    </string>
+
+    <string name="videos_resource_1_desc">
+        "You can infect your computer with ransomware by various means, like opening an attachment or updating your computer from an untrustworthy source and it can be very expensive to recover your files." \n"
+    </string>
+
+    <string name="videos_resource_1">
+        "https://www.awarego.com/videos/data-leaks-2/ \n"
+    </string>
+
+    <string name="videos_resource_2_desc_heading">
+        "Vishing \n"
+    </string>
+
+    <string name="videos_resource_2_desc">
+    "Vishing is the telephone equivalent of phishing. It is described as the act of using the telephone in an attempt to scam the user into surrendering private information that will be used for identity theft." \n   </string>
+
+    <string name="videos_resource_2">
+        "https://www.awarego.com/videos/vishing/ \n"
+    </string>
+
+    <string name="videos_resource_3_desc_heading">
+        "Phone Locking \n"
+    </string>
+
+    <string name="videos_resource_3_desc">
+        "Documents, memos, emails and contacts can be stolen if you leave your phone unlocked. It is important to guard the information. Always keep your phone locked when you’re not using it. \n"
+    </string>
+
+    <string name="videos_resource_3">
+        "https://www.awarego.com/videos/phonelocking-2/ \n"
+    </string>
+
+    <string name="videos_resource_4_desc_heading">
+        "Tailgating \n"
+    </string>
+
+    <string name="videos_resource_4_desc">
+        "It‘s not just the equipment I‘m after, all of your secrets are now my secrets and all I had to do was smile. \n"
+    </string>
+
+    <string name="videos_resource_4">
+        "https://www.awarego.com/videos/tailgaiting/ \n"
+    </string>
+
+    <string name="videos_resource_5_desc_heading">
+        "Phishing \n"
+    </string>
+
+    <string name="videos_resource_5_desc">
+        "Every day 8 million people open a fraudulent phishing email, don‘t add to that number. \n"
+    </string>
+
+    <string name="videos_resource_5">
+        "https://www.awarego.com/videos/phishing/ \n"
+    </string>
+
+    <string name="videos_resource_6_desc_heading">
+        "HTTPS \n"
+    </string>
+
+    <string name="videos_resource_6_desc">
+        "A website starting with HTTPS is encrypted website is much safer. Watch this security awareness video about HTTPS to understand better the threats. \n"
+    </string>
+
+    <string name="videos_resource_6">
+        "https://www.awarego.com/videos/https/ \n"
+    </string>
+
+    <string name="videos_resource_7_desc_heading">
+        "Spearphishing \n"
+    </string>
+
+    <string name="videos_resource_7_desc">
+    "Don’t be a victim: \n"
+        " \u2022 Someone might have studied your hobbies and/or job function \n "
+        " \u2022 And and he might send you an email that looks legitimate \n "
+        " \u2022 Malware in links or attachments might have severe consequences if you open them \n "
+    </string>
+
+    <string name="videos_resource_7">
+        "https://www.awarego.com/videos/spear-phishing/ \n"
+    </string>
+
+    <string name="videos_resource_8_desc_heading">
+        "Keylogger \n"
+    </string>
+
+    <string name="videos_resource_8_desc">
+"Check your computer ports regularly for unknown devices."
+    </string>
+
+    <string name="videos_resource_8">
+        "https://www.awarego.com/videos/key-logger/ \n"
+    </string>
+
+    <string name="videos_resource_9_desc_heading">
+        "Home WiFi \n"
+    </string>
+
+    <string name="videos_resource_9_desc">
+
+"Make sure your home WiFi is secure."
+    </string>
+
+    <string name="videos_resource_9">
+        "https://www.awarego.com/videos/home-wifi/ \n"
+    </string>
+
+    <string name="videos_resource_10_desc_heading">
+        "Software installs \n"
+    </string>
+
+    <string name="videos_resource_10_desc">
+"Let’s keep our work computers clean."
+    </string>
+
+    <string name="videos_resource_10">
+        "https://www.awarego.com/videos/software-installs/ \n"
+    </string>
+
+    <string name="videos_resource_11_desc_heading">
+        "Social Engineering \n"
+    </string>
+
+    <string name="videos_resource_11_desc">
+"The risk of sharing confidential information."
+    </string>
+
+    <string name="videos_resource_11">
+        "https://www.awarego.com/videos/social-engineering/ \n"
+    </string>
+
+    <string name="videos_resource_12_desc_heading">
+        "Spyware \n"
+    </string>
+
+    <string name="videos_resource_12_desc">
+"Now the perpetrator can see everything you do on your computer, work related and personal."
+    </string>
+
+    <string name="videos_resource_12">
+        "https://www.awarego.com/videos/spyware/\n"
+    </string>
+
+    <string name="videos_resource_13_desc_heading">
+        "Malicious Attachments \n"
+    </string>
+
+    <string name="videos_resource_13_desc">
+"All mail is not necessarily good mail."
+    </string>
+
+    <string name="videos_resource_13">
+        "https://www.awarego.com/videos/malicious-attachments/ \n"
+    </string>
+
+    <string name="videos_resource_14_desc_heading">
+        "Free Wifi \n"
+    </string>
+
+    <string name="videos_resource_14_desc">
+"Now I can buy whatever I want, using your money."
+    </string>
+
+    <string name="videos_resource_14">
+        "https://www.awarego.com/videos/free-wifi/ \n"
+    </string>
+
+    <string name="videos_resource_15_desc_heading">
+        "Password Handling \n"
+    </string>
+
+    <string name="videos_resource_15_desc">
+"So many people take the convenient path of writing down their passwords and hiding them by their desks, that’s very convenient, especially for me."
+    </string>
+
+    <string name="videos_resource_15">
+        "https://www.awarego.com/videos/password-handling/ \n"
+    </string>
+</resources>

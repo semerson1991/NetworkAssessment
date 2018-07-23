@@ -8,15 +8,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.BaseActivity;
-import com.semerson.networkassessment.activities.Results.FragmentName;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.activities.results.FragmentName;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.activities.user.awareness.categories.AuthenticationAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.BusinessSecurityAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.CommunityAwareness;
@@ -28,6 +27,7 @@ import com.semerson.networkassessment.activities.user.awareness.categories.Repor
 import com.semerson.networkassessment.activities.user.awareness.categories.SecurityNews;
 import com.semerson.networkassessment.activities.user.awareness.categories.UnsecureConfigurationAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.UpdatesAwareness;
+import com.semerson.networkassessment.activities.user.awareness.categories.VideoAwareness;
 import com.semerson.networkassessment.activities.user.awareness.categories.WebAppAwareness;
 import com.semerson.networkassessment.utils.BottomNavigationViewHelper;
 
@@ -185,6 +185,9 @@ public class UserAwareness extends BaseActivity implements View.OnClickListener,
                 break;
             case (R.id.nav_web):
                 fragment = WebAppAwareness.newInstance();
+                break;
+            case (R.id.nav_videos):
+                fragment = VideoAwareness.newInstance();
                 break;
             case (R.id.nav_more):
                 setFragment(securityAwarenessHomeMoreFragment, true);

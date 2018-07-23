@@ -36,7 +36,7 @@ public class TableCreator {
         LinearLayout titleArea = new LinearLayout(context);
         titleArea.setOrientation(LinearLayout.HORIZONTAL);
         titleArea.setGravity(Gravity.CENTER);
-        titleArea.setPadding(10, 0, 0, 10);
+        titleArea.setPadding(0, 0, 0, 10);
 
         return titleArea;
     }
@@ -62,7 +62,7 @@ public class TableCreator {
         TextView textviewText = new TextView(context);
         textviewText.setText(text);
         textviewText.setGravity(gravity);
-        textviewText.setPadding(10, 0, 10, 0);
+        textviewText.setPadding(0, 0, 0, 0);
         textviewText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         return textviewText;
     }
@@ -87,7 +87,7 @@ public class TableCreator {
         for (TableRow tableRow : tableRows) {
             View tableRowView = tableRow.getLayout();
             // tableRow.getLayout().setBackground(customBoarder);
-            tableRowView.setPadding(5, 5, 5, 5);
+            tableRowView.setPadding(0, 5, 0, 5);
             int rowId = tableRow.getRowId();
             if (rowId != -1) {
                 tableRowView.setId(rowId);
@@ -141,7 +141,7 @@ public class TableCreator {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.setGravity(gravity);
-        layout.setPadding(10, 0, 10, 10);
+        layout.setPadding(5, 0, 5, 10);
         layout.setLayoutParams(layoutParams);
 
         return layout;

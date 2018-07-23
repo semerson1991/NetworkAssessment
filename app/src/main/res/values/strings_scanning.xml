@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_warning_text">
+"By using this tool it means you agree with the terms, conditions, and risks. \n\n"
+"By using this tool you agree that:\n\n"
+"\u2022 1. Use for authorised security testing. \n"
+"\u2022 2. Not for crime. \n"
+"\u2022 3. If you are using on a network you do not own then you have shown the owner the 'About' section provided in this application and have consent from the owner. \n\n"
+
+"By using this tool you agree that:\n\n"
+"\u2022 1. Using this application to commit crime will be seen as a criminal offense \n"
+"\u2022 2. The owner of this application has provided it for users to test the security of their own, and authorised networks to improve cyber defence and raise awareness.\n\n"
+
+"Thank you for reading. Have fun securing your network, and learning new things to help contribute towards a more cyber secure future.  \n"
+    </string>
+
+</resources>

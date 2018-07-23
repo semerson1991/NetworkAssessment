@@ -8,13 +8,10 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.controller.FragmentHost;
 
 /**
  * A simple {@link Fragment} subclass.

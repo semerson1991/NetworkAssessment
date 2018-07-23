@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.BaseActivity;
-import com.semerson.networkassessment.activities.WelcomeActivity;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.activities.home.WelcomeActivity;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
 
 /**

@@ -3,8 +3,8 @@ package com.semerson.networkassessment.storage.results;
 import android.content.Context;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.Results.ResultCallback;
-import com.semerson.networkassessment.activities.WelcomeActivity;
+import com.semerson.networkassessment.activities.results.ResultCallback;
+import com.semerson.networkassessment.activities.home.WelcomeActivity;
 import com.semerson.networkassessment.activities.network.TechnicalAndFriendlyName;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.utils.Utils;
@@ -639,12 +639,14 @@ public class ResultController {
             for (Service service : hostServices) {
                 TechnicalAndFriendlyName serviceNames = service.getService();
                 String serviceName = advancedMode ? serviceNames.getTechnicalName() : serviceNames.getFriendlyName();
-                if (services.containsKey(serviceName)) {
-                    float value = services.get(serviceName);
-                    value = value + numToIncrement;
-                    services.put(serviceName, value); // May not need to put again? Check if value within map changes automatically
-                } else {
-                    services.put(serviceName, 1.0f);
+                if (!serviceName.equals(Service.NA)){
+                    if (services.containsKey(serviceName)) { //TODO REMOVE THIS
+                        float value = services.get(serviceName);
+                        value = value + numToIncrement;
+                        services.put(serviceName, value); // May not need to put again? Check if value within map changes automatically
+                    } else {
+                        services.put(serviceName, 1.0f);
+                    }
                 }
             }
         }

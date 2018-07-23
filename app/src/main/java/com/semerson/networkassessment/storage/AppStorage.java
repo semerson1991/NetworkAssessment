@@ -2,10 +2,8 @@ package com.semerson.networkassessment.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.gson.Gson;
-import com.semerson.networkassessment.activities.WelcomeActivity;
 import com.semerson.networkassessment.storage.results.ScanResults;
 
 import java.util.ArrayList;
@@ -75,6 +73,8 @@ public class AppStorage {
     public static final String QUIZ_CATEGORY_1 = "category-1";
     public static final String QUIZ_CATEGORY_2 = "category-2";
     public static final String QUIZ_CATEGORY_3 = "category-3";
+    public static final String START_CUSTOM_QUIZ = "start-custom-quiz";
+    public static final String SCAN_WARNING = "scan-warning";
 
     public static ScanResults getScanResults(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(APP_PREFERENCE, Context.MODE_PRIVATE);

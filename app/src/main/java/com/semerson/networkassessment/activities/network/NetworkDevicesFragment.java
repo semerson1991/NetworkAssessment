@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +22,8 @@ import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
 import com.semerson.networkassessment.activities.DynamicUI;
-import com.semerson.networkassessment.activities.WelcomeActivity;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.activities.home.WelcomeActivity;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
@@ -221,7 +220,7 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
 
         Integer size = hosts.size() == 0 ? 1 : hosts.size(); //Remove the 'No devices' else remove the number of hosts displayed
         mainLayout.setTag(size); //This is to remove rows when the view is updated
-        TextView textViewDevicesTitle = view.findViewById(R.id.txtDevicesTitle);
+        TextView textViewDevicesTitle = view.findViewById(R.id.txtDevicesFound);
         textViewDevicesTitle.setText(Integer.toString(AppStorage.getScanResults(networkDevices).getHosts().size()) + NETWORK_DEVICES_FOUND_TITLE);
     }
 
@@ -265,7 +264,7 @@ public class NetworkDevicesFragment extends Fragment implements View.OnClickList
                             AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.NETWORK_SCAN_CUSTOM_ARGS, customCommands);
                             AppStorage.putValue(WelcomeActivity.getAppContext(), AppStorage.NETWORK_MAPPING_DETECTION, networkMappingDetection);
                         }
-                        networkDevices.discoverNetworkDevices();
+                        networkDevices.discoverNetworkDevices(false);
                         break;
                     case R.id.btnViewResults:
                             networkDevices.displayResultsAll();

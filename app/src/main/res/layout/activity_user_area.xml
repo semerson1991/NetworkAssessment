@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.semerson.networkassessment.activities.WelcomeActivity">
+    tools:context="com.semerson.networkassessment.activities.home.WelcomeActivity">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -65,8 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="20px"
-            android:text="Tip of the day: Be extra careful while clicking links and attachments in emails. The sending party may look legitimate. It is very important to be wary before clicking any attachments. Please visit the User Awareness 'Phishing' section for more information."
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/background_dark" />
 
     </LinearLayout>
     </ScrollView>

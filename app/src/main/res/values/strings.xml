@@ -82,11 +82,13 @@
         there are many different distributions available each geared towards a different purpose."</string>
 
     <string name="linux_2X_description">"Linux is a computer operating system like Windows. Unlike Windows, Linux is open source, meaning that the operating system is free to customise for anyone and therefore there are many different distributions available each geared towards a different purpose."</string>
-    <string name="windows_xp_description">"Windows XP operating system should no longer be used as Microsoft ceased support for it in 2014 and therefore it does not receive security updates. \n\n Running Windows XP means you are at risk to many cyber attacks such as identity theft and malware. Please update as soon as possible. For more information please visit: https://www.getsafeonline.org/software/windows-xp/ "</string>
-    <string name="windows_xp_warning">"This Operating System is obsolete and should be upgraded. Please upgrade as soon as possible. \n\n For more information please visit: https://www.getsafeonline.org/software/windows-xp/ " </string>
+    <string name="windows_xp_description"><![CDATA["Windows XP operating system should no longer be used as Microsoft ceased support for it in 2014 and therefore it does not receive security updates. <br><br><b>Warning: </b>Running Windows XP means you are at risk to many cyber attacks such as identity theft and malware. Please update as soon as possible. For more information please visit: https://www.getsafeonline.org/software/windows-xp/ ]]>"</string>
+    <string name="windows_xp_warning">"This Operating System is obsolete and should be upgraded. Please upgrade as soon as possible. \n\nFor more information please visit: https://www.getsafeonline.org/software/windows-xp " </string>
 
     <string name="advanced_mode_warning">"Advanced mode is intended for technical users. Using the advanced application scans may impact device functionality on the network. Only use this mode if you have strong knowledge of network scanning tools."</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_network_configuration">NetworkConfiguration</string>
+    <string name="title_activity_videos_awareness">VideosAwareness</string>
+    <string name="title_activity_about">AboutActivity</string>
 
 </resources>

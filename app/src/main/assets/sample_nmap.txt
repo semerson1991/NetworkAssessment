@@ -10,22 +10,6 @@
                 "services": []
             },
             {
-                "ip": "10.10.10.4",
-                "mac": "",
-                "uptime": 0,
-                "vendor": "",
-                "status": "down",
-                "services": []
-            },
-            {
-                "ip": "10.10.10.5",
-                "mac": "",
-                "uptime": 0,
-                "vendor": "",
-                "status": "down",
-                "services": []
-            },
-            {
                 "ip": "10.10.10.6",
                 "mac": "",
                 "uptime": 0,
@@ -2027,27 +2011,98 @@
             },
             {
                 "ip": "10.10.10.1",
-                "mac": "08:00:27:2E:6D:3C",
+                "mac": "08:00:27:10:C7:21",
                 "uptime": 0,
                 "vendor": "Oracle VirtualBox virtual NIC",
-                "status": "up",
-                "services": []
-            },
-            {
-                "ip": "10.10.10.7",
-                "mac": "08:00:27:2E:6D:3C",
-                "uptime": 0,
-                "vendor": "Oracle VirtualBox virtual NIC",
-                "osfamily": "Windows",
-                "osgen": "XP",
-                "osaccuracy": 100,
                 "status": "up",
                 "services": []
             },
             {
                 "ip": "10.10.10.3",
+                "mac": "08:00:27:5C:13:7F",
+                "uptime": 1401,
+                "vendor": "Oracle VirtualBox virtual NIC",
+                "osfamily": "Windows",
+                "osgen": "7",
+                "osaccuracy": 100,
+                "status": "up",
+                "services": [
+                    {
+                        "protocol": "tcp",
+                        "service": "msrpc",
+                        "port": 135,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "netbios-ssn",
+                        "port": 139,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "microsoft-ds",
+                        "port": 445,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "http",
+                        "port": 5357,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "msrpc",
+                        "port": 49152,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "msrpc",
+                        "port": 49153,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "msrpc",
+                        "port": 49154,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "msrpc",
+                        "port": 49155,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "msrpc",
+                        "port": 49156,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "msrpc",
+                        "port": 49157,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    }
+                ]
+            },
+            {
+                "ip": "10.10.10.4",
                 "mac": "08:00:27:E3:1A:B5",
-                "uptime": 139148,
+                "uptime": 42949885,
                 "vendor": "Oracle VirtualBox virtual NIC",
                 "osfamily": "Linux",
                 "osgen": "2.6.X",
@@ -2218,9 +2273,42 @@
                 ]
             },
             {
+                "ip": "10.10.10.5",
+                "mac": "08:00:27:58:5C:99",
+                "uptime": 0,
+                "vendor": "Oracle VirtualBox virtual NIC",
+                "osfamily": "Windows",
+                "osgen": "XP",
+                "osaccuracy": 100,
+                "status": "up",
+                "services": [
+                    {
+                        "protocol": "tcp",
+                        "service": "msrpc",
+                        "port": 135,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "netbios-ssn",
+                        "port": 139,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    },
+                    {
+                        "protocol": "tcp",
+                        "service": "microsoft-ds",
+                        "port": 445,
+                        "state": "open",
+                        "reason": "syn-ack"
+                    }
+                ]
+            },
+            {
                 "ip": "10.10.10.2",
                 "mac": "",
-                "uptime": 2871166,
+                "uptime": 3510248,
                 "vendor": "",
                 "osfamily": "Linux",
                 "osgen": "3.X",
@@ -2240,7 +2328,7 @@
     },
     "openvas_result": [],
     "results_collected": false,
-    "scan_id": "7b51e201-44b0-4d0d-8edd-8301816b2db4",
+    "scan_id": "82de124f-7dc5-4f82-ad35-6dad1783db7c",
     "network_discovery_path": null,
     "vuln_assessment_path": null,
     "error": "",

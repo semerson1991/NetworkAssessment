@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.controller.FragmentHost;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -13,10 +13,8 @@ import android.widget.TextView;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.utils.UiObjectCreator;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,5 +111,4 @@ public class AuthenticationAwareness extends Fragment {
             throw new ClassCastException(activity.toString() + "must implement FragmentHost");
         }
     }
-
 }

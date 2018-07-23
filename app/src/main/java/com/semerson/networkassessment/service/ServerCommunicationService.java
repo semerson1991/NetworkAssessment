@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.semerson.networkassessment.activities.WelcomeActivity;
+import com.semerson.networkassessment.activities.home.WelcomeActivity;
 import com.semerson.networkassessment.activities.network.NetworkDevices;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.utils.ProcessHttpResponse;
@@ -26,7 +26,7 @@ public class ServerCommunicationService extends AsyncTask<String, Integer, Strin
 
     private static final String TAG = "CommunicationService";
 
-    public static final String BASE_URL = "http://192.168.0.16:8000";
+    public static final String BASE_URL = "http://192.168.0.31:8000";
     public static final String URL_REGISTER = BASE_URL + "/register-user/";
     public static final String URL_RUN_HOST_DISCOVERY = BASE_URL + "/run-nmap-scan/";
     public static final String URL_RUN_VULNERABILITY_SCAN = BASE_URL + "/run-vulnerability-scan/";

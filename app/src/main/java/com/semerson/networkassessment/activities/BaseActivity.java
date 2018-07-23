@@ -3,7 +3,6 @@ package com.semerson.networkassessment.activities;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,12 +16,13 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.Results.ResultsActivity;
-import com.semerson.networkassessment.activities.authentication.AccountActivity;
+import com.semerson.networkassessment.activities.about.AboutActivity;
+import com.semerson.networkassessment.activities.results.ResultsActivity;
+import com.semerson.networkassessment.activities.account.AccountActivity;
+import com.semerson.networkassessment.activities.home.WelcomeActivity;
 import com.semerson.networkassessment.activities.network.NetworkDevices;
 import com.semerson.networkassessment.activities.settings.SettingsActivity;
 import com.semerson.networkassessment.activities.user.awareness.UserAwareness;
-import com.semerson.networkassessment.storage.AppStorage;
 
 public class BaseActivity extends AppCompatActivity {
     private static String TAG = "BaseActivity";
@@ -109,6 +109,9 @@ public class BaseActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_account:
                         intent = new Intent(BaseActivity.this, AccountActivity.class);
+                        break;
+                    case R.id.nav_about:
+                        intent = new Intent(BaseActivity.this, AboutActivity.class);
                         break;
                     default:
 

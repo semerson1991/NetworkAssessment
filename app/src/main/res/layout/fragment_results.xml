@@ -3,23 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.Results.MainNavigationFragments.impact.AvailabilityFragment">
+    tools:context=".activities.results.MainNavigationFragments.impact.AvailabilityFragment">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="15dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtImpactTitle"
+        <RelativeLayout
             android:layout_width="match_parent"
+            android:id="@+id/headerLayout"
             android:layout_height="wrap_content"
-            android:text="Vulnerability Assessment Results"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtImpactTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vulnerability Assessment Results"
+                style="@style/custom_mainbody_heading_centered"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:id="@+id/helpText"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="8px"
+                android:src="@drawable/question_mark" />
+
+        </RelativeLayout>
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -50,11 +64,12 @@
                         android:text="@string/AllVulnerabilities" />
 
                     <RadioButton
-                        android:id="@+id/radio_threat_levels"
+                        android:id="@+id/radio_vulnerability_categories"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="onRadioButtonClicked"
-                        android:text="@string/ThreatLevels" />
+                        android:text="@string/VulnerabilityCategories" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -72,11 +87,11 @@
                         android:text="@string/VulnerableHosts" />
 
                     <RadioButton
-                        android:id="@+id/radio_vulnerability_categories"
+                        android:id="@+id/radio_threat_levels"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="onRadioButtonClicked"
-                        android:text="@string/VulnerabilityCategories" />
+                        android:text="@string/ThreatLevels" />
 
                     <RadioButton
                         android:id="@+id/radio_attack_complexity"

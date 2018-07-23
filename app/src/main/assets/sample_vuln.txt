@@ -116,18 +116,22 @@
                 "baseScore": 10,
                 "baseVector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
                 "family": "Obsolete platform",
-                "summary": "The Operating System installed on this host has reached its end of life date. This should not be used anymore due to it no. longer receiving support for security updates and therefore will be vulnerable to new flaws",
-                "impact": "An unsupported Operating System is very dangerous to have on the network. The Operating System will not receive any security patches and updates, resulting in it being a risk to the network. If the device becomes infected, the chances of other successful attacks on other network devices is increased.",
+                "summary": "The Operating System installed on this host has reached its end of life date. This should not be used anymore due to it no longer receiving support for security updates and therefore will be vulnerable to new flaws",
+                "impact": "An unsupported Operating System is very dangerous to have on the network as it will not receive any security patches or updates. Without critical Windows XP security updates, your PC may become vulnerable to harmful viruses, spyware, and other malicious software which can steal your personal and financial details to commit fraud, monitor your email and communication, and more. Antivirus software will also not be able to fully protect you once Windows XP itself is left unsupported. ",
                 "solution": "Microsoft has released a set of patches for Windows XP, Vista, 2008, 7, and 2008 R2. Run Windows Update and update the listed fixes or download and update mentioned fixes from the below link",
                 "solution_type": "Update",
                 "solution_type_technical": "Update",
                 "technicalDetails": "",
                 "threatRating": "High",
                 "date": "2014-05-27",
-                "urlCount": 1,
+                "urlCount": 2,
                 "url0": {
                     "urlName": "https://www.ncsc.gov.uk/guidance/obsolete-platforms-security-guidance#Applyshort-termmitigations",
                     "urlDescription": "Helpful resource for understanding mitigations for obsolete operating systems"
+                },
+                "url1": {
+                    "urlName": "https://www.getsafeonline.org/protecting-yourself/replacing-windows-xp/",
+                    "urlDescription": "Risks and mitigations provided by GetSafeOnline.."
                 }
             },
             {

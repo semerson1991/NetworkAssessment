@@ -14,13 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ScanResults;
 import com.semerson.networkassessment.storage.results.Service;
 import com.semerson.networkassessment.utils.StyledText;
+import com.semerson.networkassessment.utils.UiObjectCreator;
 import com.semerson.networkassessment.utils.table.Table;
 import com.semerson.networkassessment.utils.table.TableCreator;
 import com.semerson.networkassessment.utils.table.TableHeadings;
@@ -69,7 +70,8 @@ public class HostsFilterByServiceFragment extends Fragment {
         TextView textDesc = view.findViewById(R.id.description);
 
         textTitle.setText(TITLE + service);
-        textDesc.setText(DESCRIPTION + Service.getServiceDescription(service));
+
+        textDesc.setText(UiObjectCreator.createTextWithBoldTitle(DESCRIPTION, Service.getServiceDescription(service)));
 
         List<Host> hosts = resultController.getHostsFilterByService(service);
         Table table = new Table();

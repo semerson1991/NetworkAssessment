@@ -15,18 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.ActivityID;
 import com.semerson.networkassessment.activities.DynamicUI;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.singleview.VulnerabilityDetailsFragment;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
 import com.semerson.networkassessment.storage.results.ScanResults;
-import com.semerson.networkassessment.storage.results.VulnerabilityResult;
 import com.semerson.networkassessment.utils.UiObjectCreator;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.

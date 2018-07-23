@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="about_description">
+        "This section explains the applications intentions, and the method and scope of scanning. If you wish to commence scanning on a network you do not own, this page"
+        "should be presented to the owner for them to fully understand the scanning and methods involved. No scanning should commence until the owner has agreed to this and they have provided written consent.\n"
+    </string>
+
+    <string name="about_resource_1_desc_heading">
+        "What is CyberSecureApp? \n"
+    </string>
+
+    <string name="about_resource_1_desc">
+        "CyberSecureApp is a method for protecting your network. This is achieved by using advanced scanning techniques to identify vulnerabilities on devices such as computer, "
+        "smartphones, game consoles, smart TVs, and everything else that is connected to your network. Our goal "
+        "is to not only provide you with mitigation's for the found vulnerabilities, but for you to learn from the results found and minimise the chance of them reoccurring. The application provides various security awareness "
+        "categories for you to browse and learn. Quizzes are also available. These are highly recommended and will assist you in protecting your home from cyber-attacks by providing you with more knowledge on dangers, and solutions."\n"
+    </string>
+
+    <string name="about_resource_2_desc_heading">
+        "What scanning takes place? \n"
+    </string>
+
+    <string name="about_resource_2_desc">
+        "The security box scans devices on the network to detect operating systems, services running, and weak authentication. This information is used to search for known vulnerabilities "
+        "and send them back to the application to present them to you along with solutions.\n\n"Careful consideration should be taken if the application is run in advanced mode as devices and service performance may be affected, or made unavailable.
+        "More information can be found in the provided websites that explain the tools used. If you have further questions or queries please contact us."\n"
+    </string>
+
+    <string name="about_resource_3_desc_heading">
+        "Tools used \n"
+    </string>
+
+    <string name="about_resource_3_desc">
+        "Network Mapper: Nmap ("Network Mapper") is a free and open source (license) utility for network discovery and security auditing. Many systems and network administrators also find it useful for tasks such as network inventory, managing service upgrade schedules, and monitoring host or service uptime."
+    </string>
+
+    <string name="about_resource_3">
+        "https://nmap.org/ \n"
+    </string>
+
+    <string name="about_resource_3_1_desc">
+        "OpenVAS: OpenVAS is a framework of several services and tools offering a comprehensive and powerful vulnerability scanning and vulnerability management solution."
+    </string>
+
+    <string name="about_resource_3_2">
+        "http://www.openvas.org/ \n"
+    </string>
+</resources>

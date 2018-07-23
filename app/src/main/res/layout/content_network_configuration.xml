@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.authentication.NetworkConfiguration"
+    tools:context=".activities.account.NetworkConfiguration"
     tools:showIn="@layout/activity_network_configuration">
 
 </android.support.constraint.ConstraintLayout>

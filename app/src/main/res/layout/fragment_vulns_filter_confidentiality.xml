@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.Results.MainNavigationFragments.impact.singleview.HostVulnsFilterConfidentiality">
+    tools:context=".activities.results.MainNavigationFragments.impact.singleview.HostVulnsFilterConfidentiality">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mainLayout"

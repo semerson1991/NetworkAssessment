@@ -4,6 +4,6 @@
     <string name="top_categories_title">"Top vulnerability categories: \n"</string>
     <string name="top_vulnerability_category">"%1$s : %2$s of vulnerabilities"</string>
     <string name="recommended_categories">"\nIt is highly recommended to browse the following security awareness sections: "</string>
-    <string name="results_recommended_quiz">"\nPlease complete the following quiz: \n" </string>
+    <string name="results_recommended_quiz">"\nPlease complete the following quiz: " </string>
 
 </resources>

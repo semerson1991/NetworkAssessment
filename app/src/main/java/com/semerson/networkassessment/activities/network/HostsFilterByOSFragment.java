@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Html;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,8 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.semerson.networkassessment.R;
-import com.semerson.networkassessment.activities.Results.MainNavigationFragments.home.OperatingSystems;
-import com.semerson.networkassessment.activities.fragment.controller.FragmentHost;
+import com.semerson.networkassessment.controller.FragmentHost;
 import com.semerson.networkassessment.storage.AppStorage;
 import com.semerson.networkassessment.storage.results.Host;
 import com.semerson.networkassessment.storage.results.ResultController;
@@ -37,7 +37,7 @@ import java.util.List;
 public class HostsFilterByOSFragment extends Fragment {
 
     public static final String OS_KEY = "OS_KEY";
-    public static final String DESCRIPTION = "Description: ";
+    public static final String DESCRIPTION = "<b> Description: </b>";
     private String os;
     private Context context;
     private NetworkDevices networkDevices;
@@ -78,7 +78,7 @@ public class HostsFilterByOSFragment extends Fragment {
         textTitle.setText(TITLE + os);
         String description = Host.getOsDescription(os);
         if (!description.equals("")) {
-            textDesc.setText(DESCRIPTION + Host.getOsDescription(os));
+            textDesc.setText(Html.fromHtml(DESCRIPTION + Host.getOsDescription(os)));
         }
         List<Host> hosts = resultController.getHostsFilterByOS(os);
         Table table = new Table();
